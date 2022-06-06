@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable disable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,23 +13,24 @@ namespace LuckyDrawPromotion.Data
         public LuckyDrawPromotionContext (DbContextOptions<LuckyDrawPromotionContext> options)
             : base(options)
         {
+
         }
 
-        public DbSet<LuckyDrawPromotion.Models.User>? Users { get; set; }
-        public DbSet<Campaign>? Campaigns { get; set; }
-        public DbSet<CampaignGift>? CampaignGifts { get; set; }
-        public DbSet<Charset>? Charsets { get; set; }
-        public DbSet<CodeCampaign>? CodeCampaigns { get; set; }
-        public DbSet<CodeGiftCampaign>? CodeGiftCampaigns { get; set; }
-        public DbSet<Customer>? Customers { get; set; }
-        public DbSet<Gift>? Gifts { get; set; }
-        public DbSet<Position>? Positions { get; set; }
-        public DbSet<RepeatSchedule>? RepeatSchedules { get; set; }
-        public DbSet<Rule>? Rules { get; set; }
-        public DbSet<ScannedOrSpin>? ScannedOrSpins { get; set; }
-        public DbSet<SizeProgram>? SizePrograms { get; set; }
-        public DbSet<TypeOfBussiness>? TypeOfBussiness { get; set; }
-        public DbSet<Winner>? Winners { get; set; }
+        public DbSet<LuckyDrawPromotion.Models.User> Users { get; set; }
+        public DbSet<Campaign> Campaigns { get; set; }
+        public DbSet<CampaignGift> CampaignGifts { get; set; }
+        public DbSet<Charset> Charsets { get; set; }
+        public DbSet<CodeCampaign> CodeCampaigns { get; set; }
+        public DbSet<CodeGiftCampaign> CodeGiftCampaigns { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Gift> Gifts { get; set; }
+        public DbSet<Position> Positions { get; set; }
+        public DbSet<RepeatSchedule> RepeatSchedules { get; set; }
+        public DbSet<Rule> Rules { get; set; }
+        public DbSet<ScannedOrSpin> ScannedOrSpins { get; set; }
+        public DbSet<SizeProgram> SizePrograms { get; set; }
+        public DbSet<TypeOfBussiness> TypeOfBussiness { get; set; }
+        public DbSet<Winner> Winners { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -53,13 +55,47 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<User>().HasIndex(s=>s.Email).IsUnique();
             modelBuilder.Entity<User>().Property(s => s.Email).HasColumnType("varchar(50)");
             modelBuilder.Entity<User>().Property(s => s.Password).HasColumnType("varchar(50)");
-            // Mai chỉnh tiếp chỗ này
-            
+            modelBuilder.Entity<Campaign>().Property(s => s.Name).HasColumnType("nvarchar(50)");
+            modelBuilder.Entity<Campaign>().Property(s => s.Description).HasColumnType("ntext");
+            modelBuilder.Entity<Campaign>().Property(s => s.Prefix).HasColumnType("varchar(10)");
+            modelBuilder.Entity<Campaign>().Property(s => s.Postfix).HasColumnType("varchar(10)");
             modelBuilder.Entity<Campaign>().Property(s => s.StartDate).HasColumnType("date");
             modelBuilder.Entity<Campaign>().Property(s => s.EndDate).HasColumnType("date");
             modelBuilder.Entity<Campaign>().Property(s => s.StartTime).HasColumnType("time(0)");
             modelBuilder.Entity<Campaign>().Property(s => s.EndTime).HasColumnType("time(0)");
+            modelBuilder.Entity<Charset>().HasIndex(s=>s.Name).IsUnique();
+            modelBuilder.Entity<Charset>().Property(s => s.Name).HasColumnType("varchar(50)");
+            modelBuilder.Entity<Charset>().Property(s => s.Value).HasColumnType("varchar(256)");
+            modelBuilder.Entity<CodeCampaign>().Property(s => s.Code).HasColumnType("varchar(50)");
+            modelBuilder.Entity<CodeCampaign>().Property(s => s.CreatedDate).HasColumnType("datetime");
+            modelBuilder.Entity<CodeGiftCampaign>().Property(s => s.Code).HasColumnType("varchar(50)");
+            modelBuilder.Entity<CodeGiftCampaign>().Property(s => s.CreatedDate).HasColumnType("datetime");
+            modelBuilder.Entity<Customer>().Property(s => s.CustomerName).HasColumnType("nvarchar(50)");
+            modelBuilder.Entity<Customer>().HasIndex(s => s.CustomerPhone).IsUnique();
+            modelBuilder.Entity<Customer>().Property(s => s.CustomerPhone).HasColumnType("nvarchar(20)");
+            modelBuilder.Entity<Customer>().Property(s => s.CustomerAddress).HasColumnType("nvarchar(200)");
+            modelBuilder.Entity<Customer>().Property(s => s.DateOfBirth).HasColumnType("date");
+            modelBuilder.Entity<Gift>().HasIndex(s => s.Name).IsUnique();
+            modelBuilder.Entity<Gift>().Property(s => s.Name).HasColumnType("nvarchar(50)");
+            modelBuilder.Entity<Gift>().Property(s => s.Description).HasColumnType("ntext");
+            modelBuilder.Entity<Gift>().Property(s => s.CreatedDate).HasColumnType("datetime");
+            modelBuilder.Entity<Position>().Property(s => s.Name).HasColumnType("nvarchar(50)");
+            modelBuilder.Entity<RepeatSchedule>().HasIndex(s => s.Name).IsUnique();
+            modelBuilder.Entity<RepeatSchedule>().Property(s => s.Name).HasColumnType("nvarchar(50)");
+            modelBuilder.Entity<Rule>().Property(s => s.RuleName).HasColumnType("nvarchar(50)");
+            modelBuilder.Entity<Rule>().Property(s => s.StartTime).HasColumnType("time(0)");
+            modelBuilder.Entity<Rule>().Property(s => s.EndTime).HasColumnType("time(0)");
+            modelBuilder.Entity<ScannedOrSpin>().Property(s => s.ScannedDate).HasColumnType("datetime");
+            modelBuilder.Entity<ScannedOrSpin>().Property(s => s.SpinDate).HasColumnType("datetime");
+            modelBuilder.Entity<SizeProgram>().HasIndex(s => s.Name).IsUnique();
+            modelBuilder.Entity<SizeProgram>().Property(s => s.Name).HasColumnType("nvarchar(50)");
+            modelBuilder.Entity<SizeProgram>().Property(s => s.Description).HasColumnType("ntext");
+            modelBuilder.Entity<TypeOfBussiness>().HasIndex(s => s.Name).IsUnique();
+            modelBuilder.Entity<TypeOfBussiness>().Property(s => s.Name).HasColumnType("nvarchar(50)");
+            modelBuilder.Entity<Winner>().Property(s => s.WinDate).HasColumnType("datetime");
+            modelBuilder.Entity<Winner>().Property(s => s.AddressReceivedGift).HasColumnType("nvarchar(200)");
 
+            //modelBuilder.Entity<User>().HasCheckConstraint
 
             //Cấu hình API fluent Đổ dữ liệu vào database khi migration tạo database
             modelBuilder.Entity<User>(entity =>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LuckyDrawPromotion.Migrations
 {
-    public partial class InitlazationData : Migration
+    public partial class InitialazationData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,8 +15,8 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     CharsetId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Value = table.Column<string>(type: "varchar(256)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,9 +29,9 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     GiftId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Description = table.Column<string>(type: "ntext", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +44,7 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     RepeatScheduleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -57,8 +57,8 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     SizeProgramId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Description = table.Column<string>(type: "ntext", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,7 +71,7 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     TypeOfBussinessId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,17 +98,17 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     CampaignId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     AutoUpdate = table.Column<bool>(type: "bit", nullable: false),
                     CustomerJoinOnlyOne = table.Column<bool>(type: "bit", nullable: false),
                     ApplyAllCampaign = table.Column<bool>(type: "bit", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "ntext", nullable: false),
                     CodeUsageLimit = table.Column<int>(type: "int", nullable: false),
                     Unlimited = table.Column<bool>(type: "bit", nullable: false),
                     CodeCount = table.Column<int>(type: "int", nullable: false),
                     CodeLength = table.Column<int>(type: "int", nullable: false),
-                    Prefix = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Postfix = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Prefix = table.Column<string>(type: "varchar(10)", nullable: false),
+                    Postfix = table.Column<string>(type: "varchar(10)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "date", nullable: false),
                     EndDate = table.Column<DateTime>(type: "date", nullable: true),
                     StartTime = table.Column<TimeSpan>(type: "time(0)", nullable: false),
@@ -139,7 +139,7 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     PositionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     TypeOfBussinessId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -186,8 +186,8 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     CodeCampaignId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Code = table.Column<string>(type: "varchar(50)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     CampaignId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -207,10 +207,10 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerAddress = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CustomerName = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    CustomerPhone = table.Column<string>(type: "nvarchar(20)", nullable: false),
+                    CustomerAddress = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "date", nullable: false),
                     Block = table.Column<bool>(type: "bit", nullable: false),
                     PositionId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -231,8 +231,8 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     CodeGiftCampaignId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Code = table.Column<string>(type: "varchar(50)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     CampaignGiftId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -253,10 +253,10 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     RuleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RuleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RuleName = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     GiftAmount = table.Column<int>(type: "int", nullable: false),
-                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    EndTime = table.Column<TimeSpan>(type: "time", nullable: true),
+                    StartTime = table.Column<TimeSpan>(type: "time(0)", nullable: false),
+                    EndTime = table.Column<TimeSpan>(type: "time(0)", nullable: true),
                     AllDay = table.Column<bool>(type: "bit", nullable: false),
                     Probability = table.Column<int>(type: "int", nullable: false),
                     ScheduleValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -286,8 +286,8 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     ScannedOrSpinId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ScannedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SpinDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ScannedDate = table.Column<DateTime>(type: "datetime", nullable: true),
+                    SpinDate = table.Column<DateTime>(type: "datetime", nullable: true),
                     CodeCampaignId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -314,9 +314,9 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     WinnerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    WinDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    WinDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     SentGift = table.Column<bool>(type: "bit", nullable: false),
-                    AddressReceivedGift = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AddressReceivedGift = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     CodeGiftCampaignId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -435,46 +435,46 @@ namespace LuckyDrawPromotion.Migrations
                 columns: new[] { "CodeCampaignId", "CampaignId", "Code", "CreatedDate" },
                 values: new object[,]
                 {
-                    { 1, 1, "ALTAIKJ40B", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 1, "ALTAFM P3V8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 1, "ALTA1ES0G4", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, 1, "ALTA30PZTA", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, 1, "ALTAYLZ1RZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, 1, "ALTAEWLKDO", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, 1, "ALTAVACIW0", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, 1, "ALTATM C76Q", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 9, 1, "ALTAPBO6GN", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 10, 1, "ALTARSVPZP", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 11, 1, "ALTA7GNKYS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 12, 1, "ALTAYM IC2A", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 13, 1, "ALTATS53ZH", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 14, 1, "ALTA0JSERO", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 15, 1, "ALTAIVJOEK", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 16, 1, "ALTA85NDG8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 17, 1, "ALTAZIIM K1", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 18, 1, "ALTA4KN2RC", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 19, 1, "ALTA3P6DKK", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 20, 1, "ALTAM BHL1O", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 21, 1, "ALTA4NYKVB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 22, 1, "ALTA3BYGRO", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 23, 1, "ALTAIGTGT7", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 24, 1, "ALTAAY6T6H", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 25, 1, "ALTAVCLJ04", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 26, 1, "ALTA8OYHCC", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 27, 1, "ALTAZSFWGA", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 28, 1, "ALTAIVM 1P4", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 29, 1, "ALTAJB5084", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 30, 1, "ALTADQBRE2", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 31, 1, "ALTAN4Q8J2", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 32, 1, "ALTAFJSKRA", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 33, 1, "ALTAIR6KWQ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 34, 1, "ALTAG5N0Z7", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 35, 1, "ALTA8Q4IA2", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 36, 1, "ALTA8CH1LP", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 37, 1, "ALTAZERKID", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 38, 1, "ALTA44ZJPO", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 39, 1, "ALTAGRKSJB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 40, 1, "ALTAOYG8TS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 1, "ALTAS07NAC", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 1, "ALTARKM M O4", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 1, "ALTA80P7JZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 1, "ALTAR48L5F", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 1, "ALTAB112Q8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 1, "ALTA5K60ZM ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, 1, "ALTAOQ4R3E", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, 1, "ALTA8POA2S", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, 1, "ALTAFH7TBL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, 1, "ALTAOGZ1TB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 11, 1, "ALTAHEHFYI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 12, 1, "ALTA2836AD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 13, 1, "ALTAM 1RIGZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 14, 1, "ALTAZK7QSI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 15, 1, "ALTAE5SS7D", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 16, 1, "ALTA73AF02", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 17, 1, "ALTA1CZ22D", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 18, 1, "ALTAT1PDAT", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 19, 1, "ALTANNB8GN", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 20, 1, "ALTANF87LV", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 21, 1, "ALTAM AC74O", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 22, 1, "ALTAFWG0T4", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 23, 1, "ALTA20ZDJH", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 24, 1, "ALTA7ASDA3", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 25, 1, "ALTAPINGM 2", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 26, 1, "ALTAZ26VVD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 27, 1, "ALTA6S42Z8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 28, 1, "ALTA81488H", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 29, 1, "ALTA8R030Z", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 30, 1, "ALTAETZVAI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 31, 1, "ALTA58KM PB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 32, 1, "ALTANPT8BZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 33, 1, "ALTAJM 5KSH", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 34, 1, "ALTA4WRPAO", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 35, 1, "ALTAZRNNWD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 36, 1, "ALTAWRZARS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 37, 1, "ALTATNALDS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 38, 1, "ALTAZSPY5J", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 39, 1, "ALTARYY0VR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 40, 1, "ALTAM 454RG", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -482,16 +482,16 @@ namespace LuckyDrawPromotion.Migrations
                 columns: new[] { "CodeCampaignId", "CampaignId", "Code", "CreatedDate" },
                 values: new object[,]
                 {
-                    { 41, 1, "ALTAKN3CTS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 42, 1, "ALTA1773M 1", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 43, 1, "ALTARTZQ8V", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 44, 1, "ALTAFLQJVF", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 45, 1, "ALTA118SVA", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 46, 1, "ALTANFBODT", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 47, 1, "ALTAPVM R5O", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 48, 1, "ALTA2OG1PG", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 49, 1, "ALTATNO7E4", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 50, 1, "ALTA1A8GH0", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 41, 1, "ALTA16A5LL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 42, 1, "ALTANJ5SBL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 43, 1, "ALTAB0K8CB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 44, 1, "ALTAATWG4L", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 45, 1, "ALTAII6K88", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 46, 1, "ALTANYBYWR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 47, 1, "ALTARPKM WI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 48, 1, "ALTAEZAOSL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 49, 1, "ALTACRL26Q", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 50, 1, "ALTA7T1JGE", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -509,31 +509,31 @@ namespace LuckyDrawPromotion.Migrations
                 columns: new[] { "CodeGiftCampaignId", "Active", "CampaignGiftId", "Code", "CreatedDate" },
                 values: new object[,]
                 {
-                    { 1, true, 1, "GIF147DIKA3QJY", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, true, 1, "GIF2VH8BFI58CW", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, true, 1, "GIF3QES2J6SD8Z", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, true, 1, "GIF4M 6QJM M PHTL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, true, 1, "GIF58JPAGBH143", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, true, 1, "GIF66QIZTGFTL8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, true, 1, "GIF727RJ3EBBRJ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, true, 1, "GIF8ID6RVH3QIA", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 9, true, 1, "GIF912VHOIEY2T", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 10, true, 1, "GIF10RHAGQDJVCT", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 11, true, 1, "GIF11S6EHSCE4O1", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 12, true, 1, "GIF12WVWWGE1K1G", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 13, true, 1, "GIF13RZ0JS2F41H", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 14, true, 1, "GIF144VTJ8WB10T", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 15, true, 1, "GIF15YC5C1M 20BT", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 16, true, 2, "GIF16ADZB4LFPVY", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 17, true, 2, "GIF17F8M OFNI6K5", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 18, true, 2, "GIF18R1AF8SE2FB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 19, true, 2, "GIF192WZI4GFHC3", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 20, true, 2, "GIF20JZQE4ASPRC", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 21, true, 2, "GIF21CCPHGB0E0L", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 22, true, 2, "GIF22K3DSPM QDIE", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 23, true, 2, "GIF23P6BSITS8HR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 24, true, 2, "GIF24OQ45QJG6I2", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 25, true, 2, "GIF25RVQK623HT2", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, true, 1, "GIF1H66ZJRKBGE", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, true, 1, "GIF2CIN1WTHO4W", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, true, 1, "GIF3OG2GEW0WSR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, true, 1, "GIF476ZDQ0TR6J", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, true, 1, "GIF5P6D48FM 7DR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, true, 1, "GIF6NCSVG5RQP3", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, true, 1, "GIF7IZALEHL3QB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, true, 1, "GIF8E604AI513B", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, true, 1, "GIF9Y4JP8QDL7J", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, true, 1, "GIF10SNA65AZNAC", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 11, true, 1, "GIF11I7SAPTBLTB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 12, true, 1, "GIF12PHLZLM L8QK", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 13, true, 1, "GIF1307HRQLP5DO", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 14, true, 1, "GIF146T1PNSRQ4E", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 15, true, 1, "GIF15D0CCLTKLR8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 16, true, 2, "GIF16A70M 8JIFQ6", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 17, true, 2, "GIF17Y2FO507M I5", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 18, true, 2, "GIF18LCVHCSACK7", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 19, true, 2, "GIF19TRDP0IKQCD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 20, true, 2, "GIF20442ZND8H15", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 21, true, 2, "GIF21B742VARNGZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 22, true, 2, "GIF22WCDBT0NZA3", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 23, true, 2, "GIF237ZT6GHZ42I", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 24, true, 2, "GIF24EKRDM PRR1F", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 25, true, 2, "GIF25THKCZKIW7J", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -594,6 +594,12 @@ namespace LuckyDrawPromotion.Migrations
                 column: "SizeProgramId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Charsets_Name",
+                table: "Charsets",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CodeCampaigns_CampaignId",
                 table: "CodeCampaigns",
                 column: "CampaignId");
@@ -604,14 +610,32 @@ namespace LuckyDrawPromotion.Migrations
                 column: "CampaignGiftId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Customers_CustomerPhone",
+                table: "Customers",
+                column: "CustomerPhone",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Customers_PositionId",
                 table: "Customers",
                 column: "PositionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Gifts_Name",
+                table: "Gifts",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Positions_TypeOfBussinessId",
                 table: "Positions",
                 column: "TypeOfBussinessId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RepeatSchedules_Name",
+                table: "RepeatSchedules",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rules_CampainGiftId",
@@ -632,6 +656,18 @@ namespace LuckyDrawPromotion.Migrations
                 name: "IX_ScannedOrSpins_CustomerId",
                 table: "ScannedOrSpins",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SizePrograms_Name",
+                table: "SizePrograms",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TypeOfBussiness_Name",
+                table: "TypeOfBussiness",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
