@@ -14,8 +14,8 @@
 
 
         public int RepeatScheduleId { get; set; }
-        public int CampainGiftId { get; set; }
         public RepeatSchedule RepeatSchedule { get; set; } = null!;
-        public CampaignGift CampaignGift { get; set; } = null!;
+
+        public ICollection<CampaignGift> CampaignGifts { get; set; } = new HashSet<CampaignGift>();
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LuckyDrawPromotion.Migrations
 {
-    public partial class InitialazationData : Migration
+    public partial class InitlazationData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -93,6 +93,32 @@ namespace LuckyDrawPromotion.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Rules",
+                columns: table => new
+                {
+                    RuleId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RuleName = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    GiftAmount = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<TimeSpan>(type: "time(0)", nullable: false),
+                    EndTime = table.Column<TimeSpan>(type: "time(0)", nullable: true),
+                    AllDay = table.Column<bool>(type: "bit", nullable: false),
+                    Probability = table.Column<int>(type: "int", nullable: false),
+                    ScheduleValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RepeatScheduleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rules", x => x.RuleId);
+                    table.ForeignKey(
+                        name: "FK_Rules_RepeatSchedules_RepeatScheduleId",
+                        column: x => x.RepeatScheduleId,
+                        principalTable: "RepeatSchedules",
+                        principalColumn: "RepeatScheduleId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Campaigns",
                 columns: table => new
                 {
@@ -159,9 +185,9 @@ namespace LuckyDrawPromotion.Migrations
                 {
                     CampaignGiftId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    GiftCodeCount = table.Column<int>(type: "int", nullable: false),
                     CampaignId = table.Column<int>(type: "int", nullable: false),
-                    GiftId = table.Column<int>(type: "int", nullable: false)
+                    GiftId = table.Column<int>(type: "int", nullable: false),
+                    RuleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -177,6 +203,12 @@ namespace LuckyDrawPromotion.Migrations
                         column: x => x.GiftId,
                         principalTable: "Gifts",
                         principalColumn: "GiftId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CampaignGifts_Rules_RuleId",
+                        column: x => x.RuleId,
+                        principalTable: "Rules",
+                        principalColumn: "RuleId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -233,7 +265,6 @@ namespace LuckyDrawPromotion.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "varchar(50)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
                     CampaignGiftId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -244,39 +275,6 @@ namespace LuckyDrawPromotion.Migrations
                         column: x => x.CampaignGiftId,
                         principalTable: "CampaignGifts",
                         principalColumn: "CampaignGiftId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rules",
-                columns: table => new
-                {
-                    RuleId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RuleName = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    GiftAmount = table.Column<int>(type: "int", nullable: false),
-                    StartTime = table.Column<TimeSpan>(type: "time(0)", nullable: false),
-                    EndTime = table.Column<TimeSpan>(type: "time(0)", nullable: true),
-                    AllDay = table.Column<bool>(type: "bit", nullable: false),
-                    Probability = table.Column<int>(type: "int", nullable: false),
-                    ScheduleValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RepeatScheduleId = table.Column<int>(type: "int", nullable: false),
-                    CampainGiftId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rules", x => x.RuleId);
-                    table.ForeignKey(
-                        name: "FK_Rules_CampaignGifts_CampainGiftId",
-                        column: x => x.CampainGiftId,
-                        principalTable: "CampaignGifts",
-                        principalColumn: "CampaignGiftId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Rules_RepeatSchedules_RepeatScheduleId",
-                        column: x => x.RepeatScheduleId,
-                        principalTable: "RepeatSchedules",
-                        principalColumn: "RepeatScheduleId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -422,12 +420,21 @@ namespace LuckyDrawPromotion.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Rules",
+                columns: new[] { "RuleId", "AllDay", "EndTime", "GiftAmount", "Probability", "RepeatScheduleId", "RuleName", "ScheduleValue", "StartTime" },
+                values: new object[,]
+                {
+                    { 1, false, new TimeSpan(0, 17, 0, 0, 0), 10, 20, 1, "Monthly", "1, 15", new TimeSpan(0, 15, 0, 0, 0) },
+                    { 2, false, null, 10, 10, 2, "Weekly", "Mon, Thu", new TimeSpan(0, 15, 0, 0, 0) }
+                });
+
+            migrationBuilder.InsertData(
                 table: "CampaignGifts",
-                columns: new[] { "CampaignGiftId", "CampaignId", "GiftCodeCount", "GiftId" },
+                columns: new[] { "CampaignGiftId", "CampaignId", "GiftId", "RuleId" },
                 values: new object[,]
                 {
-                    { 1, 1, 15, 1 },
-                    { 2, 1, 10, 2 }
+                    { 1, 1, 1, 1 },
+                    { 2, 1, 2, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -435,46 +442,46 @@ namespace LuckyDrawPromotion.Migrations
                 columns: new[] { "CodeCampaignId", "CampaignId", "Code", "CreatedDate" },
                 values: new object[,]
                 {
-                    { 1, 1, "ALTAS07NAC", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 1, "ALTARKM M O4", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 1, "ALTA80P7JZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, 1, "ALTAR48L5F", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, 1, "ALTAB112Q8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, 1, "ALTA5K60ZM ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, 1, "ALTAOQ4R3E", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, 1, "ALTA8POA2S", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 9, 1, "ALTAFH7TBL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 10, 1, "ALTAOGZ1TB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 11, 1, "ALTAHEHFYI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 12, 1, "ALTA2836AD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 13, 1, "ALTAM 1RIGZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 14, 1, "ALTAZK7QSI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 15, 1, "ALTAE5SS7D", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 16, 1, "ALTA73AF02", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 17, 1, "ALTA1CZ22D", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 18, 1, "ALTAT1PDAT", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 19, 1, "ALTANNB8GN", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 20, 1, "ALTANF87LV", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 21, 1, "ALTAM AC74O", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 22, 1, "ALTAFWG0T4", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 23, 1, "ALTA20ZDJH", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 24, 1, "ALTA7ASDA3", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 25, 1, "ALTAPINGM 2", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 26, 1, "ALTAZ26VVD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 27, 1, "ALTA6S42Z8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 28, 1, "ALTA81488H", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 29, 1, "ALTA8R030Z", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 30, 1, "ALTAETZVAI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 31, 1, "ALTA58KM PB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 32, 1, "ALTANPT8BZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 33, 1, "ALTAJM 5KSH", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 34, 1, "ALTA4WRPAO", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 35, 1, "ALTAZRNNWD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 36, 1, "ALTAWRZARS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 37, 1, "ALTATNALDS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 38, 1, "ALTAZSPY5J", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 39, 1, "ALTARYY0VR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 40, 1, "ALTAM 454RG", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 1, "ALTAMNA5H5", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 1, "ALTAOAOF4K", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 1, "ALTADI2LRB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 1, "ALTA5I66GY", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 1, "ALTAFKNPYR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 1, "ALTAVNEOTA", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, 1, "ALTAYJMQGK", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, 1, "ALTAC3JOZJ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, 1, "ALTAL1IQWJ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, 1, "ALTA67D0CV", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 11, 1, "ALTAP42S38", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 12, 1, "ALTAJVDE6B", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 13, 1, "ALTA8HFTFW", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 14, 1, "ALTAFSOGKJ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 15, 1, "ALTA2ZDHRZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 16, 1, "ALTAF71766", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 17, 1, "ALTA6M00GS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 18, 1, "ALTAQ84G8H", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 19, 1, "ALTALK31DJ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 20, 1, "ALTANRJWYO", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 21, 1, "ALTAP2NBAR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 22, 1, "ALTASJRE2A", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 23, 1, "ALTA0QNBCQ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 24, 1, "ALTA0YR1IL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 25, 1, "ALTAMFD8VN", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 26, 1, "ALTAQP7EGZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 27, 1, "ALTA4ASWOJ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 28, 1, "ALTA2IQQSS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 29, 1, "ALTALMHPM3", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 30, 1, "ALTARTDPI7", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 31, 1, "ALTAA0J56L", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 32, 1, "ALTAKLH0NP", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 33, 1, "ALTAZHVWGY", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 34, 1, "ALTA4MB1WF", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 35, 1, "ALTAFKQSVS", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 36, 1, "ALTAB0ZHIH", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 37, 1, "ALTAM3YVJQ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 38, 1, "ALTALQK6QM", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 39, 1, "ALTASJQ6B1", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 40, 1, "ALTA0Q37JL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -482,16 +489,16 @@ namespace LuckyDrawPromotion.Migrations
                 columns: new[] { "CodeCampaignId", "CampaignId", "Code", "CreatedDate" },
                 values: new object[,]
                 {
-                    { 41, 1, "ALTA16A5LL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 42, 1, "ALTANJ5SBL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 43, 1, "ALTAB0K8CB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 44, 1, "ALTAATWG4L", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 45, 1, "ALTAII6K88", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 46, 1, "ALTANYBYWR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 47, 1, "ALTARPKM WI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 48, 1, "ALTAEZAOSL", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 49, 1, "ALTACRL26Q", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 50, 1, "ALTA7T1JGE", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 41, 1, "ALTAA3N6FD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 42, 1, "ALTA1Y2CAH", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 43, 1, "ALTAW7YTQA", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 44, 1, "ALTAHAZCW0", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 45, 1, "ALTAF261PP", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 46, 1, "ALTA4MS1LZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 47, 1, "ALTARCP77V", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 48, 1, "ALTA54RCIM", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 49, 1, "ALTAB6DRW2", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 50, 1, "ALTA6LH7OT", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -506,43 +513,34 @@ namespace LuckyDrawPromotion.Migrations
 
             migrationBuilder.InsertData(
                 table: "CodeGiftCampaigns",
-                columns: new[] { "CodeGiftCampaignId", "Active", "CampaignGiftId", "Code", "CreatedDate" },
+                columns: new[] { "CodeGiftCampaignId", "CampaignGiftId", "Code", "CreatedDate" },
                 values: new object[,]
                 {
-                    { 1, true, 1, "GIF1H66ZJRKBGE", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, true, 1, "GIF2CIN1WTHO4W", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, true, 1, "GIF3OG2GEW0WSR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, true, 1, "GIF476ZDQ0TR6J", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, true, 1, "GIF5P6D48FM 7DR", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, true, 1, "GIF6NCSVG5RQP3", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, true, 1, "GIF7IZALEHL3QB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, true, 1, "GIF8E604AI513B", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 9, true, 1, "GIF9Y4JP8QDL7J", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 10, true, 1, "GIF10SNA65AZNAC", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 11, true, 1, "GIF11I7SAPTBLTB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 12, true, 1, "GIF12PHLZLM L8QK", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 13, true, 1, "GIF1307HRQLP5DO", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 14, true, 1, "GIF146T1PNSRQ4E", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 15, true, 1, "GIF15D0CCLTKLR8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 16, true, 2, "GIF16A70M 8JIFQ6", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 17, true, 2, "GIF17Y2FO507M I5", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 18, true, 2, "GIF18LCVHCSACK7", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 19, true, 2, "GIF19TRDP0IKQCD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 20, true, 2, "GIF20442ZND8H15", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 21, true, 2, "GIF21B742VARNGZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 22, true, 2, "GIF22WCDBT0NZA3", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 23, true, 2, "GIF237ZT6GHZ42I", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 24, true, 2, "GIF24EKRDM PRR1F", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 25, true, 2, "GIF25THKCZKIW7J", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Rules",
-                columns: new[] { "RuleId", "AllDay", "CampainGiftId", "EndTime", "GiftAmount", "Probability", "RepeatScheduleId", "RuleName", "ScheduleValue", "StartTime" },
-                values: new object[,]
-                {
-                    { 1, false, 1, new TimeSpan(0, 17, 0, 0, 0), 10, 20, 1, "Monthly", "1, 15", new TimeSpan(0, 15, 0, 0, 0) },
-                    { 2, false, 1, null, 10, 10, 2, "Weekly", "Mon, Thu", new TimeSpan(0, 15, 0, 0, 0) }
+                    { 1, 1, "GIF1ZWTD3I0PY1", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 1, "GIF2VMKNP455FH", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 1, "GIF3EZJN64VOVI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 1, "GIF4VLIYO1JNK1", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 1, "GIF55HACOEN4QW", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 1, "GIF6RPZSPGN7RT", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, 1, "GIF7PA5FEP2Q0S", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, 1, "GIF85EWAZL6O06", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, 1, "GIF9QQBWMF1Z42", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, 1, "GIF10ASYABN25Q8", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 11, 1, "GIF1168QRWLH43E", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 12, 1, "GIF12YV3ST5B5TB", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 13, 1, "GIF13L80ZQ6SW2Y", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 14, 1, "GIF14YQKMM23VZ3", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 15, 1, "GIF15HME42GZF53", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 16, 2, "GIF16MA814N8TBD", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 17, 2, "GIF17CRCDKOJYTV", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 18, 2, "GIF18KV7Y3Q64Q7", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 19, 2, "GIF19BGPSJ336TI", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 20, 2, "GIF20MV2WB5G2OF", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 21, 2, "GIF217203H6TPYH", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 22, 2, "GIF22ZT4FDZMC8L", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 23, 2, "GIF2372LO3M0818", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 24, 2, "GIF24MRFFMAJLV6", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 25, 2, "GIF25AYOPRWMAAZ", new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(
@@ -584,9 +582,20 @@ namespace LuckyDrawPromotion.Migrations
                 column: "GiftId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CampaignGifts_RuleId",
+                table: "CampaignGifts",
+                column: "RuleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Campaigns_CharsetId",
                 table: "Campaigns",
                 column: "CharsetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Campaigns_Name",
+                table: "Campaigns",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Campaigns_SizeProgramId",
@@ -638,11 +647,6 @@ namespace LuckyDrawPromotion.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rules_CampainGiftId",
-                table: "Rules",
-                column: "CampainGiftId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Rules_RepeatScheduleId",
                 table: "Rules",
                 column: "RepeatScheduleId");
@@ -689,9 +693,6 @@ namespace LuckyDrawPromotion.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Rules");
-
-            migrationBuilder.DropTable(
                 name: "ScannedOrSpins");
 
             migrationBuilder.DropTable(
@@ -699,9 +700,6 @@ namespace LuckyDrawPromotion.Migrations
 
             migrationBuilder.DropTable(
                 name: "Winners");
-
-            migrationBuilder.DropTable(
-                name: "RepeatSchedules");
 
             migrationBuilder.DropTable(
                 name: "CodeCampaigns");
@@ -725,6 +723,9 @@ namespace LuckyDrawPromotion.Migrations
                 name: "Gifts");
 
             migrationBuilder.DropTable(
+                name: "Rules");
+
+            migrationBuilder.DropTable(
                 name: "TypeOfBussiness");
 
             migrationBuilder.DropTable(
@@ -732,6 +733,9 @@ namespace LuckyDrawPromotion.Migrations
 
             migrationBuilder.DropTable(
                 name: "SizePrograms");
+
+            migrationBuilder.DropTable(
+                name: "RepeatSchedules");
         }
     }
 }

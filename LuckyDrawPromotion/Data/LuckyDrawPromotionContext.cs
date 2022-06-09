@@ -41,7 +41,7 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<CodeGiftCampaign>().HasOne<CampaignGift>(s => s.CampaignGift).WithMany(g => g.CodeGiftCampaigns).HasForeignKey(s => s.CampaignGiftId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Campaign>().HasOne<Charset>(s=>s.Charset).WithMany(g=>g.Campaigns).HasForeignKey(s => s.CharsetId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Campaign>().HasOne<SizeProgram>(s => s.SizeProgram).WithMany(g => g.Campaigns).HasForeignKey(s => s.SizeProgramId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Rule>().HasOne<CampaignGift>(s=>s.CampaignGift).WithMany(g=>g.Rules).HasForeignKey(s => s.CampainGiftId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<CampaignGift>().HasOne<Rule>(s=>s.Rule).WithMany(g=>g.CampaignGifts).HasForeignKey(s => s.RuleId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Rule>().HasOne<RepeatSchedule>(s => s.RepeatSchedule).WithMany(g => g.Rules).HasForeignKey(s => s.RepeatScheduleId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Winner>().HasOne<CodeGiftCampaign>(s => s.CodeGiftCampaign).WithMany(g => g.Winners).HasForeignKey(s => s.CodeGiftCampaignId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Winner>().HasOne<Customer>(s=>s.Customer).WithMany(g=>g.Winners).HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Restrict);
@@ -50,11 +50,12 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<ScannedOrSpin>().HasOne<Customer>(s => s.Customer).WithMany(g => g.ScannedOrSpins).HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Position>().HasOne<TypeOfBussiness>(s => s.TypeOfBussiness).WithMany(g => g.Positions).HasForeignKey(s => s.TypeOfBussinessId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Customer>().HasOne<Position>(s => s.Position).WithMany(g => g.Customers).HasForeignKey(s => s.PositionId).OnDelete(DeleteBehavior.Restrict);
-
+            
             //Cấu hình API fluent các thuộc tính của table
             modelBuilder.Entity<User>().HasIndex(s=>s.Email).IsUnique();
             modelBuilder.Entity<User>().Property(s => s.Email).HasColumnType("varchar(50)");
             modelBuilder.Entity<User>().Property(s => s.Password).HasColumnType("varchar(50)");
+            modelBuilder.Entity<Campaign>().HasIndex(s => s.Name).IsUnique();
             modelBuilder.Entity<Campaign>().Property(s => s.Name).HasColumnType("nvarchar(50)");
             modelBuilder.Entity<Campaign>().Property(s => s.Description).HasColumnType("ntext");
             modelBuilder.Entity<Campaign>().Property(s => s.Prefix).HasColumnType("varchar(10)");
@@ -94,7 +95,7 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<TypeOfBussiness>().Property(s => s.Name).HasColumnType("nvarchar(50)");
             modelBuilder.Entity<Winner>().Property(s => s.WinDate).HasColumnType("datetime");
             modelBuilder.Entity<Winner>().Property(s => s.AddressReceivedGift).HasColumnType("nvarchar(200)");
-
+            
             //modelBuilder.Entity<User>().HasCheckConstraint
 
             //Cấu hình API fluent Đổ dữ liệu vào database khi migration tạo database
@@ -274,7 +275,7 @@ namespace LuckyDrawPromotion.Data
             });
             modelBuilder.Entity<CodeCampaign>(entity =>
             {
-                string[] MangKyTu = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M ", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+                string[] MangKyTu = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
                 Random fr = new Random();
                 List<CodeCampaign> codes = new List<CodeCampaign>();
                 for(int i = 0; i < 50; i++)
@@ -304,21 +305,21 @@ namespace LuckyDrawPromotion.Data
                     new
                     {
                         CampaignGiftId = 1,
-                        GiftCodeCount = 15,
                         CampaignId = 1,
                         GiftId = 1,
+                        RuleId = 1
                     },
                     new
                     {
                         CampaignGiftId = 2,
-                        GiftCodeCount = 10,
                         CampaignId = 1,
                         GiftId = 2,
+                        RuleId = 2
                     }
                     );
             });
             modelBuilder.Entity<CodeGiftCampaign>(entity => {
-                string[] MangKyTu = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M ", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+                string[] MangKyTu = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
                 Random fr = new Random();
                 List<CodeGiftCampaign> codes = new List<CodeGiftCampaign>();
                 for (int i = 0; i < 25; i++)
@@ -334,7 +335,6 @@ namespace LuckyDrawPromotion.Data
                         code.CampaignGiftId = 1;
                     }
                     code.CreatedDate = DateTime.Parse("2020-02-24 13:00:00");
-                    code.Active = true;
                     do
                     {
                         string chuoi = "";
@@ -362,8 +362,7 @@ namespace LuckyDrawPromotion.Data
                     AllDay = false,
                     Probability = 20,
                     ScheduleValue = "1, 15",
-                    RepeatScheduleId = 1,
-                    CampainGiftId = 1
+                    RepeatScheduleId = 1
                 }, new
                 {
                     RuleId = 2,
@@ -373,8 +372,7 @@ namespace LuckyDrawPromotion.Data
                     AllDay = false,
                     Probability = 10,
                     ScheduleValue = "Mon, Thu",
-                    RepeatScheduleId = 2,
-                    CampainGiftId = 1
+                    RepeatScheduleId = 2
                 }
                 );
             });

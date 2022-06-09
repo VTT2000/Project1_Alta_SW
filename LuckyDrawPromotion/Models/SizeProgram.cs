@@ -9,4 +9,11 @@
         
         public ICollection<Campaign> Campaigns { get; set; } = new HashSet<Campaign>();
     }
+
+    public class SizeProgramDTO_Response
+    {
+        public int SizeProgramId { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+    }
 }

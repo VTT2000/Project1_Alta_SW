@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LuckyDrawPromotion.Data;
 using LuckyDrawPromotion.Models;
+using AutoMapper;
 
 namespace LuckyDrawPromotion.Controllers
 {
@@ -21,28 +22,28 @@ namespace LuckyDrawPromotion.Controllers
         {
             _context = context;
         }
-        /*
+        
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TypeCodeDTO_Response>>> GetTypeCode()
+        public async Task<ActionResult<IEnumerable<SizeProgramDTO_Response>>> GetSizeProgram()
         {
-            IEnumerable<Models.TypeCode> list0 = await _context.TypeCodes.ToListAsync();
-            List<TypeCodeDTO_Response> list = new List<TypeCodeDTO_Response>();
-            foreach(Models.TypeCode temp in list0)
+            var config = new MapperConfiguration(cfg =>
             {
-                TypeCodeDTO_Response add = new TypeCodeDTO_Response();
-                add.Id = temp.Id;
-                add.Name = temp.Name;
-                add.Description = temp.Description;
-                list.Add(add);
-            }
+                cfg.CreateMap<SizeProgram,SizeProgramDTO_Response>();
+            });
+            var mapper = config.CreateMapper();
+            var list = await _context.SizePrograms.Select
+                            (
+                              emp => mapper.Map<SizeProgram, SizeProgramDTO_Response>(emp)
+                            ).ToListAsync();
             return list;
         }
 
-        [HttpGet("{Name}")]
-        public IActionResult ExistNameCampaignOrProgram(string Name)
+        
+        [HttpGet("{name}")]
+        public async Task<IActionResult> ExistNameCampaignOrProgram(string name)
         {
-            Campaign temp = _context.Campaigns.FirstOrDefault(p => p.Name == Name);
-            if (temp == null)
+            Campaign temp = await _context.Campaigns.FirstOrDefaultAsync(p => p.Name.Equals(name));
+            if (temp != null)
             {
                 return BadRequest(new { message = "NameCampaignOrProgram must be unique" });
             }
@@ -51,200 +52,198 @@ namespace LuckyDrawPromotion.Controllers
                 return Ok(new { message = "NameCampaignOrProgram is valid" });
             }
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CharsetDTO_Response>>> GetCharset()
         {
-            IEnumerable<Charset> list0 = await _context.Charsets.ToListAsync();
-            List<CharsetDTO_Response> list = new List<CharsetDTO_Response>();
-            foreach (Models.Charset temp in list0)
+            var config = new MapperConfiguration(cfg =>
             {
-                CharsetDTO_Response add = new CharsetDTO_Response();
-                add.Id = temp.Id;
-                add.Name = temp.Name;
-                add.Content = temp.Content;
-                list.Add(add);
-            }
+                cfg.CreateMap<Charset, CharsetDTO_Response>();
+            });
+            var mapper = config.CreateMapper();
+            var list = await _context.Charsets.Select
+                            (
+                              emp => mapper.Map<Charset, CharsetDTO_Response>(emp)
+                            ).ToListAsync();
             return list;
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GiftDTO_Response>>> GetGift()
         {
-            IEnumerable<Gift> list0 = await _context.Gifts.ToListAsync();
-            List<GiftDTO_Response> list = new List<GiftDTO_Response>();
-            foreach (Gift temp in list0)
+            var config = new MapperConfiguration(cfg =>
             {
-                GiftDTO_Response add = new GiftDTO_Response();
-                add.Id = temp.Id;
-                add.Name = temp.Name;
-                add.CreatedDate = temp.CreatedDate;
-                add.Description = temp.Description;
-                list.Add(add);
-            }
+                cfg.CreateMap<Gift, GiftDTO_Response>();
+            });
+            var mapper = config.CreateMapper();
+            var list = await _context.Gifts.Select
+                            (
+                              emp => mapper.Map<Gift, GiftDTO_Response>(emp)
+                            ).ToListAsync();
             return list;
         }
-
-        [HttpGet("{GiftId}/{CodeCount}")]
-        public IActionResult GetCreateTempGiftCode(int GiftId, int CodeCount)
+        
+        
+        [HttpGet("{GiftId}/{GiftCodeCount}")]
+        public IActionResult GetCreateTempGiftCode(int GiftId, int GiftCodeCount)
         {
-            var codes = new List<GiftCodeDTO_Response>();
-            string[] MangKyTu = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M ", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+            var codes = new List<CodeGiftCampaignDTO_Response>();
+            string[] MangKyTu = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             //tạo một chuỗi ngẫu nhiên
             Random fr = new Random();
-            for (int i = 0; i < CodeCount; i++)
+            for (int i = 0; i < GiftCodeCount; i++)
             {
-                GiftCodeDTO_Response code = new GiftCodeDTO_Response();
-                code.GiftId = GiftId;
+                CodeGiftCampaignDTO_Response code = new CodeGiftCampaignDTO_Response();
                 do
                 {
                     string chuoi = "";
                     for (int j = 0; j < 10; j++)
                     {
-                        int t = fr.Next(0, MangKyTu.Length);
+                        int t = fr.Next(0, MangKyTu.Length-1);
                         chuoi = chuoi + MangKyTu[t];
                     }
-                    code.Name = "GIF" + GiftId + chuoi;
+                    code.Code = "GIF" + GiftId + chuoi;
                 }
-                while (codes.Exists(p => p.Name == code.Name));
+                while (codes.Exists(p => p.Code.Equals(code.Code)));
                 codes.Add(code);
             }
             return Ok(codes);
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RepeatScheduleDTO_Response>>> GetRepeatSchedule()
         {
-            IEnumerable<RepeatSchedule> list0 = await _context.RepeatSchedules.ToListAsync();
-            List<RepeatScheduleDTO_Response> list = new List<RepeatScheduleDTO_Response>();
-            foreach (Models.RepeatSchedule temp in list0)
+            var config = new MapperConfiguration(cfg =>
             {
-                RepeatScheduleDTO_Response add = new RepeatScheduleDTO_Response();
-                add.Id = temp.Id;
-                add.Name = temp.Name;
-                list.Add(add);
-            }
+                cfg.CreateMap<RepeatSchedule, RepeatScheduleDTO_Response>();
+            });
+            var mapper = config.CreateMapper();
+            var list = await _context.RepeatSchedules.Select
+                            (
+                              emp => mapper.Map<RepeatSchedule, RepeatScheduleDTO_Response>(emp)
+                            ).ToListAsync();
             return list;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Campaign>> SaveCampaign(CampaignDTO_Request campaignRequest)
+        public async Task<ActionResult<Campaign>> CreateCampaign(CampaignDTO_Request campaignRequest)
         {
             // start save class campaign
             Campaign campaignNew = new Campaign();
-            campaignNew.TypeCodeId = campaignRequest.TypeCodeId;
-            campaignNew.Name = campaignRequest.Name;
-            campaignNew.Description = campaignRequest.Description;
-            campaignNew.TypeCodeId = campaignRequest.TypeCodeId;
-            campaignNew.Unlimited = campaignRequest.Unlimited;
-            campaignNew.CodeUsageLimit = campaignRequest.CodeUsageLimit;
-            if (campaignRequest.TypeCodeId == 1)
+            try
             {
-                campaignNew.AutoUpdate = campaignRequest.AutoUpdate;
-                campaignNew.CustomerOnlyOne = campaignRequest.CustomerOnlyOne;
-            }
-            if (campaignRequest.TypeCodeId == 2)
-            {
-                campaignNew.ApplyAllCampaign = campaignRequest.ApplyAllCampaign;
-            }
-            campaignNew.StartDate = DateTime.Parse(campaignRequest.StartDate + " " + campaignRequest.StartTime);
-            campaignNew.ExpiredDate = DateTime.Parse(campaignRequest.EndDate + " " + campaignRequest.EndTime);
-            _context.Campaigns.Add(campaignNew);
-            await _context.SaveChangesAsync();
-            // end save class campaign
+                campaignNew.Name = campaignRequest.Name;
+                if (campaignRequest.SizeProgramId == 1)
+                {
+                    campaignNew.AutoUpdate = campaignRequest.AutoUpdate;
+                    campaignNew.CustomerJoinOnlyOne = campaignRequest.CustomerJoinOnlyOne;
+                }
+                if (campaignRequest.SizeProgramId == 2)
+                {
+                    campaignNew.ApplyAllCampaign = campaignRequest.ApplyAllCampaign;
+                }
+                campaignNew.Description = campaignRequest.Description;
+                campaignNew.CodeUsageLimit = campaignRequest.CodeUsageLimit;
+                campaignNew.Unlimited = campaignRequest.Unlimited;
+                campaignNew.CodeCount = campaignRequest.CodeCount;
+                campaignNew.CodeLength = campaignRequest.CodeLength;
+                campaignNew.Prefix = campaignRequest.Prefix;
+                campaignNew.Postfix = campaignRequest.Postfix;
 
-            // start save class code
-            Charset charset = await _context.Charsets.FirstOrDefaultAsync(p => p.Id == campaignRequest.CharsetId);
-            string[] MangKyTu = charset.Content.Split("");
-            Random fr = new Random();
-            int DoDaiTao = campaignRequest.CodeLength - (campaignRequest.Prefix.Length + campaignRequest.Postfix.Length);
-            int gioiHanTao = (campaignRequest.CodeCount > Math.Pow(MangKyTu.Length, DoDaiTao)) ? (int)Math.Pow(MangKyTu.Length, DoDaiTao) : campaignRequest.CodeCount;
-            if (campaignRequest.TypeCodeId == 1)
-            {
-                List<Code> list0 = new List<Code>();
+                campaignNew.StartDate = DateTime.Parse(campaignRequest.StartDate);
+                campaignNew.EndDate = DateTime.Parse(campaignRequest.EndDate);
+                campaignNew.StartTime = TimeSpan.Parse(campaignRequest.StartTime);
+                campaignNew.EndTime = TimeSpan.Parse(campaignRequest.EndTime);
+
+                campaignNew.SizeProgramId = campaignRequest.SizeProgramId;
+                campaignNew.CharsetId = campaignRequest.CharsetId;
+
+                _context.Campaigns.Add(campaignNew);
+                await _context.SaveChangesAsync();
+                // end save class campaign
+
+                // start save code campaign
+                Charset charset = await _context.Charsets.FirstOrDefaultAsync(p => p.CharsetId == campaignRequest.CharsetId);
+                char[] MangKyTu = charset.Value.ToCharArray();
+                Random fr = new Random();
+                // Do dai tao khi chiem postfix va prefix
+                int DoDaiTao = campaignRequest.CodeLength - (campaignRequest.Prefix.Length + campaignRequest.Postfix.Length);
+                // khi codecount > so code duoc tao gioi han boi postfix va prefix
+                int gioiHanTao = campaignRequest.CodeCount;
+                List<CodeCampaign> list0 = new List<CodeCampaign>();
                 for (int i = 0; i < gioiHanTao; i++)
                 {
-                    Code code = new Code();
-                    string chuoi0 = campaignRequest.Prefix;
+                    CodeCampaign code = new CodeCampaign();
                     do
                     {
+                        string chuoi0 = "";
                         for (int j = 0; j < DoDaiTao; j++)
                         {
                             int t = fr.Next(0, MangKyTu.Length);
                             chuoi0 += MangKyTu[t];
                         }
-                        code.Name = chuoi0 + campaignRequest.Postfix;
+                        code.Code = campaignRequest.Prefix + chuoi0 + campaignRequest.Postfix;
                     }
-                    while (list0.Exists(p => p.Name == code.Name));
-                    code.CampaignId = campaignNew.Id;
-                    code.Active = true;
+                    while (list0.Exists(p => p.Code.Equals(code.Code)));
+
+                    code.CampaignId = campaignNew.CampaignId;
                     list0.Add(code);
                 }
-                _context.Codes.AddRange(list0);
+                _context.CodeCampaigns.AddRange(list0);
                 await _context.SaveChangesAsync();
-            }
-            if (campaignRequest.TypeCodeId == 2)
-            {
-                Code code = new Code();
-                string chuoi0 = campaignRequest.Prefix;
 
-                for (int j = 0; j < DoDaiTao; j++)
+                // end save code campaign
+
+                // start save Campaign gift and Rule and CodeGiftCampaign
+                List<CampaignGiftDTO_Request> tempList1 = (List<CampaignGiftDTO_Request>)campaignRequest.CampaignGifts;
+                for (int i = 0; i < tempList1.Count; i++)
                 {
-                    int t = fr.Next(0, MangKyTu.Length);
-                    chuoi0 += MangKyTu[t];
+                    CampaignGift campaignGift = new CampaignGift();
+                    campaignGift.CampaignId = campaignNew.CampaignId;
+                    campaignGift.GiftId = tempList1[i].GiftId;
+
+                    RuleDTO_Request tempRule = (RuleDTO_Request)tempList1[i].Rule;
+                    if (tempRule != null)
+                    {
+                        Rule rule = new Rule();
+                        rule.RuleName = tempRule.RuleName;
+                        rule.GiftAmount = tempRule.GiftAmount;
+                        rule.StartTime = TimeSpan.Parse(tempRule.StartTime);
+                        rule.EndTime = TimeSpan.Parse(tempRule.EndTime);
+                        rule.AllDay = tempRule.AllDay;
+                        rule.Probability = tempRule.Probability;
+                        rule.ScheduleValue = tempRule.ScheduleValue;
+                        rule.RepeatScheduleId = tempRule.RepeatScheduleId;
+
+                        _context.Rules.Add(rule);
+                        await _context.SaveChangesAsync();
+                        
+                        campaignGift.RuleId = rule.RuleId;
+                    }
+                    _context.CampaignGifts.Add(campaignGift);
+                    await _context.SaveChangesAsync();
+                    
+                    List<CodeGiftCampaign> list2 = new List<CodeGiftCampaign>();
+                    List<CodeGiftCampaignDTO_Request> tempList2 = (List<CodeGiftCampaignDTO_Request>)tempList1[i].CodeGiftCampaigns;
+                    for (int j = 0; j < tempList2.Count; j++)
+                    {
+                        CodeGiftCampaign codeGiftCampaign = new CodeGiftCampaign();
+                        codeGiftCampaign.CampaignGiftId = campaignGift.CampaignGiftId;
+                        codeGiftCampaign.CreatedDate = DateTime.Parse(tempList2[j].CreatedDate);
+                        codeGiftCampaign.Code = tempList2[j].Code;
+                        list2.Add(codeGiftCampaign);
+                    }
+                    _context.CodeGiftCampaigns.AddRange(list2);
+                    await _context.SaveChangesAsync();
                 }
-                code.Name = chuoi0 + campaignRequest.Postfix;
-                code.CampaignId = campaignNew.Id;
-                code.Active = true;
-                _context.Codes.AddRange(code);
-                await _context.SaveChangesAsync();
+                // end save Campaign gift and Rule and CodeGiftCampaign
             }
-            // end save class code
-
-            // start save class giftcode
-            List<GiftCode> list = new List<GiftCode>();
-            for (int j = 0; j < campaignRequest.GiftCodeList.Count; j++)
+            catch (Exception ex)
             {
-                GiftCode temp = new GiftCode();
-                temp.Name = campaignRequest.GiftCodeList[j].Name;
-                temp.CreatedDate = campaignRequest.GiftCodeList[j].CreatedDate;
-                temp.Active = campaignRequest.GiftCodeList[j].Active;
-                temp.CampaignId = campaignNew.Id;
-                temp.GiftId = campaignRequest.GiftCodeList[j].GiftId;
-                list.Add(temp);
+                return BadRequest(ex.Message);
             }
-            _context.GiftCodes.AddRange(list);
-            await _context.SaveChangesAsync();
-            // end save class giftcode
-
-            // start save class rule
-            List<Rule> list2 = new List<Rule>();
-            for (int i = 0; i < campaignRequest.RuleList.Count; i++)
-            {
-                Rule rule = new Rule();
-                rule.Name = campaignRequest.RuleList[i].Name;
-                rule.GiftIdSeletedCampaign = campaignRequest.RuleList[i].GiftIdSeletedCampaign;
-                rule.GiftCount = campaignRequest.RuleList[i].GiftCount;
-                rule.StartDate = campaignRequest.RuleList[i].StartDate;
-                rule.EndDate = campaignRequest.RuleList[i].EndDate;
-                rule.StartTime = campaignRequest.RuleList[i].StartTime;
-                rule.EndTime = campaignRequest.RuleList[i].EndTime;
-                rule.AllDay = campaignRequest.RuleList[i].AllDay;
-                rule.Probability = campaignRequest.RuleList[i].Probability;
-                rule.CampaignId = campaignNew.Id;
-                rule.RepeatScheduleId = campaignRequest.RuleList[i].RepeatScheduleId;
-                rule.RepeatScheduleValue = campaignRequest.RuleList[i].RepeatScheduleValue;
-                list2.Add(rule);
-            }
-            _context.Rules.AddRange(list2);
-            await _context.SaveChangesAsync();
-            // end save class rule
-
-            return Ok(new { message = "NameCampaignOrProgram is valid" });
+            return Ok(new { message = "NameCampaignOrProgram is created" });
         }
-
-
-        */
         
     }
 }

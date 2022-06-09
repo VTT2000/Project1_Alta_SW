@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LuckyDrawPromotion.Migrations
 {
     [DbContext(typeof(LuckyDrawPromotionContext))]
-    [Migration("20220604124825_InitialazationData")]
-    partial class InitialazationData
+    [Migration("20220608151257_InitlazationData")]
+    partial class InitlazationData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -90,6 +90,9 @@ namespace LuckyDrawPromotion.Migrations
 
                     b.HasIndex("CharsetId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.HasIndex("SizeProgramId");
 
                     b.ToTable("Campaigns");
@@ -129,10 +132,10 @@ namespace LuckyDrawPromotion.Migrations
                     b.Property<int>("CampaignId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GiftCodeCount")
+                    b.Property<int>("GiftId")
                         .HasColumnType("int");
 
-                    b.Property<int>("GiftId")
+                    b.Property<int>("RuleId")
                         .HasColumnType("int");
 
                     b.HasKey("CampaignGiftId");
@@ -141,6 +144,8 @@ namespace LuckyDrawPromotion.Migrations
 
                     b.HasIndex("GiftId");
 
+                    b.HasIndex("RuleId");
+
                     b.ToTable("CampaignGifts");
 
                     b.HasData(
@@ -148,15 +153,15 @@ namespace LuckyDrawPromotion.Migrations
                         {
                             CampaignGiftId = 1,
                             CampaignId = 1,
-                            GiftCodeCount = 15,
-                            GiftId = 1
+                            GiftId = 1,
+                            RuleId = 1
                         },
                         new
                         {
                             CampaignGiftId = 2,
                             CampaignId = 1,
-                            GiftCodeCount = 10,
-                            GiftId = 2
+                            GiftId = 2,
+                            RuleId = 2
                         });
                 });
 
@@ -221,350 +226,350 @@ namespace LuckyDrawPromotion.Migrations
                         {
                             CodeCampaignId = 1,
                             CampaignId = 1,
-                            Code = "ALTAS07NAC",
+                            Code = "ALTAMNA5H5",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 2,
                             CampaignId = 1,
-                            Code = "ALTARKM M O4",
+                            Code = "ALTAOAOF4K",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 3,
                             CampaignId = 1,
-                            Code = "ALTA80P7JZ",
+                            Code = "ALTADI2LRB",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 4,
                             CampaignId = 1,
-                            Code = "ALTAR48L5F",
+                            Code = "ALTA5I66GY",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 5,
                             CampaignId = 1,
-                            Code = "ALTAB112Q8",
+                            Code = "ALTAFKNPYR",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 6,
                             CampaignId = 1,
-                            Code = "ALTA5K60ZM ",
+                            Code = "ALTAVNEOTA",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 7,
                             CampaignId = 1,
-                            Code = "ALTAOQ4R3E",
+                            Code = "ALTAYJMQGK",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 8,
                             CampaignId = 1,
-                            Code = "ALTA8POA2S",
+                            Code = "ALTAC3JOZJ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 9,
                             CampaignId = 1,
-                            Code = "ALTAFH7TBL",
+                            Code = "ALTAL1IQWJ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 10,
                             CampaignId = 1,
-                            Code = "ALTAOGZ1TB",
+                            Code = "ALTA67D0CV",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 11,
                             CampaignId = 1,
-                            Code = "ALTAHEHFYI",
+                            Code = "ALTAP42S38",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 12,
                             CampaignId = 1,
-                            Code = "ALTA2836AD",
+                            Code = "ALTAJVDE6B",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 13,
                             CampaignId = 1,
-                            Code = "ALTAM 1RIGZ",
+                            Code = "ALTA8HFTFW",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 14,
                             CampaignId = 1,
-                            Code = "ALTAZK7QSI",
+                            Code = "ALTAFSOGKJ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 15,
                             CampaignId = 1,
-                            Code = "ALTAE5SS7D",
+                            Code = "ALTA2ZDHRZ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 16,
                             CampaignId = 1,
-                            Code = "ALTA73AF02",
+                            Code = "ALTAF71766",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 17,
                             CampaignId = 1,
-                            Code = "ALTA1CZ22D",
+                            Code = "ALTA6M00GS",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 18,
                             CampaignId = 1,
-                            Code = "ALTAT1PDAT",
+                            Code = "ALTAQ84G8H",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 19,
                             CampaignId = 1,
-                            Code = "ALTANNB8GN",
+                            Code = "ALTALK31DJ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 20,
                             CampaignId = 1,
-                            Code = "ALTANF87LV",
+                            Code = "ALTANRJWYO",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 21,
                             CampaignId = 1,
-                            Code = "ALTAM AC74O",
+                            Code = "ALTAP2NBAR",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 22,
                             CampaignId = 1,
-                            Code = "ALTAFWG0T4",
+                            Code = "ALTASJRE2A",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 23,
                             CampaignId = 1,
-                            Code = "ALTA20ZDJH",
+                            Code = "ALTA0QNBCQ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 24,
                             CampaignId = 1,
-                            Code = "ALTA7ASDA3",
+                            Code = "ALTA0YR1IL",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 25,
                             CampaignId = 1,
-                            Code = "ALTAPINGM 2",
+                            Code = "ALTAMFD8VN",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 26,
                             CampaignId = 1,
-                            Code = "ALTAZ26VVD",
+                            Code = "ALTAQP7EGZ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 27,
                             CampaignId = 1,
-                            Code = "ALTA6S42Z8",
+                            Code = "ALTA4ASWOJ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 28,
                             CampaignId = 1,
-                            Code = "ALTA81488H",
+                            Code = "ALTA2IQQSS",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 29,
                             CampaignId = 1,
-                            Code = "ALTA8R030Z",
+                            Code = "ALTALMHPM3",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 30,
                             CampaignId = 1,
-                            Code = "ALTAETZVAI",
+                            Code = "ALTARTDPI7",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 31,
                             CampaignId = 1,
-                            Code = "ALTA58KM PB",
+                            Code = "ALTAA0J56L",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 32,
                             CampaignId = 1,
-                            Code = "ALTANPT8BZ",
+                            Code = "ALTAKLH0NP",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 33,
                             CampaignId = 1,
-                            Code = "ALTAJM 5KSH",
+                            Code = "ALTAZHVWGY",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 34,
                             CampaignId = 1,
-                            Code = "ALTA4WRPAO",
+                            Code = "ALTA4MB1WF",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 35,
                             CampaignId = 1,
-                            Code = "ALTAZRNNWD",
+                            Code = "ALTAFKQSVS",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 36,
                             CampaignId = 1,
-                            Code = "ALTAWRZARS",
+                            Code = "ALTAB0ZHIH",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 37,
                             CampaignId = 1,
-                            Code = "ALTATNALDS",
+                            Code = "ALTAM3YVJQ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 38,
                             CampaignId = 1,
-                            Code = "ALTAZSPY5J",
+                            Code = "ALTALQK6QM",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 39,
                             CampaignId = 1,
-                            Code = "ALTARYY0VR",
+                            Code = "ALTASJQ6B1",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 40,
                             CampaignId = 1,
-                            Code = "ALTAM 454RG",
+                            Code = "ALTA0Q37JL",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 41,
                             CampaignId = 1,
-                            Code = "ALTA16A5LL",
+                            Code = "ALTAA3N6FD",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 42,
                             CampaignId = 1,
-                            Code = "ALTANJ5SBL",
+                            Code = "ALTA1Y2CAH",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 43,
                             CampaignId = 1,
-                            Code = "ALTAB0K8CB",
+                            Code = "ALTAW7YTQA",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 44,
                             CampaignId = 1,
-                            Code = "ALTAATWG4L",
+                            Code = "ALTAHAZCW0",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 45,
                             CampaignId = 1,
-                            Code = "ALTAII6K88",
+                            Code = "ALTAF261PP",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 46,
                             CampaignId = 1,
-                            Code = "ALTANYBYWR",
+                            Code = "ALTA4MS1LZ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 47,
                             CampaignId = 1,
-                            Code = "ALTARPKM WI",
+                            Code = "ALTARCP77V",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 48,
                             CampaignId = 1,
-                            Code = "ALTAEZAOSL",
+                            Code = "ALTA54RCIM",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 49,
                             CampaignId = 1,
-                            Code = "ALTACRL26Q",
+                            Code = "ALTAB6DRW2",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeCampaignId = 50,
                             CampaignId = 1,
-                            Code = "ALTA7T1JGE",
+                            Code = "ALTA6LH7OT",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -576,9 +581,6 @@ namespace LuckyDrawPromotion.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodeGiftCampaignId"), 1L, 1);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
 
                     b.Property<int>("CampaignGiftId")
                         .HasColumnType("int");
@@ -600,201 +602,176 @@ namespace LuckyDrawPromotion.Migrations
                         new
                         {
                             CodeGiftCampaignId = 1,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF1H66ZJRKBGE",
+                            Code = "GIF1ZWTD3I0PY1",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 2,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF2CIN1WTHO4W",
+                            Code = "GIF2VMKNP455FH",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 3,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF3OG2GEW0WSR",
+                            Code = "GIF3EZJN64VOVI",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 4,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF476ZDQ0TR6J",
+                            Code = "GIF4VLIYO1JNK1",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 5,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF5P6D48FM 7DR",
+                            Code = "GIF55HACOEN4QW",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 6,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF6NCSVG5RQP3",
+                            Code = "GIF6RPZSPGN7RT",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 7,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF7IZALEHL3QB",
+                            Code = "GIF7PA5FEP2Q0S",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 8,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF8E604AI513B",
+                            Code = "GIF85EWAZL6O06",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 9,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF9Y4JP8QDL7J",
+                            Code = "GIF9QQBWMF1Z42",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 10,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF10SNA65AZNAC",
+                            Code = "GIF10ASYABN25Q8",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 11,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF11I7SAPTBLTB",
+                            Code = "GIF1168QRWLH43E",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 12,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF12PHLZLM L8QK",
+                            Code = "GIF12YV3ST5B5TB",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 13,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF1307HRQLP5DO",
+                            Code = "GIF13L80ZQ6SW2Y",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 14,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF146T1PNSRQ4E",
+                            Code = "GIF14YQKMM23VZ3",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 15,
-                            Active = true,
                             CampaignGiftId = 1,
-                            Code = "GIF15D0CCLTKLR8",
+                            Code = "GIF15HME42GZF53",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 16,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF16A70M 8JIFQ6",
+                            Code = "GIF16MA814N8TBD",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 17,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF17Y2FO507M I5",
+                            Code = "GIF17CRCDKOJYTV",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 18,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF18LCVHCSACK7",
+                            Code = "GIF18KV7Y3Q64Q7",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 19,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF19TRDP0IKQCD",
+                            Code = "GIF19BGPSJ336TI",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 20,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF20442ZND8H15",
+                            Code = "GIF20MV2WB5G2OF",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 21,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF21B742VARNGZ",
+                            Code = "GIF217203H6TPYH",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 22,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF22WCDBT0NZA3",
+                            Code = "GIF22ZT4FDZMC8L",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 23,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF237ZT6GHZ42I",
+                            Code = "GIF2372LO3M0818",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 24,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF24EKRDM PRR1F",
+                            Code = "GIF24MRFFMAJLV6",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 25,
-                            Active = true,
                             CampaignGiftId = 2,
-                            Code = "GIF25THKCZKIW7J",
+                            Code = "GIF25AYOPRWMAAZ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -1079,9 +1056,6 @@ namespace LuckyDrawPromotion.Migrations
                     b.Property<bool>("AllDay")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CampainGiftId")
-                        .HasColumnType("int");
-
                     b.Property<TimeSpan?>("EndTime")
                         .HasColumnType("time(0)");
 
@@ -1107,8 +1081,6 @@ namespace LuckyDrawPromotion.Migrations
 
                     b.HasKey("RuleId");
 
-                    b.HasIndex("CampainGiftId");
-
                     b.HasIndex("RepeatScheduleId");
 
                     b.ToTable("Rules");
@@ -1118,7 +1090,6 @@ namespace LuckyDrawPromotion.Migrations
                         {
                             RuleId = 1,
                             AllDay = false,
-                            CampainGiftId = 1,
                             EndTime = new TimeSpan(0, 17, 0, 0, 0),
                             GiftAmount = 10,
                             Probability = 20,
@@ -1131,7 +1102,6 @@ namespace LuckyDrawPromotion.Migrations
                         {
                             RuleId = 2,
                             AllDay = false,
-                            CampainGiftId = 1,
                             GiftAmount = 10,
                             Probability = 10,
                             RepeatScheduleId = 2,
@@ -1456,9 +1426,17 @@ namespace LuckyDrawPromotion.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("LuckyDrawPromotion.Models.Rule", "Rule")
+                        .WithMany("CampaignGifts")
+                        .HasForeignKey("RuleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Campaign");
 
                     b.Navigation("Gift");
+
+                    b.Navigation("Rule");
                 });
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.CodeCampaign", b =>
@@ -1507,19 +1485,11 @@ namespace LuckyDrawPromotion.Migrations
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.Rule", b =>
                 {
-                    b.HasOne("LuckyDrawPromotion.Models.CampaignGift", "CampaignGift")
-                        .WithMany("Rules")
-                        .HasForeignKey("CampainGiftId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("LuckyDrawPromotion.Models.RepeatSchedule", "RepeatSchedule")
                         .WithMany("Rules")
                         .HasForeignKey("RepeatScheduleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("CampaignGift");
 
                     b.Navigation("RepeatSchedule");
                 });
@@ -1572,8 +1542,6 @@ namespace LuckyDrawPromotion.Migrations
             modelBuilder.Entity("LuckyDrawPromotion.Models.CampaignGift", b =>
                 {
                     b.Navigation("CodeGiftCampaigns");
-
-                    b.Navigation("Rules");
                 });
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.Charset", b =>
@@ -1611,6 +1579,11 @@ namespace LuckyDrawPromotion.Migrations
             modelBuilder.Entity("LuckyDrawPromotion.Models.RepeatSchedule", b =>
                 {
                     b.Navigation("Rules");
+                });
+
+            modelBuilder.Entity("LuckyDrawPromotion.Models.Rule", b =>
+                {
+                    b.Navigation("CampaignGifts");
                 });
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.SizeProgram", b =>
