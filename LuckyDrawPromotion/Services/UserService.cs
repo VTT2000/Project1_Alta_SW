@@ -11,12 +11,13 @@ namespace LuckyDrawPromotion.Services
 {
     public interface IUserService
     {
-        UserDTO_AuthenticateResponse Authenticate(UserDTO_AuthenticateRequest model);
         IEnumerable<User> GetAll();
         User GetById(int id);
-        void Save(User user);
+        void Save(User temp);
+        void Remove(User temp);
+        UserDTO_AuthenticateResponse Authenticate(UserDTO_AuthenticateRequest model);
         string generateJwtTokenforPassword(User user);
-        
+
     }
 
     public class UserService : IUserService
@@ -28,6 +29,43 @@ namespace LuckyDrawPromotion.Services
         {
             _appSettings = appSettings.Value;
             _context = context;
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            return _context.Users.ToList();
+        }
+
+        public User GetById(int id)
+        {
+            return _context.Users.ToList().FirstOrDefault(x => x.UserId == id)!;
+        }
+
+
+        public void Save(User temp)
+        {
+            try
+            {
+                _context.Update(temp);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "/" + ex.Source);
+            }
+        }
+
+        public void Remove(User temp)
+        {
+            try
+            {
+                _context.Remove(temp);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "/" + ex.Source);
+            }
         }
 
         public UserDTO_AuthenticateResponse Authenticate(UserDTO_AuthenticateRequest model)
@@ -43,24 +81,7 @@ namespace LuckyDrawPromotion.Services
             return new UserDTO_AuthenticateResponse(user, token);
         }
 
-        public IEnumerable<User> GetAll()
-        {
-            return _context.Users.ToList();
-        }
-
-        public User GetById(int id)
-        {
-            return _context.Users.ToList().FirstOrDefault(x => x.UserId == id)!;
-        }
-
-        public void Save(User temp)
-        {
-            _context.Update(temp);
-            _context.SaveChanges();
-        }
-
         // helper methods
-
         private string generateJwtToken(User user)
         {
             // generate token that is valid for 7 days

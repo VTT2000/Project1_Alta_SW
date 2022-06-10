@@ -18,4 +18,15 @@
 
         public ICollection<CampaignGift> CampaignGifts { get; set; } = new HashSet<CampaignGift>();
     }
+    public class RuleDTO
+    {
+        public string RuleName { get; set; } = null!;
+        public int GiftAmount { get; set; } = 0;
+        public string StartTime { get; set; } = null!;
+        public string? EndTime { get; set; }
+        public bool AllDay { get; set; } = false;
+        public int Probability { get; set; } = 0;
+        public string ScheduleValue { get; set; } = null!;
+        public int RepeatScheduleId { get; set; }
+    }
 }

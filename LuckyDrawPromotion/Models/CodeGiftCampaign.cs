@@ -16,10 +16,11 @@
 
     }
 
-    public class CodeGiftCampaignDTO_Response
+    public class CodeGiftCampaignDTO
     {
         public string Code { get; set; } = null!;
-        public string CreatedDate { get; set; } = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        public string CreatedDate { get; set; } = null!;
         public bool Active { get; set; } = false;
+
     }
 }

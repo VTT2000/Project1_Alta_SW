@@ -14,6 +14,11 @@ builder.Services.AddControllers();
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 // configure DI for application services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICampaignService, CampaignService>();
+builder.Services.AddScoped<ISizeProgramService, SizeProgramService>();
+builder.Services.AddScoped<ICharsetService, CharsetService>();
+builder.Services.AddScoped<IGiftService, GiftService>();
+builder.Services.AddScoped<IRepeatScheduleService, RepeatScheduleService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -17,7 +17,7 @@ namespace LuckyDrawPromotion.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
         public UsersController(IUserService userService)
         {
             _userService = userService;
@@ -69,13 +69,5 @@ namespace LuckyDrawPromotion.Controllers
             return Ok(new { message = "Your password has been changed. Now you can login." });
         }
 
-        /*
-        [HttpGet, Authorize]
-        public IActionResult GetAll()
-        {
-            var users = _userService.GetAll();
-            return Ok(users);
-        }
-        */
     }
 }
