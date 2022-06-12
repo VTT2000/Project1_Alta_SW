@@ -13,13 +13,9 @@
 
         
         public int PositionId { get; set; }
-        
         public Position Position { get; set; } = null!;
 
 
-
-
-        public ICollection<ScannedOrSpin> ScannedOrSpins { get; set; } = new HashSet<ScannedOrSpin>();
-        public ICollection<Winner> Winners { get; set; } = new HashSet<Winner>();
+        public ICollection<CodeCampaign> CodeCampaigns { get; set; } = new HashSet<CodeCampaign>();
     }
 }

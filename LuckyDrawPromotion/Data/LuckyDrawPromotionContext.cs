@@ -27,7 +27,7 @@ namespace LuckyDrawPromotion.Data
         public DbSet<Position> Positions { get; set; }
         public DbSet<RepeatSchedule> RepeatSchedules { get; set; }
         public DbSet<Rule> Rules { get; set; }
-        public DbSet<ScannedOrSpin> ScannedOrSpins { get; set; }
+        public DbSet<Spin> Spins { get; set; }
         public DbSet<SizeProgram> SizePrograms { get; set; }
         public DbSet<TypeOfBussiness> TypeOfBussiness { get; set; }
         public DbSet<Winner> Winners { get; set; }
@@ -44,10 +44,10 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<CampaignGift>().HasOne<Rule>(s=>s.Rule).WithMany(g=>g.CampaignGifts).HasForeignKey(s => s.RuleId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Rule>().HasOne<RepeatSchedule>(s => s.RepeatSchedule).WithMany(g => g.Rules).HasForeignKey(s => s.RepeatScheduleId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Winner>().HasOne<CodeGiftCampaign>(s => s.CodeGiftCampaign).WithMany(g => g.Winners).HasForeignKey(s => s.CodeGiftCampaignId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Winner>().HasOne<Customer>(s=>s.Customer).WithMany(g=>g.Winners).HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Winner>().HasOne<Spin>(s=>s.Spin).WithMany(g=>g.Winners).HasForeignKey(s => s.SpinId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<CodeCampaign>().HasOne<Campaign>(s => s.Campaign).WithMany(g => g.CodeCampaigns).HasForeignKey(s => s.CampaignId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ScannedOrSpin>().HasOne<CodeCampaign>(s=>s.CodeCampaign).WithMany(g=>g.ScannedOrSpins).HasForeignKey(s => s.CodeCampaignId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<ScannedOrSpin>().HasOne<Customer>(s => s.Customer).WithMany(g => g.ScannedOrSpins).HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<CodeCampaign>().HasOne<Customer>(s => s.Customer).WithMany(g => g.CodeCampaigns).HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Spin>().HasOne<CodeCampaign>(s => s.CodeCampaign).WithMany(g => g.Spins).HasForeignKey(s => s.CodeCampaignId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Position>().HasOne<TypeOfBussiness>(s => s.TypeOfBussiness).WithMany(g => g.Positions).HasForeignKey(s => s.TypeOfBussinessId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Customer>().HasOne<Position>(s => s.Position).WithMany(g => g.Customers).HasForeignKey(s => s.PositionId).OnDelete(DeleteBehavior.Restrict);
             
@@ -58,8 +58,6 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<Campaign>().HasIndex(s => s.Name).IsUnique();
             modelBuilder.Entity<Campaign>().Property(s => s.Name).HasColumnType("nvarchar(50)");
             modelBuilder.Entity<Campaign>().Property(s => s.Description).HasColumnType("ntext");
-            modelBuilder.Entity<Campaign>().Property(s => s.Prefix).HasColumnType("varchar(10)");
-            modelBuilder.Entity<Campaign>().Property(s => s.Postfix).HasColumnType("varchar(10)");
             modelBuilder.Entity<Campaign>().Property(s => s.StartDate).HasColumnType("date");
             modelBuilder.Entity<Campaign>().Property(s => s.EndDate).HasColumnType("date");
             modelBuilder.Entity<Campaign>().Property(s => s.StartTime).HasColumnType("time(0)");
@@ -68,9 +66,14 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<Charset>().Property(s => s.Name).HasColumnType("varchar(50)");
             modelBuilder.Entity<Charset>().Property(s => s.Value).HasColumnType("varchar(256)");
             modelBuilder.Entity<CodeCampaign>().Property(s => s.Code).HasColumnType("varchar(50)");
+
             modelBuilder.Entity<CodeCampaign>().Property(s => s.CreatedDate).HasColumnType("datetime");
+            modelBuilder.Entity<CodeCampaign>().Property(s => s.ActivatedDate).HasColumnType("datetime");
+            modelBuilder.Entity<CodeCampaign>().Property(s => s.ExpiredDate).HasColumnType("datetime");
+            modelBuilder.Entity<CodeCampaign>().Property(s => s.ScannedDate).HasColumnType("datetime");
             modelBuilder.Entity<CodeGiftCampaign>().Property(s => s.Code).HasColumnType("varchar(50)");
             modelBuilder.Entity<CodeGiftCampaign>().Property(s => s.CreatedDate).HasColumnType("datetime");
+            
             modelBuilder.Entity<Customer>().Property(s => s.CustomerName).HasColumnType("nvarchar(50)");
             modelBuilder.Entity<Customer>().HasIndex(s => s.CustomerPhone).IsUnique();
             modelBuilder.Entity<Customer>().Property(s => s.CustomerPhone).HasColumnType("nvarchar(20)");
@@ -86,8 +89,7 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<Rule>().Property(s => s.RuleName).HasColumnType("nvarchar(50)");
             modelBuilder.Entity<Rule>().Property(s => s.StartTime).HasColumnType("time(0)");
             modelBuilder.Entity<Rule>().Property(s => s.EndTime).HasColumnType("time(0)");
-            modelBuilder.Entity<ScannedOrSpin>().Property(s => s.ScannedDate).HasColumnType("datetime");
-            modelBuilder.Entity<ScannedOrSpin>().Property(s => s.SpinDate).HasColumnType("datetime");
+            modelBuilder.Entity<Spin>().Property(s => s.SpinDate).HasColumnType("datetime");
             modelBuilder.Entity<SizeProgram>().HasIndex(s => s.Name).IsUnique();
             modelBuilder.Entity<SizeProgram>().Property(s => s.Name).HasColumnType("nvarchar(50)");
             modelBuilder.Entity<SizeProgram>().Property(s => s.Description).HasColumnType("ntext");
@@ -260,10 +262,6 @@ namespace LuckyDrawPromotion.Data
                         Description = "Description Lucky Draw 1",
                         CodeUsageLimit = 1,
                         Unlimited = false,
-                        CodeCount = 50,
-                        CodeLength = 10,
-                        Prefix = "ALTA",
-                        Postfix = "",
                         StartDate = DateTime.Parse("2020-02-24"),
                         EndDate = DateTime.Parse("2020-03-15"),
                         StartTime = TimeSpan.Parse("13:00:00"),
@@ -272,6 +270,40 @@ namespace LuckyDrawPromotion.Data
                         CharsetId = 1
                     }
                     );
+            });
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.HasData(new
+                {
+                    CustomerId = 1,
+                    CustomerName = "Nguyễn Văn A",
+                    CustomerPhone = "0987654321",
+                    CustomerAddress = "Quận 1, TP.HCM",
+                    DateOfBirth = DateTime.Parse("2000-01-01"),
+                    Block = false,
+                    PositionId = 1
+                },
+                new
+                {
+                    CustomerId = 2,
+                    CustomerName = "Nguyễn Văn B",
+                    CustomerPhone = "0987654322",
+                    CustomerAddress = "Quận 2, TP.HCM",
+                    DateOfBirth = DateTime.Parse("2000-02-01"),
+                    Block = false,
+                    PositionId = 2
+                },
+                new
+                {
+                    CustomerId = 3,
+                    CustomerName = "Nguyễn Văn C",
+                    CustomerPhone = "0987654311",
+                    CustomerAddress = "Quận 11, TP.HCM",
+                    DateOfBirth = DateTime.Parse("2000-11-01"),
+                    Block = false,
+                    PositionId = 11
+                }
+                );
             });
             modelBuilder.Entity<CodeCampaign>(entity =>
             {
@@ -284,6 +316,29 @@ namespace LuckyDrawPromotion.Data
                     code.CodeCampaignId = i+1;
                     code.CampaignId = 1;
                     code.CreatedDate = DateTime.Parse("2020-02-24 13:00:00");
+                    code.ActivatedDate = DateTime.Parse("2020-02-24 13:00:00");
+                    code.ExpiredDate = DateTime.Parse("2020-03-15 15:00:00");
+                    code.Actived = true;
+                    if (i < 5)
+                    {
+                        code.CustomerId = 1;
+                        code.Scanned = true;
+                        code.ScannedDate = DateTime.Parse("2020-03-01 16:00:00");
+                    }
+                    else if(i < 8)
+                    {
+                        code.CustomerId = 2;
+                        code.Scanned = true;
+                        code.ScannedDate = DateTime.Parse("2020-03-01 16:00:00");
+                    }
+                    else if(i < 10)
+                    {
+                        code.CustomerId = 3;
+                        code.Scanned = true;
+                        code.ScannedDate = DateTime.Parse("2020-03-01 16:00:00");
+                    }
+                    code.CodeRedemptionLimit = 1;
+                    code.Unlimited = false;
                     do
                     {
                         string chuoi = "";
@@ -335,6 +390,7 @@ namespace LuckyDrawPromotion.Data
                         code.CampaignGiftId = 1;
                     }
                     code.CreatedDate = DateTime.Parse("2020-02-24 13:00:00");
+                    code.ActivatedDate = DateTime.Parse("2020-02-24 13:00:00");
                     do
                     {
                         string chuoi = "";
@@ -376,84 +432,59 @@ namespace LuckyDrawPromotion.Data
                 }
                 );
             });
-            modelBuilder.Entity<Customer>(entity =>
+            
+            modelBuilder.Entity<Spin>(entity =>
             {
                 entity.HasData(new
                 {
-                    CustomerId = 1,
-                    CustomerName = "Nguyễn Văn A",
-                    CustomerPhone = "0987654321",
-                    CustomerAddress = "Quận 1, TP.HCM",
-                    DateOfBirth = DateTime.Parse("2000-01-01"),
-                    Block = false,
-                    PositionId = 1
-                },
-                new
-                {
-                    CustomerId = 2,
-                    CustomerName = "Nguyễn Văn B",
-                    CustomerPhone = "0987654322",
-                    CustomerAddress = "Quận 2, TP.HCM",
-                    DateOfBirth = DateTime.Parse("2000-02-01"),
-                    Block = false,
-                    PositionId = 2
-                },
-                new
-                {
-                    CustomerId = 3,
-                    CustomerName = "Nguyễn Văn C",
-                    CustomerPhone = "0987654311",
-                    CustomerAddress = "Quận 11, TP.HCM",
-                    DateOfBirth = DateTime.Parse("2000-11-01"),
-                    Block = false,
-                    PositionId = 11
-                }
-                );
-            });
-            modelBuilder.Entity<ScannedOrSpin>(entity =>
-            {
-                entity.HasData(new
-                {
-                    ScannedOrSpinId = 1,
-                    ScannedDate = DateTime.Parse("2020-03-01 16:00:00"),
+                    SpinId = 1,
                     SpinDate = DateTime.Parse("2020-03-01 16:01:00"),
-                    CodeCampaignId = 1,
-                    CustomerId = 1
+                    CodeCampaignId = 1
                 }, new
                 {
-                    ScannedOrSpinId = 2,
-                    ScannedDate = DateTime.Parse("2020-03-01 16:02:00"),
+                    SpinId = 2,
                     SpinDate = DateTime.Parse("2020-03-01 16:03:00"),
-                    CodeCampaignId = 1,
-                    CustomerId = 1
+                    CodeCampaignId = 2
                 }, new
                 {
-                    ScannedOrSpinId = 3,
-                    ScannedDate = DateTime.Parse("2020-03-01 16:04:00"),
+                    SpinId = 3,
                     SpinDate = DateTime.Parse("2020-03-01 16:05:00"),
-                    CodeCampaignId = 1,
-                    CustomerId = 1
+                    CodeCampaignId = 3
                 }, new
                 {
-                    ScannedOrSpinId = 4,
-                    ScannedDate = DateTime.Parse("2020-03-01 16:05:00"),
+                    SpinId = 4,
+                    SpinDate = DateTime.Parse("2020-03-01 16:07:00"),
+                    CodeCampaignId = 4
+                }, new
+                {
+                    SpinId = 5,
+                    SpinDate = DateTime.Parse("2020-03-01 16:09:00"),
+                    CodeCampaignId = 5
+                }, new
+                {
+                    SpinId = 6,
                     SpinDate = DateTime.Parse("2020-03-01 16:06:00"),
-                    CodeCampaignId = 1,
-                    CustomerId = 2
+                    CodeCampaignId = 6
                 }, new
                 {
-                    ScannedOrSpinId = 5,
-                    ScannedDate = DateTime.Parse("2020-03-01 16:08:00"),
+                    SpinId = 7,
                     SpinDate = DateTime.Parse("2020-03-01 16:10:00"),
-                    CodeCampaignId = 1,
-                    CustomerId = 2
+                    CodeCampaignId = 7
                 }, new
                 {
-                    ScannedOrSpinId = 6,
-                    ScannedDate = DateTime.Parse("2020-03-01 16:01:00"),
-                    SpinDate = DateTime.Parse("2020-03-01 16:03:00"),
-                    CodeCampaignId = 1,
-                    CustomerId = 3
+                    SpinId = 8,
+                    SpinDate = DateTime.Parse("2020-03-01 16:13:00"),
+                    CodeCampaignId = 8
+                }, new
+                {
+                    SpinId = 9,
+                    SpinDate = DateTime.Parse("2020-04-01 16:01:00"),
+                    CodeCampaignId = 9
+                }, new
+                {
+                    SpinId = 10,
+                    SpinDate = DateTime.Parse("2020-04-01 16:03:00"),
+                    CodeCampaignId = 10
                 }
                 );
             });
@@ -466,7 +497,7 @@ namespace LuckyDrawPromotion.Data
                     SentGift = true,
                     AddressReceivedGift = "Quận 1, TP.HCM",
                     CodeGiftCampaignId = 1,
-                    CustomerId = 1
+                    SpinId = 3
                 }, new
                 {
                     WinnerId = 2,
@@ -474,7 +505,7 @@ namespace LuckyDrawPromotion.Data
                     SentGift = true,
                     AddressReceivedGift = "Quận 2, TP.HCM",
                     CodeGiftCampaignId = 2,
-                    CustomerId = 2
+                    SpinId = 6
                 }, new
                 {
                     WinnerId = 3,
@@ -482,7 +513,7 @@ namespace LuckyDrawPromotion.Data
                     SentGift = true,
                     AddressReceivedGift = "Quận 2, TP.HCM",
                     CodeGiftCampaignId = 16,
-                    CustomerId = 2
+                    SpinId = 7
                 }
                 );
             });

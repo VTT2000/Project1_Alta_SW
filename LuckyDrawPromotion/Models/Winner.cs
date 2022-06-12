@@ -10,8 +10,8 @@
 
 
         public int CodeGiftCampaignId { get; set; }
-        public int CustomerId { get; set; }
+        public int SpinId { get; set; }
+        public Spin Spin { get; set; } = null!;
         public CodeGiftCampaign CodeGiftCampaign { get; set; } = null!;
-        public Customer Customer { get; set; } = null!;
     }
 }

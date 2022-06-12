@@ -39,12 +39,6 @@ namespace LuckyDrawPromotion.Migrations
                     b.Property<int>("CharsetId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CodeCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CodeLength")
-                        .HasColumnType("int");
-
                     b.Property<int>("CodeUsageLimit")
                         .HasColumnType("int");
 
@@ -64,13 +58,6 @@ namespace LuckyDrawPromotion.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Postfix")
-                        .HasColumnType("varchar(10)");
-
-                    b.Property<string>("Prefix")
-                        .IsRequired()
-                        .HasColumnType("varchar(10)");
 
                     b.Property<int>("SizeProgramId")
                         .HasColumnType("int");
@@ -102,16 +89,12 @@ namespace LuckyDrawPromotion.Migrations
                             ApplyAllCampaign = false,
                             AutoUpdate = true,
                             CharsetId = 1,
-                            CodeCount = 50,
-                            CodeLength = 10,
                             CodeUsageLimit = 1,
                             CustomerJoinOnlyOne = false,
                             Description = "Description Lucky Draw 1",
                             EndDate = new DateTime(2020, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndTime = new TimeSpan(0, 15, 0, 0, 0),
                             Name = "Lucky Draw 1",
-                            Postfix = "",
-                            Prefix = "ALTA",
                             SizeProgramId = 1,
                             StartDate = new DateTime(2020, 2, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartTime = new TimeSpan(0, 13, 0, 0, 0),
@@ -203,6 +186,12 @@ namespace LuckyDrawPromotion.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodeCampaignId"), 1L, 1);
 
+                    b.Property<DateTime?>("ActivatedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Actived")
+                        .HasColumnType("bit");
+
                     b.Property<int>("CampaignId")
                         .HasColumnType("int");
 
@@ -210,12 +199,32 @@ namespace LuckyDrawPromotion.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
+                    b.Property<int>("CodeRedemptionLimit")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime");
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ExpiredDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Scanned")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ScannedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Unlimited")
+                        .HasColumnType("bit");
 
                     b.HasKey("CodeCampaignId");
 
                     b.HasIndex("CampaignId");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("CodeCampaigns");
 
@@ -223,352 +232,672 @@ namespace LuckyDrawPromotion.Migrations
                         new
                         {
                             CodeCampaignId = 1,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAMNA5H5",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAC2JRIJ",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 2,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAOAOF4K",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAD65WY6",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 3,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTADI2LRB",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA72Y2Z3",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 4,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA5I66GY",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAEC68NN",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 5,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAFKNPYR",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAO20SQY",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 1,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 6,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAVNEOTA",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA7VRIIC",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 7,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAYJMQGK",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTATP8VZW",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 8,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAC3JOZJ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAIJV6OI",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 2,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 9,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAL1IQWJ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAWYCWFY",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 10,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA67D0CV",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAM101QD",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 3,
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = true,
+                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 11,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAP42S38",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAPZINWH",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 12,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAJVDE6B",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA7TDEHG",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 13,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA8HFTFW",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAQ6K68F",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 14,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAFSOGKJ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAZ200H0",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 15,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA2ZDHRZ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAW1QBN5",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 16,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAF71766",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAR54WHY",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 17,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA6M00GS",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAYKACJQ",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 18,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAQ84G8H",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA7NJCPJ",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 19,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTALK31DJ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA4KZBTL",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 20,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTANRJWYO",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA2S3HV1",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 21,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAP2NBAR",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA8NB8CW",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 22,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTASJRE2A",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAD02LND",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 23,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA0QNBCQ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAY2CDSM",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 24,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA0YR1IL",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAB6R7F6",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 25,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAMFD8VN",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA453PNO",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 26,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAQP7EGZ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA7JQKY8",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 27,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA4ASWOJ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAFPWY4Q",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 28,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA2IQQSS",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTABANLV3",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 29,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTALMHPM3",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAYJLTKF",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 30,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTARTDPI7",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAJG5AD8",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 31,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAA0J56L",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAWSFJ3B",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 32,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAKLH0NP",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAEZG4BK",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 33,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAZHVWGY",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA24SEKC",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 34,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA4MB1WF",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAGAOJKR",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 35,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAFKQSVS",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA06M2NH",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 36,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAB0ZHIH",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTALFAORT",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 37,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAM3YVJQ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA04ZAK5",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 38,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTALQK6QM",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAB1RA0G",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 39,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTASJQ6B1",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA2HCKQ5",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 40,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA0Q37JL",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTALBJ08T",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 41,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAA3N6FD",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAHWM4NT",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 42,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA1Y2CAH",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTANRPZEY",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 43,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAW7YTQA",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAL2YZIA",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 44,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAHAZCW0",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA6YEITW",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 45,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAF261PP",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTA7YKZR8",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 46,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA4MS1LZ",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAM13VNH",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 47,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTARCP77V",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAP6MDHC",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 48,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA54RCIM",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAKZZT8A",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 49,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAB6DRW2",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAIJ6CND",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         },
                         new
                         {
                             CodeCampaignId = 50,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA6LH7OT",
-                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
+                            Code = "ALTAI87IHR",
+                            CodeRedemptionLimit = 1,
+                            CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
+                            ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
+                            Scanned = false,
+                            Unlimited = false
                         });
                 });
 
@@ -579,6 +908,9 @@ namespace LuckyDrawPromotion.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CodeGiftCampaignId"), 1L, 1);
+
+                    b.Property<DateTime?>("ActivatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("CampaignGiftId")
                         .HasColumnType("int");
@@ -600,176 +932,201 @@ namespace LuckyDrawPromotion.Migrations
                         new
                         {
                             CodeGiftCampaignId = 1,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF1ZWTD3I0PY1",
+                            Code = "GIF137WTS2O4L1",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 2,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF2VMKNP455FH",
+                            Code = "GIF21CB5WWMSMW",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 3,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF3EZJN64VOVI",
+                            Code = "GIF3Y3D85L6G43",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 4,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF4VLIYO1JNK1",
+                            Code = "GIF4L2QNS4VHN0",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 5,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF55HACOEN4QW",
+                            Code = "GIF51VCE6YVDO6",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 6,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF6RPZSPGN7RT",
+                            Code = "GIF6G015YEOGI6",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 7,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF7PA5FEP2Q0S",
+                            Code = "GIF7MDNSYDRK1O",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 8,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF85EWAZL6O06",
+                            Code = "GIF8ROZ1MA3OTA",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 9,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF9QQBWMF1Z42",
+                            Code = "GIF9GAOSJ58W0N",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 10,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF10ASYABN25Q8",
+                            Code = "GIF1074TA0VSB1W",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 11,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF1168QRWLH43E",
+                            Code = "GIF11YJRMWQOJ8E",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 12,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF12YV3ST5B5TB",
+                            Code = "GIF12D8KYCSIYA4",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 13,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF13L80ZQ6SW2Y",
+                            Code = "GIF13LYHGNAE7IQ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 14,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF14YQKMM23VZ3",
+                            Code = "GIF14WPG5FZWRAH",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 15,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF15HME42GZF53",
+                            Code = "GIF154P3HJN8A6S",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 16,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF16MA814N8TBD",
+                            Code = "GIF166LEV3ZLQCS",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 17,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF17CRCDKOJYTV",
+                            Code = "GIF170AO6BWRYY4",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 18,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF18KV7Y3Q64Q7",
+                            Code = "GIF1824VQ25OVOZ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 19,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF19BGPSJ336TI",
+                            Code = "GIF19VGYIME0ZKC",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 20,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF20MV2WB5G2OF",
+                            Code = "GIF20A6840E82C4",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 21,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF217203H6TPYH",
+                            Code = "GIF21D12SNF103P",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 22,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF22ZT4FDZMC8L",
+                            Code = "GIF223PTFWED67L",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 23,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF2372LO3M0818",
+                            Code = "GIF23046MPC4KR6",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 24,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF24MRFFMAJLV6",
+                            Code = "GIF24G5B6CJNN2K",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             CodeGiftCampaignId = 25,
+                            ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF25AYOPRWMAAZ",
+                            Code = "GIF25BVRN825241",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -1109,85 +1466,6 @@ namespace LuckyDrawPromotion.Migrations
                         });
                 });
 
-            modelBuilder.Entity("LuckyDrawPromotion.Models.ScannedOrSpin", b =>
-                {
-                    b.Property<int>("ScannedOrSpinId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScannedOrSpinId"), 1L, 1);
-
-                    b.Property<int>("CodeCampaignId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ScannedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<DateTime?>("SpinDate")
-                        .HasColumnType("datetime");
-
-                    b.HasKey("ScannedOrSpinId");
-
-                    b.HasIndex("CodeCampaignId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("ScannedOrSpins");
-
-                    b.HasData(
-                        new
-                        {
-                            ScannedOrSpinId = 1,
-                            CodeCampaignId = 1,
-                            CustomerId = 1,
-                            ScannedDate = new DateTime(2020, 3, 1, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            SpinDate = new DateTime(2020, 3, 1, 16, 1, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            ScannedOrSpinId = 2,
-                            CodeCampaignId = 1,
-                            CustomerId = 1,
-                            ScannedDate = new DateTime(2020, 3, 1, 16, 2, 0, 0, DateTimeKind.Unspecified),
-                            SpinDate = new DateTime(2020, 3, 1, 16, 3, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            ScannedOrSpinId = 3,
-                            CodeCampaignId = 1,
-                            CustomerId = 1,
-                            ScannedDate = new DateTime(2020, 3, 1, 16, 4, 0, 0, DateTimeKind.Unspecified),
-                            SpinDate = new DateTime(2020, 3, 1, 16, 5, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            ScannedOrSpinId = 4,
-                            CodeCampaignId = 1,
-                            CustomerId = 2,
-                            ScannedDate = new DateTime(2020, 3, 1, 16, 5, 0, 0, DateTimeKind.Unspecified),
-                            SpinDate = new DateTime(2020, 3, 1, 16, 6, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            ScannedOrSpinId = 5,
-                            CodeCampaignId = 1,
-                            CustomerId = 2,
-                            ScannedDate = new DateTime(2020, 3, 1, 16, 8, 0, 0, DateTimeKind.Unspecified),
-                            SpinDate = new DateTime(2020, 3, 1, 16, 10, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            ScannedOrSpinId = 6,
-                            CodeCampaignId = 1,
-                            CustomerId = 3,
-                            ScannedDate = new DateTime(2020, 3, 1, 16, 1, 0, 0, DateTimeKind.Unspecified),
-                            SpinDate = new DateTime(2020, 3, 1, 16, 3, 0, 0, DateTimeKind.Unspecified)
-                        });
-                });
-
             modelBuilder.Entity("LuckyDrawPromotion.Models.SizeProgram", b =>
                 {
                     b.Property<int>("SizeProgramId")
@@ -1223,6 +1501,89 @@ namespace LuckyDrawPromotion.Migrations
                             SizeProgramId = 2,
                             Description = "A fixed-code discount designed for mutiple uses (e.g., 10% of with \"blackfriday\" code)",
                             Name = "Standalone code"
+                        });
+                });
+
+            modelBuilder.Entity("LuckyDrawPromotion.Models.Spin", b =>
+                {
+                    b.Property<int>("SpinId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpinId"), 1L, 1);
+
+                    b.Property<int>("CodeCampaignId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("SpinDate")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("SpinId");
+
+                    b.HasIndex("CodeCampaignId");
+
+                    b.ToTable("Spins");
+
+                    b.HasData(
+                        new
+                        {
+                            SpinId = 1,
+                            CodeCampaignId = 1,
+                            SpinDate = new DateTime(2020, 3, 1, 16, 1, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpinId = 2,
+                            CodeCampaignId = 2,
+                            SpinDate = new DateTime(2020, 3, 1, 16, 3, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpinId = 3,
+                            CodeCampaignId = 3,
+                            SpinDate = new DateTime(2020, 3, 1, 16, 5, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpinId = 4,
+                            CodeCampaignId = 4,
+                            SpinDate = new DateTime(2020, 3, 1, 16, 7, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpinId = 5,
+                            CodeCampaignId = 5,
+                            SpinDate = new DateTime(2020, 3, 1, 16, 9, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpinId = 6,
+                            CodeCampaignId = 6,
+                            SpinDate = new DateTime(2020, 3, 1, 16, 6, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpinId = 7,
+                            CodeCampaignId = 7,
+                            SpinDate = new DateTime(2020, 3, 1, 16, 10, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpinId = 8,
+                            CodeCampaignId = 8,
+                            SpinDate = new DateTime(2020, 3, 1, 16, 13, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpinId = 9,
+                            CodeCampaignId = 9,
+                            SpinDate = new DateTime(2020, 4, 1, 16, 1, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            SpinId = 10,
+                            CodeCampaignId = 10,
+                            SpinDate = new DateTime(2020, 4, 1, 16, 3, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -1344,11 +1705,11 @@ namespace LuckyDrawPromotion.Migrations
                     b.Property<int>("CodeGiftCampaignId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("SentGift")
                         .HasColumnType("bit");
+
+                    b.Property<int>("SpinId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("WinDate")
                         .HasColumnType("datetime");
@@ -1357,7 +1718,7 @@ namespace LuckyDrawPromotion.Migrations
 
                     b.HasIndex("CodeGiftCampaignId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("SpinId");
 
                     b.ToTable("Winners");
 
@@ -1367,8 +1728,8 @@ namespace LuckyDrawPromotion.Migrations
                             WinnerId = 1,
                             AddressReceivedGift = "Quận 1, TP.HCM",
                             CodeGiftCampaignId = 1,
-                            CustomerId = 1,
                             SentGift = true,
+                            SpinId = 3,
                             WinDate = new DateTime(2020, 3, 1, 16, 5, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -1376,8 +1737,8 @@ namespace LuckyDrawPromotion.Migrations
                             WinnerId = 2,
                             AddressReceivedGift = "Quận 2, TP.HCM",
                             CodeGiftCampaignId = 2,
-                            CustomerId = 2,
                             SentGift = true,
+                            SpinId = 6,
                             WinDate = new DateTime(2020, 3, 1, 16, 6, 30, 0, DateTimeKind.Unspecified)
                         },
                         new
@@ -1385,8 +1746,8 @@ namespace LuckyDrawPromotion.Migrations
                             WinnerId = 3,
                             AddressReceivedGift = "Quận 2, TP.HCM",
                             CodeGiftCampaignId = 16,
-                            CustomerId = 2,
                             SentGift = true,
+                            SpinId = 7,
                             WinDate = new DateTime(2020, 3, 1, 16, 10, 30, 0, DateTimeKind.Unspecified)
                         });
                 });
@@ -1445,7 +1806,14 @@ namespace LuckyDrawPromotion.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("LuckyDrawPromotion.Models.Customer", "Customer")
+                        .WithMany("CodeCampaigns")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("Campaign");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.CodeGiftCampaign", b =>
@@ -1492,23 +1860,15 @@ namespace LuckyDrawPromotion.Migrations
                     b.Navigation("RepeatSchedule");
                 });
 
-            modelBuilder.Entity("LuckyDrawPromotion.Models.ScannedOrSpin", b =>
+            modelBuilder.Entity("LuckyDrawPromotion.Models.Spin", b =>
                 {
                     b.HasOne("LuckyDrawPromotion.Models.CodeCampaign", "CodeCampaign")
-                        .WithMany("ScannedOrSpins")
+                        .WithMany("Spins")
                         .HasForeignKey("CodeCampaignId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LuckyDrawPromotion.Models.Customer", "Customer")
-                        .WithMany("ScannedOrSpins")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("CodeCampaign");
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.Winner", b =>
@@ -1519,15 +1879,15 @@ namespace LuckyDrawPromotion.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LuckyDrawPromotion.Models.Customer", "Customer")
+                    b.HasOne("LuckyDrawPromotion.Models.Spin", "Spin")
                         .WithMany("Winners")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("SpinId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("CodeGiftCampaign");
 
-                    b.Navigation("Customer");
+                    b.Navigation("Spin");
                 });
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.Campaign", b =>
@@ -1549,7 +1909,7 @@ namespace LuckyDrawPromotion.Migrations
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.CodeCampaign", b =>
                 {
-                    b.Navigation("ScannedOrSpins");
+                    b.Navigation("Spins");
                 });
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.CodeGiftCampaign", b =>
@@ -1559,9 +1919,7 @@ namespace LuckyDrawPromotion.Migrations
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.Customer", b =>
                 {
-                    b.Navigation("ScannedOrSpins");
-
-                    b.Navigation("Winners");
+                    b.Navigation("CodeCampaigns");
                 });
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.Gift", b =>
@@ -1587,6 +1945,11 @@ namespace LuckyDrawPromotion.Migrations
             modelBuilder.Entity("LuckyDrawPromotion.Models.SizeProgram", b =>
                 {
                     b.Navigation("Campaigns");
+                });
+
+            modelBuilder.Entity("LuckyDrawPromotion.Models.Spin", b =>
+                {
+                    b.Navigation("Winners");
                 });
 
             modelBuilder.Entity("LuckyDrawPromotion.Models.TypeOfBussiness", b =>

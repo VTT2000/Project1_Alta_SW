@@ -262,3 +262,4 @@ C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.M
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\obj\Debug\net6.0\LuckyDrawPromotion.genruntimeconfig.cache
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\obj\Debug\net6.0\ref\LuckyDrawPromotion.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\IronBarCode.dll
