@@ -10,8 +10,8 @@ namespace LuckyDrawPromotion.Services
     {
         IEnumerable<Charset> GetAll();
         Charset GetById(int id);
-        void Save(Charset temp);
-        void Remove(Charset temp);
+        object Save(Charset temp);
+        object Remove(Charset temp);
 
         public IEnumerable<CharsetDTO_Response> GetCharsets();
     }
@@ -36,7 +36,7 @@ namespace LuckyDrawPromotion.Services
         }
 
 
-        public void Save(Charset temp)
+        public object Save(Charset temp)
         {
             try
             {
@@ -46,10 +46,12 @@ namespace LuckyDrawPromotion.Services
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message + "/" + ex.Source);
+                return ex;
             }
+            return temp;
         }
 
-        public void Remove(Charset temp)
+        public object Remove(Charset temp)
         {
             try
             {
@@ -59,8 +61,9 @@ namespace LuckyDrawPromotion.Services
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message + "/" + ex.Source);
+                return ex;
             }
-
+            return temp;
         }
 
         public IEnumerable<CharsetDTO_Response> GetCharsets()
