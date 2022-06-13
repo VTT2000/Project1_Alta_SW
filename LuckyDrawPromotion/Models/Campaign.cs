@@ -79,6 +79,14 @@ namespace LuckyDrawPromotion.Models
         public DateTime? EndDate { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
+        public ICollection<CodeActivated> CodeActivateds { get; set; } = new HashSet<CodeActivated>();
+    }
+
+    public class CodeActivated
+    {
+        public int CodeCampaignId { get; set; }
+        public string Code { get; set; } = null!;
+        public DateTime? ActivatedDate { get; set; }
     }
     //-----------------------------------------------------------------------------------
     // class dung cho filter condition campaign

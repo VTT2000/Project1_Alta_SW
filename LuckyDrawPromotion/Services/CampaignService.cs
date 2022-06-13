@@ -77,6 +77,7 @@ namespace LuckyDrawPromotion.Services
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Campaign, CampaignDTO_ResponseSearch>();
+                cfg.CreateMap<CodeCampaign, CodeActivated>();
             });
             var mapper = config.CreateMapper();
             List<CampaignDTO_ResponseSearch> list = new List<CampaignDTO_ResponseSearch>();
@@ -104,7 +105,8 @@ namespace LuckyDrawPromotion.Services
                 list[i].Scanned = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId && p.Scanned == true).ToList().Count;
                 list[i].UsedForSpin = _context.CodeCampaigns.Where(p => p.Spins.Count > 0 && p.CampaignId == list[i].CampaignId).ToList().Count;
                 list[i].Win = _context.Winners.Where(p => p.CodeGiftCampaign.CampaignGift.CampaignId == list[i].CampaignId).ToList().Count;
-                
+                list[i].CodeActivateds = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId).Where(p => p.Actived == true).Select(emp => mapper.Map<CodeCampaign, CodeActivated>(emp)).ToList();
+
                 kq.CodeActivated += list[i].ActivatedCode;
                 kq.Scanned += list[i].Scanned;
                 kq.UsedForSpin += list[i].UsedForSpin;
@@ -157,11 +159,13 @@ namespace LuckyDrawPromotion.Services
             try
             {
                 // chuyen date time camrequest dung dinh dang
+                /*
                 campaignRequest.StartDate = DateTime.ParseExact(campaignRequest.StartDate, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
                 if(campaignRequest.EndDate != null)
                 {
                     campaignRequest.EndDate = DateTime.ParseExact(campaignRequest.EndDate, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
                 }
+                */
                 // start save class campaign
                 Campaign campaignNew = mapper.Map<CampaignDTO_Request, Campaign>(campaignRequest);
                 Save(campaignNew);
@@ -192,8 +196,9 @@ namespace LuckyDrawPromotion.Services
                     while (list0.Exists(p => p.Code.Equals(code.Code)));
                     code.CodeRedemptionLimit = campaignNew.CodeUsageLimit;
                     code.Unlimited = campaignNew.Unlimited;
+                    code.Actived = true;
                     code.ActivatedDate = DateTime.Now;
-                    code.ExpiredDate = DateTime.Parse(campaignNew.EndDate + " " + campaignNew.EndTime);
+                    code.ExpiredDate = campaignNew.EndDate!.Value.Add(campaignNew.EndTime!.Value);
                     code.CampaignId = campaignNew.CampaignId;
                     list0.Add(code);
                 }
@@ -317,6 +322,7 @@ namespace LuckyDrawPromotion.Services
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Campaign, CampaignDTO_ResponseSearch>();
+                cfg.CreateMap<CodeCampaign, CodeActivated>();
             });
             var mapper = config.CreateMapper();
             
@@ -328,6 +334,7 @@ namespace LuckyDrawPromotion.Services
                 list[i].Scanned = _context.CodeCampaigns.Where(p=>p.Scanned == true && p.CampaignId == list[i].CampaignId).ToList().Count;
                 list[i].UsedForSpin = _context.CodeCampaigns.Where(p=>p.Spins.Count > 0 && p.CampaignId == list[i].CampaignId).ToList().Count;
                 list[i].Win = _context.Winners.Where(p=>p.CodeGiftCampaign.CampaignGift.CampaignId == list[i].CampaignId).ToList().Count;
+                list[i].CodeActivateds = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId).Where(p => p.Actived == true).Select(emp=>mapper.Map<CodeCampaign, CodeActivated>(emp)).ToList();
             }
             return list;
         }
