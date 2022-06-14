@@ -278,6 +278,7 @@ namespace LuckyDrawPromotion.Data
                     CustomerId = 1,
                     CustomerName = "Nguyễn Văn A",
                     CustomerPhone = "0987654321",
+                    CustomerEmail =  "NguyenVanA@gmail.com",
                     CustomerAddress = "Quận 1, TP.HCM",
                     DateOfBirth = DateTime.Parse("2000-01-01"),
                     Block = false,
@@ -287,6 +288,7 @@ namespace LuckyDrawPromotion.Data
                 {
                     CustomerId = 2,
                     CustomerName = "Nguyễn Văn B",
+                    CustomerEmail = "NguyenVanB@gmail.com",
                     CustomerPhone = "0987654322",
                     CustomerAddress = "Quận 2, TP.HCM",
                     DateOfBirth = DateTime.Parse("2000-02-01"),
@@ -297,6 +299,7 @@ namespace LuckyDrawPromotion.Data
                 {
                     CustomerId = 3,
                     CustomerName = "Nguyễn Văn C",
+                    CustomerEmail = "NguyenVanC@gmail.com",
                     CustomerPhone = "0987654311",
                     CustomerAddress = "Quận 11, TP.HCM",
                     DateOfBirth = DateTime.Parse("2000-11-01"),

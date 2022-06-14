@@ -20,6 +20,8 @@ namespace LuckyDrawPromotion.Models
         public int CodeRedemptionLimit { get; set; } = 1;
         public bool Unlimited { get; set; } = false;
 
+        public string? Note { get; set; }
+
         public int? CustomerId { get; set; }
         public Customer? Customer { get; set; }
         public int CampaignId { get; set; }
@@ -35,11 +37,23 @@ namespace LuckyDrawPromotion.Models
         public string Code { get; set; } = null!;
         public string BarCode { get; set; } = null!;
         public string QRCode { get; set; } = null!;
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public DateTime? ExpiredDate { get; set; }
-        public DateTime? ScannedDate { get; set; }
+        public string CreatedDate { get; set; } = null!;
+        public string ExpiredDate { get; set; } = null!;
+        public string? ScannedDate { get; set; }
         public bool Scanned { get; set; } = false;
         public bool Actived { get; set; } = false;
     }
-    
+
+    public class CodeBarDTO_ResponseDetail
+    {
+        public int CodeCampaignId { get; set; }
+        public string Code { get; set; } = null!;
+        public string NameCampaign { get; set; } = null!;
+        public int CodeRedemptionLimit { get; set; } = 1;
+        public bool Unlimited { get; set; } = false;
+        public string CreatedDate { get; set; } = null!;
+        public string ExpiredDate { get; set; } = null!;
+        public string? Owner { get; set; }
+        public string? Note { get; set; }
+    }
 }

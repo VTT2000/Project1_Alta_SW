@@ -80,39 +80,53 @@ namespace LuckyDrawPromotion.Services
                 cfg.CreateMap<CodeCampaign, CodeActivated>();
             });
             var mapper = config.CreateMapper();
-            List<CampaignDTO_ResponseSearch> list = new List<CampaignDTO_ResponseSearch>();
+            List<Campaign> list = new List<Campaign>();
             if (id == 1) // to day
             {
-                list = _context.Campaigns.Where(p=>p.StartDate.Date == DateTime.Now.Date).Select(emp => mapper.Map<Campaign, CampaignDTO_ResponseSearch>(emp)).ToList();
+                list = _context.Campaigns.Where(p=>p.StartDate.Date == DateTime.Now.Date).ToList();
             }
             if(id == 2) // this week
             {
                 var first = DateTime.Now.FirstDayOfWeek();
                 var last = DateTime.Now.LastDayOfWeek();
-                list = _context.Campaigns.Where(p => p.StartDate.Date >= first).Where(p=>p.StartDate.Date <= last).Select(emp => mapper.Map<Campaign, CampaignDTO_ResponseSearch>(emp)).ToList();
+                list = _context.Campaigns.Where(p => p.StartDate.Date >= first).Where(p=>p.StartDate.Date <= last).ToList();
             }
             if (id == 3) // this month
             {
                 var first = DateTime.Now.FirstDayOfMonth();
                 var last = DateTime.Now.LastDayOfMonth();
-                list = _context.Campaigns.Where(p => p.StartDate.Date >= first).Where(p=>p.StartDate.Date <= last).Select(emp => mapper.Map<Campaign, CampaignDTO_ResponseSearch>(emp)).ToList();
+                list = _context.Campaigns.Where(p => p.StartDate.Date >= first).Where(p=>p.StartDate.Date <= last).ToList();
             }
+            List<CampaignDTO_ResponseSearch> result = new List<CampaignDTO_ResponseSearch>();
             DashBoardsDTO_ListCampaignFilter kq = new DashBoardsDTO_ListCampaignFilter();
             for (int i = 0; i < list.Count; i++)
             {
-                list[i].ActivatedCode = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId && p.ActivatedDate.HasValue).ToList().Count;
-                list[i].GiftQuantity = _context.CampaignGifts.Where(p => p.CampaignId == list[i].CampaignId).ToList().Count;
-                list[i].Scanned = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId && p.Scanned == true).ToList().Count;
-                list[i].UsedForSpin = _context.CodeCampaigns.Where(p => p.Spins.Count > 0 && p.CampaignId == list[i].CampaignId).ToList().Count;
-                list[i].Win = _context.Winners.Where(p => p.CodeGiftCampaign.CampaignGift.CampaignId == list[i].CampaignId).ToList().Count;
-                list[i].CodeActivateds = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId).Where(p => p.Actived == true).Select(emp => mapper.Map<CodeCampaign, CodeActivated>(emp)).ToList();
+                CampaignDTO_ResponseSearch temp = mapper.Map<Campaign, CampaignDTO_ResponseSearch>(list[i]);
+                temp.StartDate = list[i].StartDate.ToString("dd/MM/yyyy");
+                temp.EndDate = list[i].EndDate.HasValue ? list[i].EndDate!.Value.ToString("dd/MM/yyyy") : null;
 
-                kq.CodeActivated += list[i].ActivatedCode;
-                kq.Scanned += list[i].Scanned;
-                kq.UsedForSpin += list[i].UsedForSpin;
-                kq.Winners += list[i].Win;
+                temp.ActivatedCode = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId && p.ActivatedDate.HasValue).ToList().Count;
+                temp.GiftQuantity = _context.CampaignGifts.Where(p => p.CampaignId == list[i].CampaignId).ToList().Count;
+                temp.Scanned = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId && p.Scanned == true).ToList().Count;
+                temp.UsedForSpin = _context.CodeCampaigns.Where(p => p.Spins.Count > 0 && p.CampaignId == list[i].CampaignId).ToList().Count;
+                temp.Win = _context.Winners.Where(p => p.CodeGiftCampaign.CampaignGift.CampaignId == list[i].CampaignId).ToList().Count;
+                var codes = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId).Where(p => p.Actived == true).ToList();
+                List<CodeActivated> codesResult = new List<CodeActivated>();
+                for (int k = 0; k < codes.Count; k++)
+                {
+                    CodeActivated temp0 = mapper.Map<CodeCampaign, CodeActivated>(codes[k]);
+                    temp0.ActivatedDate = codes[k].ActivatedDate.HasValue ? codes[k].ActivatedDate!.Value.ToString("dd/MM/yyyy HH:mm:ss") : null;
+                    codesResult.Add(temp0);
+                }
+                temp.CodeActivateds = codesResult;
+                result.Add(temp);
+
+                kq.CodeActivated += temp.ActivatedCode;
+                kq.Scanned += temp.Scanned;
+                kq.UsedForSpin += temp.UsedForSpin;
+                kq.Winners += temp.Win;
             }
-            kq.ListCampaigns = list;
+            kq.ListCampaigns = result;
             return kq;
         }
 
@@ -138,6 +152,8 @@ namespace LuckyDrawPromotion.Services
                         int t = fr.Next(0, MangKyTu.Length);
                         chuoi = chuoi + MangKyTu[t];
                     }
+                    code.CreatedDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                    code.Active = true;
                     code.Code = "GIF" + GiftId + chuoi;
                 }
                 while (codes.Exists(p => p.Code.Equals(code.Code)));
@@ -159,13 +175,12 @@ namespace LuckyDrawPromotion.Services
             try
             {
                 // chuyen date time camrequest dung dinh dang
-                /*
                 campaignRequest.StartDate = DateTime.ParseExact(campaignRequest.StartDate, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
                 if(campaignRequest.EndDate != null)
                 {
                     campaignRequest.EndDate = DateTime.ParseExact(campaignRequest.EndDate, "dd/MM/yyyy", null).ToString("yyyy-MM-dd");
                 }
-                */
+                
                 // start save class campaign
                 Campaign campaignNew = mapper.Map<CampaignDTO_Request, Campaign>(campaignRequest);
                 Save(campaignNew);
@@ -235,6 +250,8 @@ namespace LuckyDrawPromotion.Services
                             List<CodeGiftCampaignDTO> tempList2 = (List<CodeGiftCampaignDTO>)temp.ListCodeGiftCampaigns;
                             for(int z = 0; z < tempList2.Count; z++)
                             {
+                                tempList2[z].CreatedDate = DateTime.ParseExact(tempList2[z].CreatedDate, "dd/MM/yyyy HH:mm:ss", null).ToString("yyyy-MM-dd");
+
                                 CodeGiftCampaign temp2 = mapper.Map<CodeGiftCampaignDTO, CodeGiftCampaign>(tempList2[z]);
                                 temp2.CampaignGiftId = campaignGift.CampaignGiftId;
                                 if (tempList2[z].Active)
@@ -326,17 +343,31 @@ namespace LuckyDrawPromotion.Services
             });
             var mapper = config.CreateMapper();
             
-            var list = _context.Campaigns.FromSqlRaw("Select * from dbo.Campaigns Where " + sqlWhere).Select(emp => mapper.Map<Campaign, CampaignDTO_ResponseSearch>(emp)).ToList();
+            var list = _context.Campaigns.FromSqlRaw("Select * from dbo.Campaigns Where " + sqlWhere).ToList();
+            List<CampaignDTO_ResponseSearch> result = new List<CampaignDTO_ResponseSearch>();
             for(int i = 0; i < list.Count; i++)
             {
-                list[i].ActivatedCode = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId && p.ActivatedDate.HasValue).ToList().Count;
-                list[i].GiftQuantity = _context.CampaignGifts.Where(p => p.CampaignId == list[i].CampaignId).ToList().Count;
-                list[i].Scanned = _context.CodeCampaigns.Where(p=>p.Scanned == true && p.CampaignId == list[i].CampaignId).ToList().Count;
-                list[i].UsedForSpin = _context.CodeCampaigns.Where(p=>p.Spins.Count > 0 && p.CampaignId == list[i].CampaignId).ToList().Count;
-                list[i].Win = _context.Winners.Where(p=>p.CodeGiftCampaign.CampaignGift.CampaignId == list[i].CampaignId).ToList().Count;
-                list[i].CodeActivateds = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId).Where(p => p.Actived == true).Select(emp=>mapper.Map<CodeCampaign, CodeActivated>(emp)).ToList();
+                CampaignDTO_ResponseSearch temp = mapper.Map<Campaign, CampaignDTO_ResponseSearch>(list[i]);
+                temp.StartDate = list[i].StartDate.ToString("dd/MM/yyyy");
+                temp.EndDate = list[i].EndDate.HasValue ? list[i].EndDate!.Value.ToString("dd/MM/yyyy") : null;
+                
+                temp.ActivatedCode = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId && p.ActivatedDate.HasValue).ToList().Count;
+                temp.GiftQuantity = _context.CampaignGifts.Where(p => p.CampaignId == list[i].CampaignId).ToList().Count;
+                temp.Scanned = _context.CodeCampaigns.Where(p=>p.Scanned == true && p.CampaignId == list[i].CampaignId).ToList().Count;
+                temp.UsedForSpin = _context.CodeCampaigns.Where(p=>p.Spins.Count > 0 && p.CampaignId == list[i].CampaignId).ToList().Count;
+                temp.Win = _context.Winners.Where(p=>p.CodeGiftCampaign.CampaignGift.CampaignId == list[i].CampaignId).ToList().Count;
+                var codes = _context.CodeCampaigns.Where(p => p.CampaignId == list[i].CampaignId).Where(p => p.Actived == true).ToList();
+                List<CodeActivated> codesResult = new List<CodeActivated>();
+                for (int k=0;k<codes.Count;k++)
+                {
+                    CodeActivated temp0 = mapper.Map<CodeCampaign, CodeActivated>(codes[k]);
+                    temp0.ActivatedDate = codes[k].ActivatedDate.HasValue ? codes[k].ActivatedDate!.Value.ToString("dd/MM/yyyy HH:mm:ss") : null;
+                    codesResult.Add(temp0);
+                }
+                temp.CodeActivateds = codesResult;
+                result.Add(temp);
             }
-            return list;
+            return result;
         }
 
         public CampaignDashBoardDTO_ResponseDetailCampaign GetCampaignDashBoardDTO_ResponseDetailCampaign(int id)
@@ -353,6 +384,8 @@ namespace LuckyDrawPromotion.Services
                 return new CampaignDashBoardDTO_ResponseDetailCampaign();
             }
             var response = mapper.Map<Campaign, CampaignDashBoardDTO_ResponseDetailCampaign>(temp);
+            response.StartDate = temp.StartDate.ToString("dd/MM/yyyy");
+            response.EndDate = temp.EndDate.HasValue ? temp.EndDate.Value.ToString("dd/MM/yyyy"):null;
             response.CodeCount = _context.CodeCampaigns.Where(p => p.CampaignId == id).ToList().Count;
             return response;
         }
@@ -369,11 +402,11 @@ namespace LuckyDrawPromotion.Services
                 var kq = query.FirstOrDefault(p => p.ScannedDate == DateTime.Now.Date);
                 if(kq == null)
                 {
-                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(DateTime.Now.Date, 0));
+                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(DateTime.Now.Date.ToString("dd/MM/yyyy"), 0));
                 }
                 else
                 {
-                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(kq.ScannedDate, kq.Total));
+                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(kq.ScannedDate.Date.ToString("dd/MM/yyyy"), kq.Total));
                 }
                 return list;
             }
@@ -385,20 +418,20 @@ namespace LuckyDrawPromotion.Services
                 query = query.Where(p => p.ScannedDate >= first).Where(p => p.ScannedDate <= last).ToList();
                 if (query.FirstOrDefault(p => p.ScannedDate == first) == null)
                 {
-                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(first, 0));
+                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(first.Date.ToString("dd/MM/yyyy"), 0));
                 }
                 else
                 {
                     for (int i = 0; i < query.Count(); i++)
                     {
-                        list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(query[i].ScannedDate, query[i].Total));
+                        list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(query[i].ScannedDate.Date.ToString("dd/MM/yyyy"), query[i].Total));
                     }
                     return list;
                     //query.ForEach(p => list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(p.ScannedDate, p.Total)));
                 }
                 if (query.FirstOrDefault(p => p.ScannedDate == last) == null)
                 {
-                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(last, 0));
+                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(last.Date.ToString("dd/MM/yyyy"), 0));
                 }
                 return list;
             }
@@ -410,20 +443,20 @@ namespace LuckyDrawPromotion.Services
                 query = query.Where(p => p.ScannedDate >= first).Where(p => p.ScannedDate <= last).ToList();
                 if (query.FirstOrDefault(p => p.ScannedDate == first) == null)
                 {
-                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(first, 0));
+                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(first.Date.ToString("dd/MM/yyyy"), 0));
                 }
                 else
                 {
                     for (int i = 0; i < query.Count(); i++)
                     {
-                        list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(query[i].ScannedDate, query[i].Total));
+                        list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(query[i].ScannedDate.Date.ToString("dd/MM/yyyy"), query[i].Total));
                     }
                     return list;
                     //query.ForEach(p => list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(p.ScannedDate, p.Total)));
                 }
                 if (query.FirstOrDefault(p => p.ScannedDate == last) == null)
                 {
-                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(last, 0));
+                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(last.Date.ToString("dd/MM/yyyy"), 0));
                 }
                 return list;
             }
@@ -431,7 +464,7 @@ namespace LuckyDrawPromotion.Services
             {
                 for (int i = 0; i < query.Count(); i++)
                 {
-                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(query[i].ScannedDate, query[i].Total));
+                    list.Add(new CampaignDashBoardDTO_ResponseUsageSummary(query[i].ScannedDate.Date.ToString("dd/MM/yyyy"), query[i].Total));
                 }
                 return list;
             }

@@ -75,8 +75,8 @@ namespace LuckyDrawPromotion.Models
         public double Scanned { get; set; } = 0;
         public double UsedForSpin { get; set; } = 0;
         public double Win { get; set; } = 0;
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public string StartDate { get; set; } = null!;
+        public string? EndDate { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
         public ICollection<CodeActivated> CodeActivateds { get; set; } = new HashSet<CodeActivated>();
@@ -86,7 +86,7 @@ namespace LuckyDrawPromotion.Models
     {
         public int CodeCampaignId { get; set; }
         public string Code { get; set; } = null!;
-        public DateTime? ActivatedDate { get; set; }
+        public string? ActivatedDate { get; set; }
     }
     //-----------------------------------------------------------------------------------
     // class dung cho filter condition campaign
@@ -183,8 +183,8 @@ namespace LuckyDrawPromotion.Models
         public int CodeUsageLimit { get; set; } = 1;
         public bool Unlimited { get; set; } = false;
         public int CodeCount { get; set; } = 1;
-        public DateTime StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public string StartDate { get; set; } = null!;
+        public string? EndDate { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan? EndTime { get; set; }
         public int SizeProgramId { get; set; }
@@ -192,9 +192,9 @@ namespace LuckyDrawPromotion.Models
     }
     public class CampaignDashBoardDTO_ResponseUsageSummary
     {
-        public DateTime DateUsageSummary { get; set; }
+        public string DateUsageSummary { get; set; }
         public double Summary { get; set; } = 0;
-        public CampaignDashBoardDTO_ResponseUsageSummary(DateTime dateUsageSummary, double summary)
+        public CampaignDashBoardDTO_ResponseUsageSummary(string dateUsageSummary, double summary)
         {
             DateUsageSummary = dateUsageSummary;
             Summary = summary;

@@ -48,6 +48,10 @@
               "target": "Package",
               "version": "[2022.5.5918, )"
             },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[6.0.5, )"
