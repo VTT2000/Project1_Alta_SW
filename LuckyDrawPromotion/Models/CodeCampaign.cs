@@ -56,4 +56,22 @@ namespace LuckyDrawPromotion.Models
         public string? Owner { get; set; }
         public string? Note { get; set; }
     }
+
+    public class CodeCampaignDTO_RequestGenerate
+    {
+        [Required]
+        public int CampaignId { get; set; }
+        [Required]
+        public int CodeRedemLimit { get; set; }
+        [Required]
+        public bool Unlimited { get; set; }
+        [Required]
+        public double CodeCount { get; set; }
+        [Required]
+        public int CharsetId { get; set; }
+        [Required]
+        public int CodeLength { get; set; }
+        public string? Prefix { get; set; }
+        public string? Postfix { get; set; }
+    }
 }

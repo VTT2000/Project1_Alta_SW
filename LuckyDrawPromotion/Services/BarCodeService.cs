@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using System.Reflection;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Style;
 
 namespace LuckyDrawPromotion.Services
 {
@@ -23,13 +24,13 @@ namespace LuckyDrawPromotion.Services
         void Remove(CodeCampaign temp);
 
         IEnumerable<CodeBarDTO_ResponseFilter> GetAllForSort(int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches);
-        string generatedBarCode(int campaignId, int codeRedemLimit, bool unLimited, double codeCount, int charsetId, int codeLength, string prefix, string postfix);
+        string generatedBarCode(CodeCampaignDTO_RequestGenerate temp);
         CodeBarDTO_ResponseDetail GetBarCodeDetail(int CodeCampaignId);
         bool IsCodeCampaign(int CodeCampaignId);
         bool BarCodeIsActived(int CodeCampaignId);
         int GetIdAstCustomerEmail(string Email);
         bool BarCodeScanned(int CodeCampaignId, int CustomerId);
-        
+        MemoryStream ExportToExcel(List<CodeBarDTO_ResponseFilter> list);
     }
     public class BarCodeService : IBarCodeService
     {
@@ -236,23 +237,24 @@ namespace LuckyDrawPromotion.Services
             return result;
         }
 
-        public string generatedBarCode(int campaignId, int codeRedemLimit, bool unLimited, double codeCount, int charsetId, int codeLength, string prefix, string postfix)
+        public string generatedBarCode(CodeCampaignDTO_RequestGenerate tempX)
         {
-            var x = _context.Campaigns.FirstOrDefault(p => p.CampaignId == campaignId);
+            var x = _context.Campaigns.FirstOrDefault(p => p.CampaignId == tempX.CampaignId);
             if (x == null)
             {
                 return "CampaignId not existed";
             }
             try
             {
-                char[] MangKyTu = _context.Charsets.First(c => c.CharsetId == charsetId).Value.ToCharArray();
-                int DoDaiTao = codeLength - prefix.Length - postfix.Length;
+                char[] MangKyTu = _context.Charsets.First(c => c.CharsetId == tempX.CharsetId).Value.ToCharArray();
+                int DoDaiTao = tempX.CodeLength - (String.IsNullOrEmpty(tempX.Prefix) ? 0 : tempX.Prefix.Length) - (String.IsNullOrEmpty(tempX.Postfix) ? 0 : tempX.Postfix.Length);
                 Random fr = new Random();
-                for (int i = 0; i < codeCount; i++)
+                for (int i = 0; i < tempX.CodeCount; i++)
                 {
                     CodeCampaign temp = new CodeCampaign();
-                    temp.CodeRedemptionLimit = codeRedemLimit;
-                    temp.Unlimited = unLimited;
+                    temp.CampaignId = tempX.CampaignId;
+                    temp.CodeRedemptionLimit = tempX.CodeRedemLimit;
+                    temp.Unlimited = tempX.Unlimited;
                     temp.Actived = true;
                     temp.ActivatedDate = DateTime.Now;
                     temp.ExpiredDate = x.EndDate.HasValue ? x.EndDate.Value.Add(x.EndTime.HasValue ? x.EndTime.Value : TimeSpan.Zero) : null;
@@ -264,10 +266,11 @@ namespace LuckyDrawPromotion.Services
                             int t = fr.Next(0, (MangKyTu.Length - 1));
                             chuoi = chuoi + MangKyTu[t];
                         }
-                        temp.Code = prefix + chuoi + postfix;
+                        temp.Code = tempX.Prefix + chuoi + tempX.Postfix;
                     }
                     while (_context.CodeCampaigns.FirstOrDefault(p => p.CampaignId == x.CampaignId && p.Code == temp.Code) != null);
-                    Save(temp);
+                    _context.CodeCampaigns.Add(temp);
+                    _context.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -292,8 +295,9 @@ namespace LuckyDrawPromotion.Services
                 return new CodeBarDTO_ResponseDetail();
             }
             var result = mapper.Map<CodeCampaign, CodeBarDTO_ResponseDetail>(temp);
-            result.NameCampaign = _context.CodeCampaigns.First(p => p.CodeCampaignId == CodeCampaignId).Campaign.Name;
-            result.Owner = temp.CustomerId.HasValue ? temp.Customer!.CustomerEmail : null;
+            var CampaignID = _context.CodeCampaigns.First(p => p.CodeCampaignId == CodeCampaignId).CampaignId;
+            result.NameCampaign = _context.Campaigns.First(p=>p.CampaignId == CampaignID).Name;
+            result.Owner = temp.CustomerId.HasValue ? _context.Customers.First(p=>p.CustomerId == temp.CustomerId.Value).CustomerEmail : "";
             return result;
         }
         public bool IsCodeCampaign(int CodeCampaignId)
@@ -348,6 +352,82 @@ namespace LuckyDrawPromotion.Services
             return x.Scanned;
         }
 
-        
+        public MemoryStream ExportToExcel(List<CodeBarDTO_ResponseFilter> list)
+        {
+            var stream = new MemoryStream();
+            using (var package = new ExcelPackage(stream))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                // for ten thuoc tinh
+                for (int q = 0; q < list[0].GetType().GetProperties().Count(); q++)
+                {
+                    worksheet.Cells[1, q + 1].Value = list[0].GetType().GetProperties()[q].Name;
+                }
+                worksheet.Cells[1, 1].AutoFitColumns();
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    worksheet.Row(i + 2).Height = 90;
+                    int j = 0;
+                    worksheet.Cells[i + 2, ++j].Value = list[i].CodeCampaignId;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Code;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    string codeValue = list[i].Code;
+                    // Tao hinh anh base64 bar code
+                    GeneratedBarcode MyBarCode = IronBarCode.BarcodeWriter.CreateBarcode(codeValue, BarcodeWriterEncoding.Code128);
+                    ExcelPicture picture = null!;
+                    picture = worksheet.Drawings.AddPicture("pic " + i + j, MyBarCode.ToStream(), ePictureType.Png);
+                    picture.From.Column = j;
+                    picture.From.Row = i + 1;
+                    picture.SetSize(250, 50);
+                    worksheet.Column(++j).Width = 35;
+
+                    // Tao hinh anh base64 QR code
+                    GeneratedBarcode MyBarCode0 = IronBarCode.QRCodeWriter.CreateQrCode(codeValue);
+                    ExcelPicture picture0 = null!;
+                    picture0 = worksheet.Drawings.AddPicture("pic " + i + j, MyBarCode0.ToStream(), ePictureType.Png);
+                    picture0.From.Column = j;
+                    picture0.From.Row = i + 1;
+                    picture0.SetSize(100, 100);
+                    worksheet.Column(++j).Width = 35;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].CreatedDate; //5
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].ExpiredDate;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].ScannedDate;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Scanned;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Actived;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                }
+                package.Save();
+            }
+            return stream;
+        }
     }
 }

@@ -66,9 +66,9 @@ namespace LuckyDrawPromotion.Controllers
         }
 
         [HttpPost]
-        public IActionResult GeneratedBarCode(int campaignId, int codeRedemLimit, bool Unlimited, double codeCount,int charsetId, int codeLength, string prefix, string postfix)
+        public IActionResult GeneratedBarCode(CodeCampaignDTO_RequestGenerate temp)
         {
-            string result = _barCodeService.generatedBarCode(campaignId, codeRedemLimit, Unlimited, codeCount, charsetId, codeLength, prefix, postfix);
+            string result = _barCodeService.generatedBarCode(temp);
             if (result.Equals("true"))
             {
                 return Ok("Generated (amount of barcodes) Barcodes successfully");
@@ -88,7 +88,7 @@ namespace LuckyDrawPromotion.Controllers
         [HttpPut]
         public IActionResult IsActivetedBarCode(int CodeCampaignId)
         {
-            if (_barCodeService.IsCodeCampaign(CodeCampaignId))
+            if (!_barCodeService.IsCodeCampaign(CodeCampaignId))
             {
                 return BadRequest("CodeCampaignId is not exist");
             }
@@ -122,75 +122,7 @@ namespace LuckyDrawPromotion.Controllers
         public IActionResult ExportToExcel(List<CodeBarDTO_ResponseFilter> list)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            var stream = new MemoryStream();
-            using (var package = new ExcelPackage(stream))
-            {
-                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
-               
-                // for ten thuoc tinh
-                for(int q =0; q < list[0].GetType().GetProperties().Count();q++)
-                {
-                    worksheet.Cells[1, q + 1].Value = list[0].GetType().GetProperties()[q].Name;
-                }
-                worksheet.Cells[1, 1].AutoFitColumns();
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    worksheet.Row(i + 2).Height = 90;
-                    int j = 0;
-                    worksheet.Cells[i + 2, ++j].Value = list[i].CodeCampaignId;
-                    worksheet.Cells[i + 2, j].AutoFitColumns();
-                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                    worksheet.Cells[i + 2, ++j].Value = list[i].Code;
-                    worksheet.Cells[i + 2, j].AutoFitColumns();
-                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                    string codeValue = list[i].Code;
-                    // Tao hinh anh base64 bar code
-                    GeneratedBarcode MyBarCode = IronBarCode.BarcodeWriter.CreateBarcode(codeValue, BarcodeWriterEncoding.Code128);
-                    ExcelPicture picture = null!;
-                    picture = worksheet.Drawings.AddPicture("pic " + i + j, MyBarCode.ToStream(), ePictureType.Png);
-                    picture.From.Column = j;
-                    picture.From.Row = i+1;
-                    picture.SetSize(250, 50);
-                    worksheet.Column(++j).Width = 35;
-
-                    // Tao hinh anh base64 QR code
-                    GeneratedBarcode MyBarCode0 = IronBarCode.QRCodeWriter.CreateQrCode(codeValue);
-                    ExcelPicture picture0 = null!;
-                    picture0 = worksheet.Drawings.AddPicture("pic " + i + j, MyBarCode0.ToStream(), ePictureType.Png);
-                    picture0.From.Column = j;
-                    picture0.From.Row = i+1;
-                    picture0.SetSize(100, 100);
-                    worksheet.Column(++j).Width = 35;
-                    
-                    worksheet.Cells[i + 2, ++j].Value = list[i].CreatedDate; //5
-                    worksheet.Cells[i + 2, j].AutoFitColumns();
-                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    worksheet.Cells[i + 2, ++j].Value = list[i].ExpiredDate;
-                    worksheet.Cells[i + 2, j].AutoFitColumns();
-                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    worksheet.Cells[i + 2, ++j].Value = list[i].ScannedDate;
-                    worksheet.Cells[i + 2, j].AutoFitColumns();
-                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    worksheet.Cells[i + 2, ++j].Value = list[i].Scanned;
-                    worksheet.Cells[i + 2, j].AutoFitColumns();
-                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    worksheet.Cells[i + 2, ++j].Value = list[i].Actived;
-                    worksheet.Cells[i + 2, j].AutoFitColumns();
-                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-          
-                }
-                package.Save();
-            }
+            var stream = _barCodeService.ExportToExcel(list);
             stream.Position = 0;
             string excelName = "Barcode_list.xlsx";
             return File(stream, "application/vnd.openxmlformat-officedocument.spredsheetml.sheet", excelName);

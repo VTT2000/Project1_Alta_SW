@@ -1,10 +1,14 @@
+C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\LuckyDrawPromotion.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\appsettings.json
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\LuckyDrawPromotion.exe
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\LuckyDrawPromotion.deps.json
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\LuckyDrawPromotion.runtimeconfig.json
-C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\LuckyDrawPromotion.dll
-C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\LuckyDrawPromotion.pdb
+C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\AutoMapper.dll
+C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\IronBarCode.dll
+C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\EPPlus.dll
+C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\EPPlus.Interfaces.dll
+C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\EPPlus.System.Drawing.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\Humanizer.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\MessagePack.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\MessagePack.Annotations.dll
@@ -40,6 +44,7 @@ C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.M
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\Microsoft.OpenApi.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\Microsoft.VisualStudio.Debugger.Contracts.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\Microsoft.VisualStudio.Web.CodeGeneration.dll
@@ -260,10 +265,5 @@ C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.M
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\obj\Debug\net6.0\refint\LuckyDrawPromotion.dll
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\obj\Debug\net6.0\LuckyDrawPromotion.pdb
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\obj\Debug\net6.0\LuckyDrawPromotion.genruntimeconfig.cache
+C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\LuckyDrawPromotion.pdb
 C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\obj\Debug\net6.0\ref\LuckyDrawPromotion.dll
-C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\AutoMapper.dll
-C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\IronBarCode.dll
-C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\EPPlus.dll
-C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\EPPlus.Interfaces.dll
-C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\EPPlus.System.Drawing.dll
-C:\Users\DELL\Downloads\Ho So Thuc Tap\Alta SoftWare\02.05.2022Project001\2021.May.24_LuckyDraw_Promotion\ProjectCMS\LuckyDrawPromotion\LuckyDrawPromotion\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
