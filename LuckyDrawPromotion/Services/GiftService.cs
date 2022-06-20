@@ -366,11 +366,18 @@ namespace LuckyDrawPromotion.Services
                 for (int i = 0; i < ListCampaignGifts.Count; i++)
                 {
                     CampaignGift campaigngift = new CampaignGift();
-                    campaigngift.CampaignId = CampaignId;
-                    campaigngift.GiftId = ListCampaignGifts[i].GiftId;
-                    _context.CampaignGifts.Add(campaigngift);
-                    _context.SaveChanges();
-
+                    var dk = _context.CampaignGifts.FirstOrDefault(c => c.CampaignId == CampaignId && c.GiftId == ListCampaignGifts[i].GiftId);
+                    if(dk != null)
+                    {
+                        campaigngift = dk;
+                    }
+                    else
+                    {
+                        campaigngift.CampaignId = CampaignId;
+                        campaigngift.GiftId = ListCampaignGifts[i].GiftId;
+                        _context.CampaignGifts.Add(campaigngift);
+                        _context.SaveChanges();
+                    }
                     List<CodeGiftCampaignDTO> listgiftcode = (List<CodeGiftCampaignDTO>)ListCampaignGifts[i].ListCodeGiftCampaigns;
                     for (int j = 0; j < listgiftcode.Count; j++)
                     {
