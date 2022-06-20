@@ -20,6 +20,7 @@ builder.Services.AddScoped<ICharsetService, CharsetService>();
 builder.Services.AddScoped<IGiftService, GiftService>();
 builder.Services.AddScoped<IRepeatScheduleService, RepeatScheduleService>();
 builder.Services.AddScoped<IBarCodeService, BarCodeService>();
+builder.Services.AddScoped<ICodeGiftCampaignService, CodeGiftCampaignService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

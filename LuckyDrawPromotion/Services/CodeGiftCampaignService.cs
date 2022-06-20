@@ -8,39 +8,42 @@ using OfficeOpenXml.Style;
 
 namespace LuckyDrawPromotion.Services
 {
-    public interface IGiftService
+    public interface ICodeGiftCampaignService
     {
-        IEnumerable<Gift> GetAll();
-        Gift GetById(int id);
-        void Save(Gift temp);
-        void Remove(Gift temp);
+        IEnumerable<CodeGiftCampaign> GetAll();
+        CodeGiftCampaign GetById(int id);
+        void Save(CodeGiftCampaign temp);
+        void Remove(CodeGiftCampaign temp);
 
-        public IEnumerable<GiftDTO_Response> GetGifts();
-
-
-        
+        IEnumerable<CodeGiftCampaignDTO_ResponseFilter> GetAllForSort(int campaignId, int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches);
+        double GetCodeCount(int campaignId);
+        double GetCodeGiftCount(int campaignId);
+        bool ExistCampaignId(int CampaignId);
+        IEnumerable<CodeGiftCampaignDTO> GetCreateTempGiftCode(int CampaignId, int GiftId, int GiftCodeCount);
+        string generatedGiftCodeCampaign(int CampaignId, List<CampaignGiftDTO_Request0> ListCampaignGifts);
+        MemoryStream ExportToExcel(List<CodeGiftCampaignDTO_ResponseFilter> list);
     }
-    public class GiftService: IGiftService
+    public class CodeGiftCampaignService : ICodeGiftCampaignService
     {
         private readonly LuckyDrawPromotionContext _context;
         private readonly AppSettings _appSettings;
-        public GiftService(IOptions<AppSettings> appSettings, LuckyDrawPromotionContext context)
+        public CodeGiftCampaignService(IOptions<AppSettings> appSettings, LuckyDrawPromotionContext context)
         {
             _appSettings = appSettings.Value;
             _context = context;
         }
-        public IEnumerable<Gift> GetAll()
+        public IEnumerable<CodeGiftCampaign> GetAll()
         {
-            return _context.Gifts.ToList();
+            return _context.CodeGiftCampaigns.ToList();
         }
 
-        public Gift GetById(int id)
+        public CodeGiftCampaign GetById(int id)
         {
-            return _context.Gifts.ToList().FirstOrDefault(x => x.GiftId == id)!;
+            return _context.CodeGiftCampaigns.ToList().FirstOrDefault(x => x.CodeGiftCampaignId== id)!;
         }
 
 
-        public void Save(Gift temp)
+        public void Save(CodeGiftCampaign temp)
         {
             try
             {
@@ -53,7 +56,7 @@ namespace LuckyDrawPromotion.Services
             }
         }
 
-        public void Remove(Gift temp)
+        public void Remove(CodeGiftCampaign temp)
         {
             try
             {
@@ -67,30 +70,16 @@ namespace LuckyDrawPromotion.Services
 
         }
 
-        public IEnumerable<GiftDTO_Response> GetGifts()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Gift, GiftDTO_Response>();
-            });
-            var mapper = config.CreateMapper();
-            var list = GetAll().Select
-                        (
-                          emp => mapper.Map<Gift, GiftDTO_Response>(emp)
-                        ).ToList();
-            return list;
-        }
-
         public IEnumerable<CodeGiftCampaignDTO_ResponseFilter> GetAllForSort(int campaignId, int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches)
         {
             List<CodeGiftCampaign> listTemp = new List<CodeGiftCampaign>();
             if (filterMethod == 1)
             {
                 var list = (from codegiftcampaign in _context.CodeGiftCampaigns
-                           from giftcampaign in _context.CampaignGifts
-                           where codegiftcampaign.CampaignGiftId == giftcampaign.CampaignGiftId
-                           where giftcampaign.CampaignId == campaignId
-                           select codegiftcampaign).ToList();
+                            from giftcampaign in _context.CampaignGifts
+                            where codegiftcampaign.CampaignGiftId == giftcampaign.CampaignGiftId
+                            where giftcampaign.CampaignId == campaignId
+                            select codegiftcampaign).ToList();
                 for (int i = 0; i < conditionSearches.Count; i++)
                 {
                     if (conditionSearches[i].SearchCriteria == 1)
@@ -110,7 +99,7 @@ namespace LuckyDrawPromotion.Services
                         string giftName = conditionSearches[i].Value;
                         if (conditionSearches[i].Condition == 1)
                         {
-                            list = list.Where(p => _context.Gifts.First(z=>z.GiftId == _context.CampaignGifts.First(q => q.CampaignGiftId == p.CampaignGiftId).GiftId).Name.Contains(giftName)).ToList();
+                            list = list.Where(p => _context.Gifts.First(z => z.GiftId == _context.CampaignGifts.First(q => q.CampaignGiftId == p.CampaignGiftId).GiftId).Name.Contains(giftName)).ToList();
                         }
                         if (conditionSearches[i].Condition == 2)
                         {
@@ -141,7 +130,7 @@ namespace LuckyDrawPromotion.Services
 
                         if (conditionSearches[i].Condition == 1)
                         {
-                            list = list.Where(p=> _context.Campaigns.First(q=> _context.CampaignGifts.First(z=>z.CampaignGiftId == p.CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit >= codeUsageLimit).ToList();
+                            list = list.Where(p => _context.Campaigns.First(q => _context.CampaignGifts.First(z => z.CampaignGiftId == p.CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit >= codeUsageLimit).ToList();
                         }
                         if (conditionSearches[i].Condition == 2)
                         {
@@ -155,7 +144,7 @@ namespace LuckyDrawPromotion.Services
                     if (conditionSearches[i].SearchCriteria == 5)
                     {
                         // activation status
-                        bool value = conditionSearches[i].Value.Equals("Activate") ? true: false;
+                        bool value = conditionSearches[i].Value.Equals("Activate") ? true : false;
                         if (conditionSearches[i].Condition == 1)
                         {
                             if (value)
@@ -295,14 +284,14 @@ namespace LuckyDrawPromotion.Services
                 temp.GiftName = _context.Gifts.First(z => z.GiftId == _context.CampaignGifts.First(q => q.CampaignGiftId == listTemp[i].CampaignGiftId).GiftId).Name;
                 temp.CodeUsageLimit = _context.Campaigns.First(q => _context.CampaignGifts.First(z => z.CampaignGiftId == listTemp[i].CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit;
                 temp.Active = listTemp[i].ActivatedDate.HasValue;
-                temp.Used = _context.Winners.ToList().Exists(p=>p.CodeGiftCampaignId == listTemp[i].CodeGiftCampaignId);
+                temp.Used = _context.Winners.ToList().Exists(p => p.CodeGiftCampaignId == listTemp[i].CodeGiftCampaignId);
                 kq.Add(temp);
             }
             return kq;
         }
         public double GetCodeCount(int campaignId)
         {
-            return _context.CodeCampaigns.Where(p=>p.CampaignId == campaignId).Count();
+            return _context.CodeCampaigns.Where(p => p.CampaignId == campaignId).Count();
         }
         public bool ExistCampaignId(int CampaignId)
         {
@@ -312,19 +301,19 @@ namespace LuckyDrawPromotion.Services
         public double GetCodeGiftCount(int campaignId)
         {
             return (from codeGiftCampaign in _context.CodeGiftCampaigns
-                   from giftCamapign in _context.CampaignGifts
-                   where codeGiftCampaign.CampaignGiftId == giftCamapign.CampaignGiftId
-                   where giftCamapign.CampaignId == campaignId
-                   select codeGiftCampaign).Count();
+                    from giftCamapign in _context.CampaignGifts
+                    where codeGiftCampaign.CampaignGiftId == giftCamapign.CampaignGiftId
+                    where giftCamapign.CampaignId == campaignId
+                    select codeGiftCampaign).Count();
         }
         public IEnumerable<CodeGiftCampaignDTO> GetCreateTempGiftCode(int CampaignId, int GiftId, int GiftCodeCount)
         {
             var list = (from codeGiftCampaign in _context.CodeGiftCampaigns
-                       from giftCamapign in _context.CampaignGifts
-                       where codeGiftCampaign.CampaignGiftId == giftCamapign.CampaignGiftId
-                       where giftCamapign.CampaignId == CampaignId
-                       where giftCamapign.GiftId == GiftId
-                       select codeGiftCampaign).ToList();
+                        from giftCamapign in _context.CampaignGifts
+                        where codeGiftCampaign.CampaignGiftId == giftCamapign.CampaignGiftId
+                        where giftCamapign.CampaignId == CampaignId
+                        where giftCamapign.GiftId == GiftId
+                        select codeGiftCampaign).ToList();
             var codes = new List<CodeGiftCampaignDTO>();
             string[] MangKyTu = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             //tạo một chuỗi ngẫu nhiên
@@ -344,7 +333,7 @@ namespace LuckyDrawPromotion.Services
                     code.Active = true;
                     code.Code = "GIF" + GiftId + chuoi;
                 }
-                while (list.Exists(p=>p.Code.Equals(code.Code)) || codes.Exists(p => p.Code.Equals(code.Code)));
+                while (list.Exists(p => p.Code.Equals(code.Code)) || codes.Exists(p => p.Code.Equals(code.Code)));
                 codes.Add(code);
             }
             return codes;
@@ -363,7 +352,7 @@ namespace LuckyDrawPromotion.Services
                 {
                     CampaignGift campaigngift = new CampaignGift();
                     var dk = _context.CampaignGifts.FirstOrDefault(c => c.CampaignId == CampaignId && c.GiftId == ListCampaignGifts[i].GiftId);
-                    if(dk != null)
+                    if (dk != null)
                     {
                         campaigngift = dk;
                     }
