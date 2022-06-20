@@ -65,7 +65,12 @@ namespace LuckyDrawPromotion.Models
         public ICollection<CodeGiftCampaignDTO> ListCodeGiftCampaigns { get; set; } = new HashSet<CodeGiftCampaignDTO>();
         public RuleDTO? ARule { get; set; }
     }
-    
+    public class CampaignGiftDTO_Request0
+    {
+        public int GiftId { get; set; }
+        public ICollection<CodeGiftCampaignDTO> ListCodeGiftCampaigns { get; set; } = new HashSet<CodeGiftCampaignDTO>();
+    }
+
     public class CampaignDTO_ResponseSearch
     {
         public int CampaignId { get; set; }

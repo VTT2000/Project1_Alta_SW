@@ -1,4 +1,5 @@
-﻿using LuckyDrawPromotion.Models;
+﻿#nullable disable
+using LuckyDrawPromotion.Models;
 using LuckyDrawPromotion.Data;
 using Microsoft.Extensions.Options;
 using LuckyDrawPromotion.Helpers;
@@ -14,6 +15,7 @@ using System.Reflection;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
 
+
 namespace LuckyDrawPromotion.Services
 {
     public interface IBarCodeService
@@ -23,7 +25,7 @@ namespace LuckyDrawPromotion.Services
         void Save(CodeCampaign temp);
         void Remove(CodeCampaign temp);
 
-        IEnumerable<CodeBarDTO_ResponseFilter> GetAllForSort(int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches);
+        IEnumerable<CodeBarDTO_ResponseFilter> GetAllForSort(int campaignId, int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches);
         string generatedBarCode(CodeCampaignDTO_RequestGenerate temp);
         CodeBarDTO_ResponseDetail GetBarCodeDetail(int CodeCampaignId);
         bool IsCodeCampaign(int CodeCampaignId);
@@ -31,6 +33,9 @@ namespace LuckyDrawPromotion.Services
         int GetIdAstCustomerEmail(string Email);
         bool BarCodeScanned(int CodeCampaignId, int CustomerId);
         MemoryStream ExportToExcel(List<CodeBarDTO_ResponseFilter> list);
+        IEnumerable<CodeBarDTO_ResponseHistoryFilter> GetAllHistoryForSort(int campaignId, int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches);
+        MemoryStream ExportHistoryToExcel(List<CodeBarDTO_ResponseHistoryFilter> list);
+        bool ExistCampaignId(int CampaignId);
     }
     public class BarCodeService : IBarCodeService
     {
@@ -94,15 +99,15 @@ namespace LuckyDrawPromotion.Services
             }
             if (SearchCriteria == 2)
             {
-                sqlWhere = sqlWhere + "CreatedDate ";
+                sqlWhere = sqlWhere + "CreatedDate.GETDATE() ";
             }
             if (SearchCriteria == 3)
             {
-                sqlWhere = sqlWhere + "ExpiredDate ";
+                sqlWhere = sqlWhere + "ExpiredDate.GETDATE() ";
             }
             if (SearchCriteria == 4)
             {
-                sqlWhere = sqlWhere + "ScannedDate ";
+                sqlWhere = sqlWhere + "ScannedDate.GETDATE() ";
             }
             if (SearchCriteria == 2 || SearchCriteria == 3 || SearchCriteria == 4)
             {
@@ -180,7 +185,7 @@ namespace LuckyDrawPromotion.Services
             }
             return sqlWhere;
         }
-        public IEnumerable<CodeBarDTO_ResponseFilter> GetAllForSort(int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches)
+        public IEnumerable<CodeBarDTO_ResponseFilter> GetAllForSort(int campaignId, int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches)
         {
             string sqlWhere = "";
             for (int i = 0; i < conditionSearches.Count; i++)
@@ -211,11 +216,11 @@ namespace LuckyDrawPromotion.Services
             if (sqlWhere.Length == 0)
             {
                 // tra full
-                list0 = _context.CodeCampaigns.ToList();
+                list0 = _context.CodeCampaigns.Where(p=>p.CampaignId == campaignId).ToList();
             }
             else
             {
-                list0 = _context.CodeCampaigns.FromSqlRaw("Select * from dbo.CodeCampaigns Where " + sqlWhere).ToList();
+                list0 = _context.CodeCampaigns.FromSqlRaw("Select * from dbo.CodeCampaigns Where " + sqlWhere + " AND CampaignId == "+ campaignId).ToList();
             }
 
             List<CodeBarDTO_ResponseFilter> result = new List<CodeBarDTO_ResponseFilter>();
@@ -297,7 +302,7 @@ namespace LuckyDrawPromotion.Services
             var result = mapper.Map<CodeCampaign, CodeBarDTO_ResponseDetail>(temp);
             var CampaignID = _context.CodeCampaigns.First(p => p.CodeCampaignId == CodeCampaignId).CampaignId;
             result.NameCampaign = _context.Campaigns.First(p=>p.CampaignId == CampaignID).Name;
-            result.Owner = temp.CustomerId.HasValue ? _context.Customers.First(p=>p.CustomerId == temp.CustomerId.Value).CustomerEmail : "";
+            result.Owner = temp.CustomerId != null ? _context.Customers.First(p=>p.CustomerId == temp.CustomerId).CustomerEmail : "";
             return result;
         }
         public bool IsCodeCampaign(int CodeCampaignId)
@@ -428,6 +433,378 @@ namespace LuckyDrawPromotion.Services
                 package.Save();
             }
             return stream;
+        }
+
+        public IEnumerable<CodeBarDTO_ResponseHistoryFilter> GetAllHistoryForSort(int campaignId, int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches)
+        {
+            List<CodeCampaign> listTemp = new List<CodeCampaign>();
+            if(filterMethod == 1)
+            {
+                var list = _context.CodeCampaigns.Where(p=>p.CampaignId == campaignId).ToList();
+                for (int i = 0; i < conditionSearches.Count; i++)
+                {
+                    if(conditionSearches[i].SearchCriteria == 1)
+                    {
+                        if(conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p=>p.Code.Contains(conditionSearches[i].Value)).ToList();
+                        }
+                        if(conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p =>!p.Code.Contains(conditionSearches[i].Value)).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 2)
+                    {
+                        // created date
+                        DateTime ngaySS = DateTime.ParseExact(conditionSearches[i].Value, "dd/MM/yyyy", null);
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => p.CreatedDate.Date >= ngaySS).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => p.CreatedDate.Date <= ngaySS).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 3)
+                        {
+                            list = list.Where(p => p.CreatedDate.Date == ngaySS).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 3)
+                    {
+                        // scanned date
+                        DateTime ngaySS = DateTime.ParseExact(conditionSearches[i].Value, "dd/MM/yyyy", null);
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => p.ScannedDate.Value.Date >= ngaySS).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => p.ScannedDate.Value.Date <= ngaySS).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 3)
+                        {
+                            list = list.Where(p => p.ScannedDate.Value.Date == ngaySS).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 4)
+                    {
+                        // spin date
+                        DateTime ngaySS = DateTime.ParseExact(conditionSearches[i].Value, "dd/MM/yyyy", null);
+                        if (list.Count == 0)
+                        {
+                            break;
+                        }
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => _context.Spins.ToList().Exists(q => q.CodeCampaignId == p.CodeCampaignId && q.SpinDate.Date >= ngaySS)).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => _context.Spins.ToList().Exists(q => q.CodeCampaignId == p.CodeCampaignId && q.SpinDate.Date <= ngaySS)).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 3)
+                        {
+                            list = list.Where(p => _context.Spins.ToList().Exists(q => q.CodeCampaignId == p.CodeCampaignId && q.SpinDate.Date == ngaySS)).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 5)
+                    {
+                        // Owner
+                        string name = conditionSearches[i].Value;
+                        list = list.Where(p => p.CustomerId != null).ToList();
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => _context.Customers.FirstOrDefault(z => z.CustomerId == p.CustomerId).CustomerName.CompareTo(name) >= 0).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => _context.Customers.FirstOrDefault(z => z.CustomerId == p.CustomerId).CustomerName.CompareTo(name) <= 0).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 3)
+                        {
+                            list = list.Where(p => _context.Customers.FirstOrDefault(z=>z.CustomerId == p.CustomerId).CustomerName.CompareTo(name) == 0).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 6)
+                    {
+                        bool value = conditionSearches[i].Value.Equals("scanned") ? true : false;
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => p.Scanned == value).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => !p.Scanned == value).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 7)
+                    {
+                        bool value = conditionSearches[i].Value.Equals("spin") ? true : false;
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            if (value)
+                            {
+                                list = list.Where(p => _context.Spins.Where(q => q.CodeCampaignId == p.CodeCampaignId).ToList().Count > 0).ToList();
+                            }
+                            else
+                            {
+                                list = list.Where(p => _context.Spins.Where(q => q.CodeCampaignId == p.CodeCampaignId).ToList().Count == 0).ToList();
+                            }
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            if (value)
+                            {
+                                list = list.Where(p => _context.Spins.Where(q => q.CodeCampaignId == p.CodeCampaignId).ToList().Count == 0).ToList();
+                            }
+                            else
+                            {
+                                list = list.Where(p => _context.Spins.Where(q => q.CodeCampaignId == p.CodeCampaignId).ToList().Count > 0).ToList();
+                            }
+                        }
+                    }
+                }
+                listTemp = list;
+            }
+            if(filterMethod == 2)
+            {
+                for (int i = 0; i < conditionSearches.Count; i++)
+                {
+                    var list = _context.CodeCampaigns.Where(p => p.CampaignId == campaignId).ToList();
+                    if (conditionSearches[i].SearchCriteria == 1)
+                    {
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => p.Code.Contains(conditionSearches[i].Value)).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => !p.Code.Contains(conditionSearches[i].Value)).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 2)
+                    {
+                        // created date
+                        DateTime ngaySS = DateTime.ParseExact(conditionSearches[i].Value, "dd/MM/yyyy", null);
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => p.CreatedDate.Date >= ngaySS).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => p.CreatedDate.Date <= ngaySS).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 3)
+                        {
+                            list = list.Where(p => p.CreatedDate.Date == ngaySS).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 3)
+                    {
+                        // scanned date
+                        DateTime ngaySS = DateTime.ParseExact(conditionSearches[i].Value, "dd/MM/yyyy", null);
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => p.ScannedDate.Value.Date >= ngaySS).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => p.ScannedDate.Value.Date <= ngaySS).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 3)
+                        {
+                            list = list.Where(p => p.ScannedDate.Value.Date == ngaySS).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 4)
+                    {
+                        // spin date
+                        DateTime ngaySS = DateTime.ParseExact(conditionSearches[i].Value, "dd/MM/yyyy", null);
+                        if (list.Count == 0)
+                        {
+                            break;
+                        }
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => _context.Spins.ToList().Exists(q => q.CodeCampaignId == p.CodeCampaignId && q.SpinDate.Date >= ngaySS)).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => _context.Spins.ToList().Exists(q => q.CodeCampaignId == p.CodeCampaignId && q.SpinDate.Date <= ngaySS)).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 3)
+                        {
+                            list = list.Where(p => _context.Spins.ToList().Exists(q => q.CodeCampaignId == p.CodeCampaignId && q.SpinDate.Date == ngaySS)).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 5)
+                    {
+                        // Owner
+                        string name = conditionSearches[i].Value;
+                        list = list.Where(p => p.CustomerId != null).ToList();
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => _context.Customers.FirstOrDefault(z => z.CustomerId == p.CustomerId).CustomerName.CompareTo(name) >= 0).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => _context.Customers.FirstOrDefault(z => z.CustomerId == p.CustomerId).CustomerName.CompareTo(name) <= 0).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 3)
+                        {
+                            list = list.Where(p => _context.Customers.FirstOrDefault(z => z.CustomerId == p.CustomerId).CustomerName.CompareTo(name) == 0).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 6)
+                    {
+                        bool value = conditionSearches[i].Value.Equals("scanned") ? true : false;
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            list = list.Where(p => p.Scanned == value).ToList();
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            list = list.Where(p => !p.Scanned == value).ToList();
+                        }
+                    }
+                    if (conditionSearches[i].SearchCriteria == 7)
+                    {
+                        bool value = conditionSearches[i].Value.Equals("spin") ? true : false;
+                        if (conditionSearches[i].Condition == 1)
+                        {
+                            if (value)
+                            {
+                                list = list.Where(p => _context.Spins.Where(q=>q.CodeCampaignId == p.CodeCampaignId).ToList().Count > 0).ToList();
+                            }
+                            else
+                            {
+                                list = list.Where(p => _context.Spins.Where(q => q.CodeCampaignId == p.CodeCampaignId).ToList().Count == 0).ToList();
+                            }
+                        }
+                        if (conditionSearches[i].Condition == 2)
+                        {
+                            if (value)
+                            {
+                                list = list.Where(p => _context.Spins.Where(q => q.CodeCampaignId == p.CodeCampaignId).ToList().Count == 0).ToList();
+                            }
+                            else
+                            {
+                                list = list.Where(p => _context.Spins.Where(q => q.CodeCampaignId == p.CodeCampaignId).ToList().Count > 0).ToList();
+                            }
+                        }
+                    }
+                    listTemp.Union(list);
+                }
+            }
+
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<CodeCampaign, CodeBarDTO_ResponseHistoryFilter>();
+                cfg.CreateMap<DateTime, string>().ConvertUsing(p => p.ToString("dd/MM/yyyy HH:mm:ss"));
+            });
+            var mapper = config.CreateMapper();
+
+            List<CodeBarDTO_ResponseHistoryFilter> kq = new List<CodeBarDTO_ResponseHistoryFilter>();
+            for (int i = 0; i < listTemp.Count; i++)
+            {
+                CodeBarDTO_ResponseHistoryFilter temp = mapper.Map<CodeCampaign, CodeBarDTO_ResponseHistoryFilter>(listTemp[i]);
+                var spinFirst = _context.Spins.FirstOrDefault(p => p.CodeCampaignId == listTemp[i].CodeCampaignId);
+                if(spinFirst != null)
+                {
+                    temp.UsedForSpin = true;
+                    temp.SpinDate = spinFirst.SpinDate.ToString("dd/MM/yyyy HH:mm:ss");
+                }
+                else
+                {
+                    temp.UsedForSpin = false;
+                }
+                if (listTemp[i].CustomerId.HasValue)
+                {
+                    temp.Owner = _context.Customers.FirstOrDefault(p=>p.CustomerId == listTemp[i].CustomerId).CustomerName;
+                }
+                else
+                {
+                    temp.Owner = "";
+                }
+                kq.Add(temp);
+            }
+            return kq;
+        }
+
+        public MemoryStream ExportHistoryToExcel(List<CodeBarDTO_ResponseHistoryFilter> list)
+        {
+            var stream = new MemoryStream();
+            using (var package = new ExcelPackage(stream))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                // for ten thuoc tinh
+                for (int q = 0; q < list[0].GetType().GetProperties().Count(); q++)
+                {
+                    worksheet.Cells[1, q + 1].Value = list[0].GetType().GetProperties()[q].Name;
+                    worksheet.Cells[1, q + 1].AutoFitColumns();
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    worksheet.Row(i + 2).Height = 90;
+                    int j = 0;
+                    worksheet.Cells[i + 2, ++j].Value = list[i].CodeCampaignId;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Code;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].CreatedDate;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].ExpiredDate;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].ScannedDate;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].SpinDate;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Owner;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Scanned;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].UsedForSpin;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                }
+                package.Save();
+            }
+            return stream;
+        }
+
+        public bool ExistCampaignId(int CampaignId)
+        {
+            return _context.Campaigns.ToList().Exists(p=>p.CampaignId == CampaignId);
         }
     }
 }

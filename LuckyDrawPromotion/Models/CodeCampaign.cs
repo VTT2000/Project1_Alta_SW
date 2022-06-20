@@ -74,4 +74,17 @@ namespace LuckyDrawPromotion.Models
         public string? Prefix { get; set; }
         public string? Postfix { get; set; }
     }
+    public class CodeBarDTO_ResponseHistoryFilter
+    {
+        public int CodeCampaignId { get; set; }
+        public string Code { get; set; } = null!;
+        public string CreatedDate { get; set; } = null!;
+        public string ExpiredDate { get; set; } = null!;
+        public string? ScannedDate { get; set; }
+        public string? SpinDate { get; set; }
+        public string? Owner { get; set; } = null!;
+        public bool Scanned { get; set; } = false;
+        public bool UsedForSpin { get; set; } = false;
+        
+    }
 }

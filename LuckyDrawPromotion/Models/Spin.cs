@@ -3,7 +3,7 @@
     public class Spin
     {
         public int SpinId { get; set; }
-        public DateTime? SpinDate { get; set; }
+        public DateTime SpinDate { get; set; }
 
         public int CodeCampaignId { get; set; } = 0!;
         public CodeCampaign CodeCampaign { get; set; } = null!;

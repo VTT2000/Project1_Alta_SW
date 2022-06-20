@@ -7,7 +7,7 @@
 
         public int CampaignId { get; set; }
         public int GiftId { get; set; }
-        public int RuleId { get; set; }
+        public int? RuleId { get; set; }
 
         public Campaign? Campaign { get; set; }
         public Gift? Gift { get; set; }

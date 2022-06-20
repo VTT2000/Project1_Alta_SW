@@ -331,19 +331,22 @@ namespace LuckyDrawPromotion.Services
                 sqlWhere = sqlWhere + SqlCmdWhereCampaign(temp.SearchCriteria, temp.Condition, temp.Value);
             }
 
-            if(sqlWhere.Length == 0)
-            {
-                return new List<CampaignDTO_ResponseSearch>();
-            }
-            
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Campaign, CampaignDTO_ResponseSearch>();
                 cfg.CreateMap<CodeCampaign, CodeActivated>();
             });
+
             var mapper = config.CreateMapper();
-            
-            var list = _context.Campaigns.FromSqlRaw("Select * from dbo.Campaigns Where " + sqlWhere).ToList();
+            List<Campaign> list = new List<Campaign>();
+            if (sqlWhere.Length == 0)
+            {
+                list = _context.Campaigns.ToList();
+            }
+            else
+            {
+                list = _context.Campaigns.FromSqlRaw("Select * from dbo.Campaigns Where " + sqlWhere).ToList();
+            }
             List<CampaignDTO_ResponseSearch> result = new List<CampaignDTO_ResponseSearch>();
             for(int i = 0; i < list.Count; i++)
             {
