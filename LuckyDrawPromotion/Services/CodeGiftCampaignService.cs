@@ -266,7 +266,7 @@ namespace LuckyDrawPromotion.Services
                             }
                         }
                     }
-                    listTemp.Union(list);
+                    listTemp = listTemp.Union(list).ToList();
                 }
             }
 

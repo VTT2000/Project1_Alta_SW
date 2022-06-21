@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using LuckyDrawPromotion.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LuckyDrawPromotion.Data
 {
@@ -32,7 +33,7 @@ namespace LuckyDrawPromotion.Data
         public DbSet<TypeOfBussiness> TypeOfBussiness { get; set; }
         public DbSet<Winner> Winners { get; set; }
 
-
+        public DbSet<Settings> Settings { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Cấu hình API fluent khóa ngoại và ngăn xóa theo tầng
@@ -41,7 +42,7 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<CodeGiftCampaign>().HasOne<CampaignGift>(s => s.CampaignGift).WithMany(g => g.CodeGiftCampaigns).HasForeignKey(s => s.CampaignGiftId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Campaign>().HasOne<Charset>(s=>s.Charset).WithMany(g=>g.Campaigns).HasForeignKey(s => s.CharsetId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Campaign>().HasOne<SizeProgram>(s => s.SizeProgram).WithMany(g => g.Campaigns).HasForeignKey(s => s.SizeProgramId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<CampaignGift>().HasOne<Rule>(s=>s.Rule).WithMany(g=>g.CampaignGifts).HasForeignKey(s => s.RuleId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Rule>().HasOne<CampaignGift>(s => s.CampaignGift).WithMany(g => g.Rules).HasForeignKey(s => s.CampaignGiftId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Rule>().HasOne<RepeatSchedule>(s => s.RepeatSchedule).WithMany(g => g.Rules).HasForeignKey(s => s.RepeatScheduleId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Winner>().HasOne<CodeGiftCampaign>(s => s.CodeGiftCampaign).WithMany(g => g.Winners).HasForeignKey(s => s.CodeGiftCampaignId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Winner>().HasOne<Spin>(s=>s.Spin).WithMany(g=>g.Winners).HasForeignKey(s => s.SpinId).OnDelete(DeleteBehavior.Restrict);
@@ -50,7 +51,8 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<Spin>().HasOne<CodeCampaign>(s => s.CodeCampaign).WithMany(g => g.Spins).HasForeignKey(s => s.CodeCampaignId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Position>().HasOne<TypeOfBussiness>(s => s.TypeOfBussiness).WithMany(g => g.Positions).HasForeignKey(s => s.TypeOfBussinessId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Customer>().HasOne<Position>(s => s.Position).WithMany(g => g.Customers).HasForeignKey(s => s.PositionId).OnDelete(DeleteBehavior.Restrict);
-            
+
+            modelBuilder.Entity<Campaign>().HasOne<Settings>(s => s.Setting).WithOne(g => g.Campaign).HasForeignKey<Settings>(s => s.CampaignId).OnDelete(DeleteBehavior.Restrict);
             //Cấu hình API fluent các thuộc tính của table
             modelBuilder.Entity<User>().HasIndex(s=>s.Email).IsUnique();
             modelBuilder.Entity<User>().Property(s => s.Email).HasColumnType("varchar(50)");
@@ -89,6 +91,7 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<Rule>().Property(s => s.RuleName).HasColumnType("nvarchar(50)");
             modelBuilder.Entity<Rule>().Property(s => s.StartTime).HasColumnType("time(0)");
             modelBuilder.Entity<Rule>().Property(s => s.EndTime).HasColumnType("time(0)");
+
             modelBuilder.Entity<Spin>().Property(s => s.SpinDate).HasColumnType("datetime");
             modelBuilder.Entity<SizeProgram>().HasIndex(s => s.Name).IsUnique();
             modelBuilder.Entity<SizeProgram>().Property(s => s.Name).HasColumnType("nvarchar(50)");
@@ -271,6 +274,21 @@ namespace LuckyDrawPromotion.Data
                     }
                     );
             });
+            modelBuilder.Entity<Settings>(entity =>
+            {
+                entity.HasData(new
+                Settings
+                {
+                    SettingId = 1,
+                    CampaignId = 1,
+                    QRcodeURL = "https://www.the-qrcode-generator.com/",
+                    LandingPage = "https://www.campaign-landing-url.com/",
+                    SMStext = "",
+                    SendReportAuto = true,
+                    TimeSend = null,
+                    SendToEmail = null
+                });
+            });
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.HasData(new
@@ -364,15 +382,13 @@ namespace LuckyDrawPromotion.Data
                     {
                         CampaignGiftId = 1,
                         CampaignId = 1,
-                        GiftId = 1,
-                        RuleId = 1
+                        GiftId = 1
                     },
                     new
                     {
                         CampaignGiftId = 2,
                         CampaignId = 1,
-                        GiftId = 2,
-                        RuleId = 2
+                        GiftId = 2
                     }
                     );
             });
@@ -421,7 +437,10 @@ namespace LuckyDrawPromotion.Data
                     AllDay = false,
                     Probability = 20,
                     ScheduleValue = "1, 15",
-                    RepeatScheduleId = 1
+                    RepeatScheduleId = 1,
+                    CampaignGiftId = 1,
+                    Active = true,
+                    Priority = 1
                 }, new
                 {
                     RuleId = 2,
@@ -431,7 +450,10 @@ namespace LuckyDrawPromotion.Data
                     AllDay = false,
                     Probability = 10,
                     ScheduleValue = "Mon, Thu",
-                    RepeatScheduleId = 2
+                    RepeatScheduleId = 2,
+                    CampaignGiftId = 2,
+                    Active = true,
+                    Priority = 2
                 }
                 );
             });

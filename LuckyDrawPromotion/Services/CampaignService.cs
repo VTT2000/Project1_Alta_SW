@@ -184,6 +184,11 @@ namespace LuckyDrawPromotion.Services
                 // start save class campaign
                 Campaign campaignNew = mapper.Map<CampaignDTO_Request, Campaign>(campaignRequest);
                 Save(campaignNew);
+                // save settings default
+                Settings settings = new Settings();
+                settings.CampaignId = campaignNew.CampaignId;
+                _context.Settings.Add(settings);
+                _context.SaveChanges();
                 // end save class campaign
 
                 // start save code campaign
@@ -233,17 +238,24 @@ namespace LuckyDrawPromotion.Services
                         // save gift campaign record
                         CampaignGift campaignGift = mapper.Map<CampaignGiftDTO_Request, CampaignGift>(temp);
                         campaignGift.CampaignId = campaignNew.CampaignId;
-                        // co thi save rule
-                        if (temp.ARule != null)
-                        {
-                            RuleDTO tempRule = temp.ARule;
-                            Rule rule = mapper.Map<RuleDTO, Rule>(tempRule);
-                            _context.Rules.Add(rule);
-                            _context.SaveChanges();
-                            campaignGift.RuleId = rule.RuleId;
-                        }
                         _context.CampaignGifts.Add(campaignGift);
                         _context.SaveChanges();
+                        // co thi save rule
+                        if (temp.ListRules.Count > 0)
+                        {
+                            for(int j = 0; j < temp.ListRules.Count; j++)
+                            {
+                                RuleDTO tempRule = temp.ListRules.ToList()[j];
+                                Rule rule = mapper.Map<RuleDTO, Rule>(tempRule);
+                                rule.CampaignGiftId = campaignGift.CampaignGiftId;
+                                rule.Active = true;
+                                _context.Rules.Add(rule);
+                                _context.SaveChanges();
+                                rule.Priority = rule.RuleId;
+                                _context.Rules.Update(rule);
+                                _context.SaveChanges();
+                            }
+                        }
                         // co thi save list gift code
                         if(temp.ListCodeGiftCampaigns.Count > 0)
                         {
