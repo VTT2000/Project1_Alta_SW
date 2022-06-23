@@ -110,15 +110,22 @@ namespace LuckyDrawPromotion.Services
         }
         public string EditUpdateRule(RuleForGiftDTO rule)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<RuleForGiftDTO, Rule>();
-            });
-            var mapper = config.CreateMapper();
             try
             {
-                Rule temp = mapper.Map<RuleForGiftDTO, Rule>(rule);
-                _context.Rules.Update(temp);
+                Rule temp0 = _context.Rules.First(p=>p.RuleId == rule.RuleId);
+                temp0.RuleName = rule.RuleName;
+                temp0.GiftAmount = rule.GiftAmount;
+                temp0.StartTime = TimeSpan.Parse(rule.StartTime);
+                temp0.EndTime = String.IsNullOrEmpty(rule.EndTime) ? null : TimeSpan.Parse(rule.EndTime!);
+                temp0.AllDay = rule.AllDay;
+                temp0.Probability = rule.Probability;
+                temp0.ScheduleValue = rule.ScheduleValue;
+                temp0.Active = rule.Active;
+                temp0.Priority = rule.Priority;
+                temp0.RepeatScheduleId = rule.RepeatScheduleId;
+                temp0.CampaignGiftId = rule.CampaignGiftId;
+
+                _context.Rules.Update(temp0);
                 _context.SaveChanges();
             }catch (Exception ex)
             {

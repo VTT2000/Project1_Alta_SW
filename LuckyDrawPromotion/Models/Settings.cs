@@ -16,4 +16,15 @@ namespace LuckyDrawPromotion.Models
 
         public Campaign Campaign { get; set; } = null!;
     }
+    public class Settings_Response
+    {
+        public int SettingId { get; set; }
+        public int CampaignId { get; set; }
+        public string QRcodeURL { get; set; } = "";
+        public string LandingPage { get; set; } = "";
+        public string SMStext { get; set; } = "";
+        public bool SendReportAuto { get; set; } = false;
+        public string? TimeSend { get; set; }
+        public string? SendToEmail { get; set; }
+    }
 }

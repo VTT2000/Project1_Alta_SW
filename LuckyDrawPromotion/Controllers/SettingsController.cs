@@ -23,13 +23,21 @@ namespace LuckyDrawPromotion.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateSettingCampaign(Settings settings)
+        public IActionResult UpdateSettingCampaign(Settings_Response settings)
         {
             if (!_settingService.IsExistCampaignId(settings.CampaignId))
             {
                 return BadRequest(new { message = "CampaignId not exist" });
             }
-            return Ok(_settingService.UpdateSetting(settings));
+            string kq = _settingService.UpdateSetting(settings);
+            if (kq.Equals("true"))
+            {
+                return Ok("true");
+            }
+            else
+            {
+                return BadRequest(kq);
+            }
         }
     }
 }

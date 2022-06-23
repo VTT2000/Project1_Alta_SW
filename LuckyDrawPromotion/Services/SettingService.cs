@@ -13,8 +13,8 @@ namespace LuckyDrawPromotion.Services
         void Remove(Settings temp);
 
         bool IsExistCampaignId(int CampaignId);
-        Settings GetSettingByCampaignId(int CampaignId);
-        string UpdateSetting(Settings settings);
+        Settings_Response GetSettingByCampaignId(int CampaignId);
+        string UpdateSetting(Settings_Response settings);
     }
     public class SettingService : ISettingService
     {
@@ -67,16 +67,36 @@ namespace LuckyDrawPromotion.Services
             return _context.Campaigns.ToList().Exists(p => p.CampaignId == CampaignId);
         }
 
-        public Settings GetSettingByCampaignId(int CampaignId)
+        public Settings_Response GetSettingByCampaignId(int CampaignId)
         {
-            return _context.Settings.First(p=>p.CampaignId == CampaignId);
+            var temp = _context.Settings.First(p=>p.CampaignId == CampaignId);
+            return new Settings_Response()
+            {
+                SettingId = temp.SettingId,
+                CampaignId = temp.CampaignId,
+                QRcodeURL = temp.QRcodeURL,
+                LandingPage = temp.LandingPage,
+                SMStext = temp.SMStext,
+                SendReportAuto = temp.SendReportAuto,
+                TimeSend = temp.TimeSend.HasValue ? temp.TimeSend.Value.ToString("HH:mm:ss") : null,
+                SendToEmail = temp.SendToEmail
+            };
         }
 
-        public string UpdateSetting(Settings settings)
+        public string UpdateSetting(Settings_Response settings)
         {
             try
             {
-                _context.Settings.Update(settings);
+                var temp = _context.Settings.First(p=>p.SettingId == settings.SettingId);
+                temp.CampaignId = settings.CampaignId;
+                temp.QRcodeURL = settings.QRcodeURL;
+                temp.LandingPage = settings.LandingPage;
+                temp.SMStext = settings.SMStext;
+                temp.SendReportAuto = settings.SendReportAuto;
+                temp.TimeSend = String.IsNullOrEmpty(settings.TimeSend) ? null : TimeSpan.ParseExact(settings.TimeSend, "HH:mm:ss", null);
+                temp.SendToEmail = settings.SendToEmail;
+
+                _context.Settings.Update(temp);
                 _context.SaveChanges();
             }catch (Exception ex)
             { return ex.ToString(); }
