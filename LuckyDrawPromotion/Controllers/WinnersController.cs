@@ -21,7 +21,7 @@ namespace LuckyDrawPromotion.Controllers
             return Ok(campaignDTO_FilterMethods);
         }
         [HttpGet]
-        public IActionResult GetSearchCriteriaBarCode()
+        public IActionResult GetSearchCriteria()
         {
             List<CampaignDTO_Condition> campaignDTO_Conditions = new List<CampaignDTO_Condition>();
             campaignDTO_Conditions.Add(new CampaignDTO_Condition(1, "includes"));

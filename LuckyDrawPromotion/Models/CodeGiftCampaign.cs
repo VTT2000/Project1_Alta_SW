@@ -5,6 +5,7 @@
         public int CodeGiftCampaignId { get; set; }
         public string Code { get; set; } = null!;
         public DateTime CreatedDate { get; set; }
+        public bool IsActive { get; set; } = true;
         public DateTime? ActivatedDate { get; set; }
 
         public int CampaignGiftId { get; set; }

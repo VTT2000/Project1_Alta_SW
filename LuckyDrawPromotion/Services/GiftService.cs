@@ -15,10 +15,15 @@ namespace LuckyDrawPromotion.Services
         void Save(Gift temp);
         void Remove(Gift temp);
 
-        public IEnumerable<GiftDTO_Response> GetGifts();
+        IEnumerable<GiftDTO_Response> GetGifts();
 
+        List<GiftDTO_ResponseGiftCode> GetAllForSort(int filterMethod, List<CampaignDTO_Request_ConditionSearch> listConditionSearches);
+        MemoryStream ExportToExcel(List<GiftDTO_ResponseGiftCode> list);
 
-        
+        bool IsExistsCodeGiftCampaignId(int id);
+        string EditUpdateGeneratedGift(GiftDTO_ResponseGiftCode temp);
+        bool ActivatedOrDeactivatedGeneratedGift(int id);
+        string DeletedGeneratedGift(int id);
     }
     public class GiftService: IGiftService
     {
@@ -81,325 +86,231 @@ namespace LuckyDrawPromotion.Services
             return list;
         }
 
-        public IEnumerable<CodeGiftCampaignDTO_ResponseFilter> GetAllForSort(int campaignId, int filterMethod, List<CampaignDTO_Request_ConditionSearch> conditionSearches)
+        public List<GiftDTO_ResponseGiftCode> GetAllForSort(int filterMethod, List<CampaignDTO_Request_ConditionSearch> listConditionSearches)
         {
-            List<CodeGiftCampaign> listTemp = new List<CodeGiftCampaign>();
             if (filterMethod == 1)
             {
-                var list = (from codegiftcampaign in _context.CodeGiftCampaigns
-                           from giftcampaign in _context.CampaignGifts
-                           where codegiftcampaign.CampaignGiftId == giftcampaign.CampaignGiftId
-                           where giftcampaign.CampaignId == campaignId
-                           select codegiftcampaign).ToList();
-                for (int i = 0; i < conditionSearches.Count; i++)
+                var list = (from a in _context.CodeGiftCampaigns
+                            from b in _context.CampaignGifts
+                            from c in _context.Campaigns
+                            where a.CampaignGiftId == b.CampaignGiftId
+                            where b.CampaignId == c.CampaignId
+                            select new GiftDTO_ResponseGiftCode
+                            {
+                                CodeGiftCampaignId = a.CodeGiftCampaignId,
+                                Code = a.Code,
+                                Campaign = a.CampaignGift.Campaign!.Name,
+                                CreatedDate = a.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss"),
+                                ExpiredDate = a.CampaignGift.Campaign!.EndDate.HasValue ?
+                                             (a.CampaignGift.Campaign!.EndTime.HasValue ?
+                                             a.CampaignGift.Campaign!.EndDate!.Value.ToString("dd/MM/yyyy") + " " +
+                                             a.CampaignGift.Campaign!.EndTime!.Value.ToString() :
+                                             a.CampaignGift.Campaign!.EndDate!.Value.ToString("dd/MM/yyyy")
+                                             ) : null,
+                                Usage = _context.Winners.Where(p=>p.CodeGiftCampaignId == a.CodeGiftCampaignId).ToList().Count + "/" + a.CampaignGift.Campaign!.CodeUsageLimit,
+                                Active = a.IsActive,
+                                CampaignGiftId = a.CampaignGiftId,
+                            }).ToList();
+                for (int i = 0; i < listConditionSearches.Count; i++)
                 {
-                    if (conditionSearches[i].SearchCriteria == 1)
+                    var dieukien = listConditionSearches[i];
+                    if (dieukien.SearchCriteria == 1)
                     {
-                        if (conditionSearches[i].Condition == 1)
+                        if(dieukien.Condition == 1)
                         {
-                            list = list.Where(p => p.Code.Contains(conditionSearches[i].Value)).ToList();
+                            list = list.Where(p => p.Code.Contains(dieukien.Value)).ToList();
                         }
-                        if (conditionSearches[i].Condition == 2)
+                        if(dieukien.Condition == 2)
                         {
-                            list = list.Where(p => !p.Code.Contains(conditionSearches[i].Value)).ToList();
+                            list = list.Where(p => !p.Code.Contains(dieukien.Value)).ToList();
                         }
                     }
-                    if (conditionSearches[i].SearchCriteria == 2)
+                    if (dieukien.SearchCriteria == 2)
                     {
-                        // gift name
-                        string giftName = conditionSearches[i].Value;
-                        if (conditionSearches[i].Condition == 1)
+                        if (dieukien.Condition == 1)
                         {
-                            list = list.Where(p => _context.Gifts.First(z=>z.GiftId == _context.CampaignGifts.First(q => q.CampaignGiftId == p.CampaignGiftId).GiftId).Name.Contains(giftName)).ToList();
+                            list = list.Where(p => p.Campaign!.Contains(dieukien.Value)).ToList();
                         }
-                        if (conditionSearches[i].Condition == 2)
+                        if (dieukien.Condition == 2)
                         {
-                            list = list.Where(p => !_context.Gifts.First(z => z.GiftId == _context.CampaignGifts.First(q => q.CampaignGiftId == p.CampaignGiftId).GiftId).Name.Contains(giftName)).ToList();
+                            list = list.Where(p => !p.Campaign!.Contains(dieukien.Value)).ToList();
                         }
                     }
-                    if (conditionSearches[i].SearchCriteria == 3)
+                    if (dieukien.SearchCriteria == 3)
                     {
-                        // created date
-                        DateTime ngaySS = DateTime.ParseExact(conditionSearches[i].Value, "dd/MM/yyyy", null);
-                        if (conditionSearches[i].Condition == 1)
+                        DateTime date = DateTime.ParseExact(dieukien.Value, "dd/MM/yyyy", null);
+                        if (dieukien.Condition == 1)
                         {
-                            list = list.Where(p => p.CreatedDate.Date >= ngaySS).ToList();
+                            list = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date >= date).ToList();
                         }
-                        if (conditionSearches[i].Condition == 2)
+                        if (dieukien.Condition == 2)
                         {
-                            list = list.Where(p => p.CreatedDate.Date <= ngaySS).ToList();
+                            list = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date <= date).ToList();
                         }
-                        if (conditionSearches[i].Condition == 3)
+                        if (dieukien.Condition == 3)
                         {
-                            list = list.Where(p => p.CreatedDate.Date == ngaySS).ToList();
+                            list = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date == date).ToList();
                         }
                     }
-                    if (conditionSearches[i].SearchCriteria == 4)
+                    if (dieukien.SearchCriteria == 4)
                     {
-                        // Code usage limit
-                        int codeUsageLimit = Int32.Parse(conditionSearches[i].Value);
-
-                        if (conditionSearches[i].Condition == 1)
+                        DateTime date = DateTime.ParseExact(dieukien.Value, "dd/MM/yyyy", null);
+                        if (dieukien.Condition == 1)
                         {
-                            list = list.Where(p=> _context.Campaigns.First(q=> _context.CampaignGifts.First(z=>z.CampaignGiftId == p.CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit >= codeUsageLimit).ToList();
+                            list = list.Where(p => DateTime.ParseExact(p.ExpiredDate!, "dd/MM/yyyy HH:mm:ss", null).Date >= date).ToList();
                         }
-                        if (conditionSearches[i].Condition == 2)
+                        if (dieukien.Condition == 2)
                         {
-                            list = list.Where(p => _context.Campaigns.First(q => _context.CampaignGifts.First(z => z.CampaignGiftId == p.CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit <= codeUsageLimit).ToList();
+                            list = list.Where(p => DateTime.ParseExact(p.ExpiredDate!, "dd/MM/yyyy HH:mm:ss", null).Date <= date).ToList();
                         }
-                        if (conditionSearches[i].Condition == 3)
+                        if (dieukien.Condition == 3)
                         {
-                            list = list.Where(p => _context.Campaigns.First(q => _context.CampaignGifts.First(z => z.CampaignGiftId == p.CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit == codeUsageLimit).ToList();
+                            list = list.Where(p => DateTime.ParseExact(p.ExpiredDate!, "dd/MM/yyyy HH:mm:ss", null).Date == date).ToList();
                         }
                     }
-                    if (conditionSearches[i].SearchCriteria == 5)
+                    if (dieukien.SearchCriteria == 5)
                     {
-                        // activation status
-                        bool value = conditionSearches[i].Value.Equals("Activate") ? true: false;
-                        if (conditionSearches[i].Condition == 1)
+                        if (dieukien.Condition == 1)
                         {
-                            if (value)
+                            if (dieukien.Value.Equals("Activate"))
                             {
-                                list = list.Where(p => p.ActivatedDate.HasValue).ToList();
+                                list = list.Where(p=>p.Active == true).ToList();
                             }
                             else
                             {
-                                list = list.Where(p => !p.ActivatedDate.HasValue).ToList();
+                                list = list.Where(p => !p.Active == true).ToList();
                             }
                         }
-                        if (conditionSearches[i].Condition == 2)
+                        if (dieukien.Condition == 2)
                         {
-                            if (!value)
+                            if (dieukien.Value.Equals("Activate"))
                             {
-                                list = list.Where(p => p.ActivatedDate.HasValue).ToList();
+                                list = list.Where(p => !p.Active == true).ToList();
                             }
                             else
                             {
-                                list = list.Where(p => !p.ActivatedDate.HasValue).ToList();
+                                list = list.Where(p => p.Active == true).ToList();
                             }
                         }
                     }
                 }
-                listTemp = list;
+                return list;
             }
-            if (filterMethod == 2)
+            if(filterMethod == 2)
             {
-                for (int i = 0; i < conditionSearches.Count; i++)
-                {
-                    var list = (from codegiftcampaign in _context.CodeGiftCampaigns
-                                from giftcampaign in _context.CampaignGifts
-                                where codegiftcampaign.CampaignGiftId == giftcampaign.CampaignGiftId
-                                where giftcampaign.CampaignId == campaignId
-                                select codegiftcampaign).ToList();
-                    if (conditionSearches[i].SearchCriteria == 1)
-                    {
-                        if (conditionSearches[i].Condition == 1)
-                        {
-                            list = list.Where(p => p.Code.Contains(conditionSearches[i].Value)).ToList();
-                        }
-                        if (conditionSearches[i].Condition == 2)
-                        {
-                            list = list.Where(p => !p.Code.Contains(conditionSearches[i].Value)).ToList();
-                        }
-                    }
-                    if (conditionSearches[i].SearchCriteria == 2)
-                    {
-                        // gift name
-                        string giftName = conditionSearches[i].Value;
-                        if (conditionSearches[i].Condition == 1)
-                        {
-                            list = list.Where(p => _context.Gifts.First(z => z.GiftId == _context.CampaignGifts.First(q => q.CampaignGiftId == p.CampaignGiftId).GiftId).Name.Contains(giftName)).ToList();
-                        }
-                        if (conditionSearches[i].Condition == 2)
-                        {
-                            list = list.Where(p => !_context.Gifts.First(z => z.GiftId == _context.CampaignGifts.First(q => q.CampaignGiftId == p.CampaignGiftId).GiftId).Name.Contains(giftName)).ToList();
-                        }
-                    }
-                    if (conditionSearches[i].SearchCriteria == 3)
-                    {
-                        // created date
-                        DateTime ngaySS = DateTime.ParseExact(conditionSearches[i].Value, "dd/MM/yyyy", null);
-                        if (conditionSearches[i].Condition == 1)
-                        {
-                            list = list.Where(p => p.CreatedDate.Date >= ngaySS).ToList();
-                        }
-                        if (conditionSearches[i].Condition == 2)
-                        {
-                            list = list.Where(p => p.CreatedDate.Date <= ngaySS).ToList();
-                        }
-                        if (conditionSearches[i].Condition == 3)
-                        {
-                            list = list.Where(p => p.CreatedDate.Date == ngaySS).ToList();
-                        }
-                    }
-                    if (conditionSearches[i].SearchCriteria == 4)
-                    {
-                        // Code usage limit
-                        int codeUsageLimit = Int32.Parse(conditionSearches[i].Value);
-
-                        if (conditionSearches[i].Condition == 1)
-                        {
-                            list = list.Where(p => _context.Campaigns.First(q => _context.CampaignGifts.First(z => z.CampaignGiftId == p.CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit >= codeUsageLimit).ToList();
-                        }
-                        if (conditionSearches[i].Condition == 2)
-                        {
-                            list = list.Where(p => _context.Campaigns.First(q => _context.CampaignGifts.First(z => z.CampaignGiftId == p.CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit <= codeUsageLimit).ToList();
-                        }
-                        if (conditionSearches[i].Condition == 3)
-                        {
-                            list = list.Where(p => _context.Campaigns.First(q => _context.CampaignGifts.First(z => z.CampaignGiftId == p.CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit == codeUsageLimit).ToList();
-                        }
-                    }
-                    if (conditionSearches[i].SearchCriteria == 5)
-                    {
-                        // activation status
-                        bool value = conditionSearches[i].Value.Equals("Activate") ? true : false;
-                        if (conditionSearches[i].Condition == 1)
-                        {
-                            if (value)
+                var list = (from a in _context.CodeGiftCampaigns
+                            from b in _context.CampaignGifts
+                            from c in _context.Campaigns
+                            where a.CampaignGiftId == b.CampaignGiftId
+                            where b.CampaignId == c.CampaignId
+                            select new GiftDTO_ResponseGiftCode
                             {
-                                list = list.Where(p => p.ActivatedDate.HasValue).ToList();
+                                CodeGiftCampaignId = a.CodeGiftCampaignId,
+                                Code = a.Code,
+                                Campaign = a.CampaignGift.Campaign!.Name,
+                                CreatedDate = a.CreatedDate.ToString("dd/MM/yyyy HH:mm:ss"),
+                                ExpiredDate = a.CampaignGift.Campaign!.EndDate.HasValue ?
+                                             (a.CampaignGift.Campaign!.EndTime.HasValue ?
+                                             a.CampaignGift.Campaign!.EndDate!.Value.ToString("dd/MM/yyyy") + " " +
+                                             a.CampaignGift.Campaign!.EndTime!.Value.ToString() :
+                                             a.CampaignGift.Campaign!.EndDate!.Value.ToString("dd/MM/yyyy")
+                                             ) : null,
+                                Usage = _context.Winners.Where(p=>p.CodeGiftCampaignId == a.CodeGiftCampaignId).ToList().Count + "/" + a.CampaignGift.Campaign!.CodeUsageLimit,
+                                Active = a.IsActive,
+                                CampaignGiftId = a.CampaignGiftId,
+                            }).ToList();
+                var kq = new List<GiftDTO_ResponseGiftCode>();
+                for (int i = 0; i < listConditionSearches.Count; i++)
+                {
+                    var list0 = new List<GiftDTO_ResponseGiftCode>();
+                    var dieukien = listConditionSearches[i];
+                    if (dieukien.SearchCriteria == 1)
+                    {
+                        if (dieukien.Condition == 1)
+                        {
+                            list0 = list.Where(p => p.Code.Contains(dieukien.Value)).ToList();
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            list0 = list.Where(p => !p.Code.Contains(dieukien.Value)).ToList();
+                        }
+                    }
+                    if (dieukien.SearchCriteria == 2)
+                    {
+                        if (dieukien.Condition == 1)
+                        {
+                            list0 = list.Where(p => p.Campaign!.Contains(dieukien.Value)).ToList();
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            list0 = list.Where(p => !p.Campaign!.Contains(dieukien.Value)).ToList();
+                        }
+                    }
+                    if (dieukien.SearchCriteria == 3)
+                    {
+                        DateTime date = DateTime.ParseExact(dieukien.Value, "dd/MM/yyyy", null);
+                        if (dieukien.Condition == 1)
+                        {
+                            list0 = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date >= date).ToList();
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            list0 = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date <= date).ToList();
+                        }
+                        if (dieukien.Condition == 3)
+                        {
+                            list0 = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date == date).ToList();
+                        }
+                    }
+                    if (dieukien.SearchCriteria == 4)
+                    {
+                        DateTime date = DateTime.ParseExact(dieukien.Value, "dd/MM/yyyy", null);
+                        if (dieukien.Condition == 1)
+                        {
+                            list0 = list.Where(p => DateTime.ParseExact(p.ExpiredDate!, "dd/MM/yyyy HH:mm:ss", null).Date >= date).ToList();
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            list0 = list.Where(p => DateTime.ParseExact(p.ExpiredDate!, "dd/MM/yyyy HH:mm:ss", null).Date <= date).ToList();
+                        }
+                        if (dieukien.Condition == 3)
+                        {
+                            list0 = list.Where(p => DateTime.ParseExact(p.ExpiredDate!, "dd/MM/yyyy HH:mm:ss", null).Date == date).ToList();
+                        }
+                    }
+                    if (dieukien.SearchCriteria == 5)
+                    {
+                        if (dieukien.Condition == 1)
+                        {
+                            if (dieukien.Value.Equals("Activate"))
+                            {
+                                list0 = list.Where(p => p.Active == true).ToList();
                             }
                             else
                             {
-                                list = list.Where(p => !p.ActivatedDate.HasValue).ToList();
+                                list0 = list.Where(p => !p.Active == true).ToList();
                             }
                         }
-                        if (conditionSearches[i].Condition == 2)
+                        if (dieukien.Condition == 2)
                         {
-                            if (!value)
+                            if (dieukien.Value.Equals("Activate"))
                             {
-                                list = list.Where(p => p.ActivatedDate.HasValue).ToList();
+                                list = list.Where(p => !p.Active == true).ToList();
                             }
                             else
                             {
-                                list = list.Where(p => !p.ActivatedDate.HasValue).ToList();
+                                list = list.Where(p => p.Active == true).ToList();
                             }
                         }
                     }
-                    listTemp.Union(list);
+                    kq = kq.Union(list0).ToList();
                 }
+                return kq;
             }
-
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<CodeGiftCampaign, CodeGiftCampaignDTO_ResponseFilter>();
-                cfg.CreateMap<DateTime, string>().ConvertUsing(p => p.ToString("dd/MM/yyyy HH:mm:ss"));
-            });
-            var mapper = config.CreateMapper();
-
-            List<CodeGiftCampaignDTO_ResponseFilter> kq = new List<CodeGiftCampaignDTO_ResponseFilter>();
-            for (int i = 0; i < listTemp.Count; i++)
-            {
-                CodeGiftCampaignDTO_ResponseFilter temp = mapper.Map<CodeGiftCampaign, CodeGiftCampaignDTO_ResponseFilter>(listTemp[i]);
-                temp.GiftName = _context.Gifts.First(z => z.GiftId == _context.CampaignGifts.First(q => q.CampaignGiftId == listTemp[i].CampaignGiftId).GiftId).Name;
-                temp.CodeUsageLimit = _context.Campaigns.First(q => _context.CampaignGifts.First(z => z.CampaignGiftId == listTemp[i].CampaignGiftId).CampaignId == q.CampaignId).CodeUsageLimit;
-                temp.Active = listTemp[i].ActivatedDate.HasValue;
-                temp.Used = _context.Winners.ToList().Exists(p=>p.CodeGiftCampaignId == listTemp[i].CodeGiftCampaignId);
-                kq.Add(temp);
-            }
-            return kq;
-        }
-        public double GetCodeCount(int campaignId)
-        {
-            return _context.CodeCampaigns.Where(p=>p.CampaignId == campaignId).Count();
-        }
-        public bool ExistCampaignId(int CampaignId)
-        {
-            return _context.Campaigns.ToList().Exists(p => p.CampaignId == CampaignId);
+            return new List<GiftDTO_ResponseGiftCode>();
         }
 
-        public double GetCodeGiftCount(int campaignId)
-        {
-            return (from codeGiftCampaign in _context.CodeGiftCampaigns
-                   from giftCamapign in _context.CampaignGifts
-                   where codeGiftCampaign.CampaignGiftId == giftCamapign.CampaignGiftId
-                   where giftCamapign.CampaignId == campaignId
-                   select codeGiftCampaign).Count();
-        }
-        public IEnumerable<CodeGiftCampaignDTO> GetCreateTempGiftCode(int CampaignId, int GiftId, int GiftCodeCount)
-        {
-            var list = (from codeGiftCampaign in _context.CodeGiftCampaigns
-                       from giftCamapign in _context.CampaignGifts
-                       where codeGiftCampaign.CampaignGiftId == giftCamapign.CampaignGiftId
-                       where giftCamapign.CampaignId == CampaignId
-                       where giftCamapign.GiftId == GiftId
-                       select codeGiftCampaign).ToList();
-            var codes = new List<CodeGiftCampaignDTO>();
-            string[] MangKyTu = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "V", "W", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-            //tạo một chuỗi ngẫu nhiên
-            Random fr = new Random();
-            for (int i = 0; i < GiftCodeCount; i++)
-            {
-                CodeGiftCampaignDTO code = new CodeGiftCampaignDTO();
-                do
-                {
-                    string chuoi = "";
-                    for (int j = 0; j < 10; j++)
-                    {
-                        int t = fr.Next(0, MangKyTu.Length);
-                        chuoi = chuoi + MangKyTu[t];
-                    }
-                    code.CreatedDate = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                    code.Active = true;
-                    code.Code = "GIF" + GiftId + chuoi;
-                }
-                while (list.Exists(p=>p.Code.Equals(code.Code)) || codes.Exists(p => p.Code.Equals(code.Code)));
-                codes.Add(code);
-            }
-            return codes;
-        }
-        public string generatedGiftCodeCampaign(int CampaignId, List<CampaignGiftDTO_Request0> ListCampaignGifts)
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<CodeGiftCampaignDTO, CodeGiftCampaign>();
-                cfg.CreateMap<string, DateTime>().ConvertUsing(p => DateTime.ParseExact(p, "dd/MM/yyyy HH:mm:ss", null));
-            });
-            var mapper = config.CreateMapper();
-            try
-            {
-                for (int i = 0; i < ListCampaignGifts.Count; i++)
-                {
-                    CampaignGift campaigngift = new CampaignGift();
-                    var dk = _context.CampaignGifts.FirstOrDefault(c => c.CampaignId == CampaignId && c.GiftId == ListCampaignGifts[i].GiftId);
-                    if(dk != null)
-                    {
-                        campaigngift = dk;
-                    }
-                    else
-                    {
-                        campaigngift.CampaignId = CampaignId;
-                        campaigngift.GiftId = ListCampaignGifts[i].GiftId;
-                        _context.CampaignGifts.Add(campaigngift);
-                        _context.SaveChanges();
-                    }
-                    List<CodeGiftCampaignDTO> listgiftcode = (List<CodeGiftCampaignDTO>)ListCampaignGifts[i].ListCodeGiftCampaigns;
-                    for (int j = 0; j < listgiftcode.Count; j++)
-                    {
-                        CodeGiftCampaign codegift = (CodeGiftCampaign)mapper.Map<CodeGiftCampaignDTO, CodeGiftCampaign>(listgiftcode[j]);
-                        codegift.CampaignGiftId = campaigngift.CampaignGiftId;
-                        if (listgiftcode[j].Active)
-                        {
-                            codegift.ActivatedDate = DateTime.Now;
-                        }
-                        else
-                        {
-                            codegift.ActivatedDate = null;
-                        }
-                        _context.CodeGiftCampaigns.Add(codegift);
-                        _context.SaveChanges();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                return ex.ToString();
-            }
-            return "true";
-        }
-
-        public MemoryStream ExportToExcel(List<CodeGiftCampaignDTO_ResponseFilter> list)
+        public MemoryStream ExportToExcel(List<GiftDTO_ResponseGiftCode> list)
         {
             var stream = new MemoryStream();
             using (var package = new ExcelPackage(stream))
@@ -427,22 +338,22 @@ namespace LuckyDrawPromotion.Services
                     worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Campaign;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
                     worksheet.Cells[i + 2, ++j].Value = list[i].CreatedDate;
                     worksheet.Cells[i + 2, j].AutoFitColumns();
                     worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-                    worksheet.Cells[i + 2, ++j].Value = list[i].GiftName;
+                    worksheet.Cells[i + 2, ++j].Value = list[i].ExpiredDate;
                     worksheet.Cells[i + 2, j].AutoFitColumns();
                     worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
-                    worksheet.Cells[i + 2, ++j].Value = list[i].CodeUsageLimit;
-                    worksheet.Cells[i + 2, j].AutoFitColumns();
-                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-
-                    worksheet.Cells[i + 2, ++j].Value = list[i].Used;
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Usage;
                     worksheet.Cells[i + 2, j].AutoFitColumns();
                     worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
@@ -452,10 +363,81 @@ namespace LuckyDrawPromotion.Services
                     worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
 
+                    worksheet.Cells[i + 2, ++j].Value = list[i].CampaignGiftId;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+
                 }
                 package.Save();
             }
             return stream;
         }
+
+        public bool IsExistsCodeGiftCampaignId(int id)
+        {
+            return _context.CodeGiftCampaigns.ToList().Exists(p => p.CodeGiftCampaignId == id);
+        }
+
+        public string EditUpdateGeneratedGift(GiftDTO_ResponseGiftCode temp)
+        {
+            try
+            {
+
+                CodeGiftCampaign temp0 = _context.CodeGiftCampaigns.First(p => p.CodeGiftCampaignId == temp.CodeGiftCampaignId);
+                temp0.Code = temp.Code;
+                if (temp.Active)
+                {
+                    temp0.IsActive = true;
+                    temp0.ActivatedDate = DateTime.Now;
+                }
+                else
+                {
+                    temp0.IsActive = false;
+                }
+                temp0.CampaignGiftId = temp.CampaignGiftId;
+
+                _context.CodeGiftCampaigns.Update(temp0);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return "true";
+        }
+        
+        public bool ActivatedOrDeactivatedGeneratedGift(int Id)
+        {
+            CodeGiftCampaign temp = _context.CodeGiftCampaigns.First(p => p.CodeGiftCampaignId == Id);
+            if (temp.IsActive)
+            {
+                temp.IsActive = false;
+            }
+            else
+            {
+                temp.IsActive = true;
+                temp.ActivatedDate = DateTime.Now;
+            }
+            _context.CodeGiftCampaigns.Update(temp);
+            _context.SaveChanges();
+            return temp.IsActive;
+        }
+        
+
+        public string DeletedGeneratedGift(int Id)
+        {
+            try
+            {
+                CodeGiftCampaign temp = _context.CodeGiftCampaigns.First(p => p.CodeGiftCampaignId == Id);
+                _context.CodeGiftCampaigns.Remove(temp);
+                _context.SaveChanges();
+            }
+            catch (Exception ex) { return ex.ToString(); }
+            return "true";
+        }
+
+
     }
 }
