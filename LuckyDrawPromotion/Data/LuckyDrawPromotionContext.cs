@@ -54,6 +54,7 @@ namespace LuckyDrawPromotion.Data
 
             modelBuilder.Entity<Campaign>().HasOne<Settings>(s => s.Setting).WithOne(g => g.Campaign).HasForeignKey<Settings>(s => s.CampaignId).OnDelete(DeleteBehavior.Restrict);
             //Cấu hình API fluent các thuộc tính của table
+            
             modelBuilder.Entity<User>().HasIndex(s=>s.Email).IsUnique();
             modelBuilder.Entity<User>().Property(s => s.Email).HasColumnType("varchar(50)");
             modelBuilder.Entity<User>().Property(s => s.Password).HasColumnType("varchar(50)");
@@ -82,7 +83,7 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<Customer>().Property(s => s.CustomerAddress).HasColumnType("nvarchar(200)");
             modelBuilder.Entity<Customer>().Property(s => s.DateOfBirth).HasColumnType("date");
             modelBuilder.Entity<Gift>().HasIndex(s => s.Name).IsUnique();
-            modelBuilder.Entity<Gift>().Property(s => s.Name).HasColumnType("nvarchar(50)");
+            modelBuilder.Entity<Gift>().Property(s => s.Name).HasColumnType("nvarchar(300)");
             modelBuilder.Entity<Gift>().Property(s => s.Description).HasColumnType("ntext");
             modelBuilder.Entity<Gift>().Property(s => s.CreatedDate).HasColumnType("datetime");
             modelBuilder.Entity<Position>().Property(s => s.Name).HasColumnType("nvarchar(50)");
@@ -101,6 +102,7 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<Winner>().Property(s => s.WinDate).HasColumnType("datetime");
             modelBuilder.Entity<Winner>().Property(s => s.AddressReceivedGift).HasColumnType("nvarchar(200)");
             
+
             //modelBuilder.Entity<User>().HasCheckConstraint
 
             //Cấu hình API fluent Đổ dữ liệu vào database khi migration tạo database
@@ -206,42 +208,48 @@ namespace LuckyDrawPromotion.Data
                         GiftId = 1,
                         Name = "Hạt nêm Knnor Chay Nấm Hương 400g",
                         Description = "Hạt nêm Knnor Chay Nấm Hương 400g",
-                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00")
+                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00"),
+                        Active = true
                     },
                     new
                     {
                         GiftId = 2,
                         Name = "Hạt nêm Knnor Từ Thịt Thăn, Xương Ống & Tủy 600g",
                         Description = "Hạt nêm Knnor Từ Thịt Thăn, Xương Ống & Tủy 600g",
-                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00")
+                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00"),
+                        Active = true
                     },
                     new
                     {
                         GiftId = 3,
                         Name = "Gia vị Hoàn Chỉnh Knnor Canh Chua 30g",
                         Description = "Gia vị Hoàn Chỉnh Knnor Canh Chua 30g",
-                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00")
+                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00"),
+                        Active = true
                     },
                     new
                     {
                         GiftId = 4,
                         Name = "Xốt nêm Đậm Đặc Knnor Từ Vị Thịt Heo 240g",
                         Description = "Xốt nêm Đậm Đặc Knnor Từ Vị Thịt Heo 240g",
-                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00")
+                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00"),
+                        Active = true
                     },
                     new
                     {
                         GiftId = 5,
                         Name = "Hạt nêm Knnor Từ Thịt Thăn, Xương Ống & Tủy 900g",
                         Description = "Hạt nêm Knnor Từ Thịt Thăn, Xương Ống & Tủy 900g",
-                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00")
+                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00"),
+                        Active = true
                     },
                     new
                     {
                         GiftId = 6,
                         Name = "Knnor Natural Bột Nêm Tự Nhiên Vị Rau Cũ 150g",
                         Description = "Knnor Natural Bột Nêm Tự Nhiên Vị Rau Cũ 150g",
-                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00")
+                        CreatedDate = DateTime.Parse("2022-05-05 18:00:00"),
+                        Active = true
                     }
                     );
             });

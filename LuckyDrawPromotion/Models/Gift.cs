@@ -1,4 +1,6 @@
-﻿namespace LuckyDrawPromotion.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LuckyDrawPromotion.Models
 {
     public class Gift
     {
@@ -6,7 +8,7 @@
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-
+        public bool Active { get; set; } = true;
 
         public ICollection<CampaignGift> CampaignGifts { get; set; } = new HashSet<CampaignGift>();
     }
@@ -28,5 +30,22 @@
         public string? Usage { get; set; }
         public bool Active{ get; set; } = false;
         public int CampaignGiftId { get; set; }
+    }
+    public class GiftDTO_ResponseGift
+    {
+        public int GiftId { get; set; }
+        public string Name { get; set; } = null!;
+        public string Description { get; set; } = null!;
+        public string CreatedDate { get; set; } = null!;
+        public bool Active { get; set; }
+    }
+    public class GiftDTO_RequestGiftCreate
+    {
+        [Required]
+        public string Name { get; set; } = null!;
+        [Required]
+        public string Description { get; set; } = null!;
+        [Required]
+        public bool Active { get; set; }
     }
 }

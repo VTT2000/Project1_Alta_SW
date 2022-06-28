@@ -131,5 +131,149 @@ namespace LuckyDrawPromotion.Controllers
                 return BadRequest("GeneratedGift is used");
             }
         }
+
+        [HttpGet]
+        public IActionResult GetSearchCriteriaGift()
+        {
+            List<CampaignDTO_Condition> campaignDTO_Conditions = new List<CampaignDTO_Condition>();
+            campaignDTO_Conditions.Add(new CampaignDTO_Condition(1, "includes"));
+            campaignDTO_Conditions.Add(new CampaignDTO_Condition(2, "is not include"));
+
+            List<CampaignDTO_Condition> campaignDTO_Conditions0 = new List<CampaignDTO_Condition>();
+            campaignDTO_Conditions0.Add(new CampaignDTO_Condition(1, "more than"));
+            campaignDTO_Conditions0.Add(new CampaignDTO_Condition(2, "less than"));
+            campaignDTO_Conditions0.Add(new CampaignDTO_Condition(3, "exactly"));
+
+            List<CampaignDTO_Condition> campaignDTO_Conditions1 = new List<CampaignDTO_Condition>();
+            campaignDTO_Conditions1.Add(new CampaignDTO_Condition(1, "is"));
+            campaignDTO_Conditions1.Add(new CampaignDTO_Condition(2, "is not"));
+
+            List<CampaignDTO_SearchCriteria> campaignDTO_SearchCriterias = new List<CampaignDTO_SearchCriteria>();
+            campaignDTO_SearchCriterias.Add(new CampaignDTO_SearchCriteria(1, "Gift Name", campaignDTO_Conditions));
+            campaignDTO_SearchCriterias.Add(new CampaignDTO_SearchCriteria(2, "Created Date", campaignDTO_Conditions0));
+            campaignDTO_SearchCriterias.Add(new CampaignDTO_SearchCriteria(3, "Activation status", campaignDTO_Conditions1));
+
+            return Ok(campaignDTO_SearchCriterias);
+        }
+
+        [HttpPost]
+        public IActionResult GetAllForFilterGift(int filterMethod, List<CampaignDTO_Request_ConditionSearch> listConditionSearches)
+        {
+            if (filterMethod <= 0 || filterMethod >= 3)
+            {
+                return BadRequest(new { message = "FilterMethod not empty" });
+            }
+            return Ok(_giftService.GetAllForSort1(filterMethod, listConditionSearches));
+        }
+        // xuat file excels 
+        [HttpPost]
+        public IActionResult ExportToExcelGift(List<GiftDTO_ResponseGift> list)
+        {
+            if (list.Count == 0 || list == null)
+            {
+                return BadRequest("No data export");
+            }
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var stream = _giftService.ExportToExcel1(list);
+            stream.Position = 0;
+            string excelName = "Gift_list.xlsx";
+            return File(stream, "application/vnd.openxmlformat-officedocument.spredsheetml.sheet", excelName);
+        }
+        [HttpPut]
+        public IActionResult ActivatedOrDeactivatedGift(int id)
+        {
+            if (!_giftService.IsExistsGiftId(id))
+            {
+                return BadRequest("GiftId not exists");
+            }
+            var kq = _giftService.ActivatedOrDeactivatedGift(id);
+            if (kq == true)
+            {
+                return Ok("The Gift (name of the gift) is Activated");
+            }
+            else
+            {
+                return Ok("The Gift (name of the gift) is De-activated");
+            }
+        }
+        [HttpPost]
+        public IActionResult CreateGift(GiftDTO_RequestGiftCreate temp)
+        {
+            if (_giftService.IsExistsGiftByName(temp.Name))
+            {
+                return BadRequest("Name is exist");
+            }
+            string kq = _giftService.CreateGift(temp);
+            if (kq.Equals("true"))
+            {
+                return Ok("The Gift (product name) is added to Gifts Category");
+            }
+            else
+            {
+                return BadRequest("The Gift information is invalid, please check and try again.");
+            }
+        }
+        [HttpPost]
+        public IActionResult ImportExcelToCreate(IFormFile formFile)
+        {
+            if (formFile == null || formFile.Length <= 0)
+            {
+                return BadRequest("formfile is empty");
+            }
+
+            if (!Path.GetExtension(formFile.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("Not Support file extension");
+            }
+
+            string kq = _giftService.ImportDataGiftByExcel(formFile);
+            if (kq.Equals("true"))
+            {
+                return Ok("(Amount of gifts) are added to Gifts Category.");
+            }
+            else
+            {
+                return BadRequest("The Gifts list is invalid, please check and try again");
+            }
+        }
+
+        [HttpPut]
+        public IActionResult EditGift(GiftDTO_ResponseGift temp)
+        {
+            if (!_giftService.IsExistsGiftId(temp.GiftId))
+            {
+                return BadRequest("GiftId not exists");
+            }
+            var kq = _giftService.EditUpdateGift(temp);
+            if (kq.Equals("true"))
+            {
+                return Ok("The Gift (name of the gift) information is updated");
+            }
+            else
+            {
+                return BadRequest("The Gift information is invalid, please check and try again.");
+            }
+        }
+
+
+        [HttpDelete]
+        public IActionResult DeletedGiftt(int GiftId)
+        {
+            if (!_giftService.IsExistsGiftId(GiftId))
+            {
+                return BadRequest("GiftId not exists");
+            }
+            var kq = _giftService.DeletedGift(GiftId);
+            if (kq.Equals("true"))
+            {
+                return Ok("The Gift (name of the gift) is deleted");
+            }
+            else
+            {
+                Console.WriteLine(kq);
+                return BadRequest("Gift is used");
+            }
+
+        }
     }
 }

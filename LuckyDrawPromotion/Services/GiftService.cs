@@ -24,6 +24,15 @@ namespace LuckyDrawPromotion.Services
         string EditUpdateGeneratedGift(GiftDTO_ResponseGiftCode temp);
         bool ActivatedOrDeactivatedGeneratedGift(int id);
         string DeletedGeneratedGift(int id);
+        List<GiftDTO_ResponseGift> GetAllForSort1(int filterMethod, List<CampaignDTO_Request_ConditionSearch> listConditionSearches);
+        MemoryStream ExportToExcel1(List<GiftDTO_ResponseGift> list);
+        bool IsExistsGiftId(int id);
+        bool ActivatedOrDeactivatedGift(int id);
+        bool IsExistsGiftByName(string name);
+        string CreateGift(GiftDTO_RequestGiftCreate temp);
+        string ImportDataGiftByExcel(IFormFile formFile);
+        string EditUpdateGift(GiftDTO_ResponseGift temp);
+        string DeletedGift(int id);
     }
     public class GiftService: IGiftService
     {
@@ -438,6 +447,297 @@ namespace LuckyDrawPromotion.Services
             return "true";
         }
 
+        public List<GiftDTO_ResponseGift> GetAllForSort1(int filterMethod, List<CampaignDTO_Request_ConditionSearch> listConditionSearches)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Gift, GiftDTO_ResponseGift>();
+            });
+            var mapper = config.CreateMapper();
+            if (filterMethod == 1)
+            {
+                var list = _context.Gifts.ToList().Select(p=>mapper.Map<Gift, GiftDTO_ResponseGift>(p)).ToList();
+                for (int i = 0; i < listConditionSearches.Count; i++)
+                {
+                    var dieukien = listConditionSearches[i];
+                    if (dieukien.SearchCriteria == 1)
+                    {
+                        if (dieukien.Condition == 1)
+                        {
+                            list = list.Where(p => p.Name.Contains(dieukien.Value)).ToList();
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            list = list.Where(p => !p.Name.Contains(dieukien.Value)).ToList();
+                        }
+                    }
+                    if (dieukien.SearchCriteria == 2)
+                    {
+                        DateTime date = DateTime.ParseExact(dieukien.Value, "dd/MM/yyyy", null);
+                        if (dieukien.Condition == 1)
+                        {
+                            list = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date >= date).ToList();
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            list = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date <= date).ToList();
+                        }
+                        if (dieukien.Condition == 3)
+                        {
+                            list = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date == date).ToList();
+                        }
+                    }
+                    if (dieukien.SearchCriteria == 3)
+                    {
+                        if (dieukien.Condition == 1)
+                        {
+                            if (dieukien.Value.Equals("Activate"))
+                            {
+                                list = list.Where(p => p.Active == true).ToList();
+                            }
+                            else
+                            {
+                                list = list.Where(p => !p.Active == true).ToList();
+                            }
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            if (dieukien.Value.Equals("Activate"))
+                            {
+                                list = list.Where(p => !p.Active == true).ToList();
+                            }
+                            else
+                            {
+                                list = list.Where(p => p.Active == true).ToList();
+                            }
+                        }
+                    }
+                }
+                return list;
+            }
+            if (filterMethod == 2)
+            {
+                var list = _context.Gifts.ToList().Select(p=>mapper.Map<Gift, GiftDTO_ResponseGift>(p)).ToList();
+                var kq = new List<GiftDTO_ResponseGift>();
+                for (int i = 0; i < listConditionSearches.Count; i++)
+                {
+                    var list0 = new List<GiftDTO_ResponseGift>();
+                    var dieukien = listConditionSearches[i];
+                    if (dieukien.SearchCriteria == 1)
+                    {
+                        if (dieukien.Condition == 1)
+                        {
+                            list0 = list.Where(p => p.Name.Contains(dieukien.Value)).ToList();
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            list0 = list.Where(p => !p.Name.Contains(dieukien.Value)).ToList();
+                        }
+                    }
+                    if (dieukien.SearchCriteria == 2)
+                    {
+                        DateTime date = DateTime.ParseExact(dieukien.Value, "dd/MM/yyyy", null);
+                        if (dieukien.Condition == 1)
+                        {
+                            list0 = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date >= date).ToList();
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            list0 = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date <= date).ToList();
+                        }
+                        if (dieukien.Condition == 3)
+                        {
+                            list0 = list.Where(p => DateTime.ParseExact(p.CreatedDate!, "dd/MM/yyyy HH:mm:ss", null).Date == date).ToList();
+                        }
+                    }
+                    if (dieukien.SearchCriteria == 3)
+                    {
+                        if (dieukien.Condition == 1)
+                        {
+                            if (dieukien.Value.Equals("Activate"))
+                            {
+                                list0 = list.Where(p => p.Active == true).ToList();
+                            }
+                            else
+                            {
+                                list0 = list.Where(p => !p.Active == true).ToList();
+                            }
+                        }
+                        if (dieukien.Condition == 2)
+                        {
+                            if (dieukien.Value.Equals("Activate"))
+                            {
+                                list = list.Where(p => !p.Active == true).ToList();
+                            }
+                            else
+                            {
+                                list = list.Where(p => p.Active == true).ToList();
+                            }
+                        }
+                    }
+                    kq = kq.Union(list0).ToList();
+                }
+                return kq;
+            }
+            return new List<GiftDTO_ResponseGift>();
+        }
 
+        public MemoryStream ExportToExcel1(List<GiftDTO_ResponseGift> list)
+        {
+            var stream = new MemoryStream();
+            using (var package = new ExcelPackage(stream))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                // for ten thuoc tinh
+                for (int q = 0; q < list[0].GetType().GetProperties().Count(); q++)
+                {
+                    worksheet.Cells[1, q + 1].Value = list[0].GetType().GetProperties()[q].Name;
+                    worksheet.Cells[1, q + 1].AutoFitColumns();
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    worksheet.Row(i + 2).Height = 90;
+                    int j = 0;
+                    worksheet.Cells[i + 2, ++j].Value = list[i].GiftId;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Name;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Description;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].CreatedDate;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                    worksheet.Cells[i + 2, ++j].Value = list[i].Active;
+                    worksheet.Cells[i + 2, j].AutoFitColumns();
+                    worksheet.Cells[i + 2, j].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    worksheet.Cells[i + 2, j].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+
+                }
+                package.Save();
+            }
+            return stream;
+        }
+        public bool IsExistsGiftId(int id)
+        {
+            return _context.Gifts.ToList().Exists(p => p.GiftId == id);
+        }
+
+        public bool ActivatedOrDeactivatedGift(int Id)
+        {
+            Gift temp = _context.Gifts.First(p => p.GiftId == Id);
+            if (temp.Active)
+            {
+                temp.Active = false;
+            }
+            else
+            {
+                temp.Active = true;
+            }
+            _context.Gifts.Update(temp);
+            _context.SaveChanges();
+            return temp.Active;
+        }
+
+        public bool IsExistsGiftByName(string name)
+        {
+            return _context.Gifts.ToList().Exists(p => p.Name.Equals(name));
+        }
+        public string CreateGift(GiftDTO_RequestGiftCreate temp)
+        {
+            try
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<GiftDTO_RequestGiftCreate, Gift>();
+                });
+                var mapper = config.CreateMapper();
+                Gift x = mapper.Map<GiftDTO_RequestGiftCreate, Gift>(temp);
+
+                _context.Gifts.Add(x);
+                _context.SaveChanges();
+                return "true";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+        public string ImportDataGiftByExcel(IFormFile formFile)
+        {
+            try
+            {
+                var list = new List<Gift>();
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                using (var stream = new MemoryStream())
+                {
+                    formFile.CopyTo(stream);
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        var rowCount = worksheet.Dimension.Rows;
+
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+                            list.Add(new Gift
+                            {
+                                Name = worksheet.Cells[row, 1].Value.ToString()!.Trim(),
+                                Description = worksheet.Cells[row, 2].Value.ToString()!.Trim(),
+                                Active = Boolean.Parse(worksheet.Cells[row, 3].Value.ToString()!.Trim()),
+                            });
+                        }
+                    }
+                }
+                _context.Gifts.AddRange(list);
+                _context.SaveChanges();
+                return "true";
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+        }
+        public string EditUpdateGift(GiftDTO_ResponseGift temp)
+        {
+            try
+            {
+                Gift temp0 = _context.Gifts.First(p => p.GiftId == temp.GiftId);
+                temp0.Name = temp.Name;
+                temp0.Description = temp.Description;
+
+                _context.Gifts.Update(temp0);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return ex.ToString();
+            }
+            return "true";
+        }
+
+
+        public string DeletedGift(int Id)
+        {
+            try
+            {
+                Gift temp = _context.Gifts.First(p => p.GiftId == Id);
+                _context.Gifts.Remove(temp);
+                _context.SaveChanges();
+            }
+            catch (Exception ex) { return ex.ToString(); }
+            return "true";
+        }
     }
 }

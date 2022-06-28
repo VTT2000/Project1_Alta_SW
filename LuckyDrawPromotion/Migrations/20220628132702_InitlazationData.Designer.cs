@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LuckyDrawPromotion.Migrations
 {
     [DbContext(typeof(LuckyDrawPromotionContext))]
-    [Migration("20220625135539_InitlazationData")]
+    [Migration("20220628132702_InitlazationData")]
     partial class InitlazationData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -233,7 +233,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTADQGYAH",
+                            Code = "ALTABJKAHV",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 1,
@@ -248,7 +248,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTACTJ0YA",
+                            Code = "ALTAEWVHIV",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 1,
@@ -263,7 +263,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTARMVNIA",
+                            Code = "ALTA214NNS",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 1,
@@ -278,7 +278,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTACQANRA",
+                            Code = "ALTAZL3PZG",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 1,
@@ -293,7 +293,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAWVA6K8",
+                            Code = "ALTAA81ENG",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 1,
@@ -308,7 +308,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAQCZQBH",
+                            Code = "ALTAS0ENWM",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 2,
@@ -323,7 +323,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAWS3ECP",
+                            Code = "ALTAPL4S1B",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 2,
@@ -338,7 +338,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAYWJHYL",
+                            Code = "ALTAF3PRSK",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 2,
@@ -353,7 +353,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA3SM07C",
+                            Code = "ALTAH0JYWR",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 3,
@@ -368,7 +368,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAKZKAT0",
+                            Code = "ALTA3Q5IY6",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CustomerId = 3,
@@ -383,7 +383,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTATFG1DR",
+                            Code = "ALTAGK7EOG",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -396,7 +396,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA0PQP52",
+                            Code = "ALTAS27L1W",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -409,7 +409,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA7DZ1DN",
+                            Code = "ALTAYLGQRC",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -422,7 +422,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTARWPP5Q",
+                            Code = "ALTA5IHGLQ",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -435,7 +435,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA7FGCZR",
+                            Code = "ALTA4YPQAC",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -448,7 +448,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA4BLR20",
+                            Code = "ALTAE7CJS7",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -461,7 +461,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAOA6RT5",
+                            Code = "ALTAP060BH",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -474,7 +474,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAQ7KTIW",
+                            Code = "ALTAP38QPT",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -487,7 +487,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAILEKGO",
+                            Code = "ALTAGL26KR",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -500,7 +500,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTABTC0ZH",
+                            Code = "ALTAK5JP78",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -513,7 +513,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAQCKIR5",
+                            Code = "ALTATDYFPQ",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -526,7 +526,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA68K6EG",
+                            Code = "ALTAQC8P8P",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -539,7 +539,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAE4ZVQJ",
+                            Code = "ALTA713T2O",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -552,7 +552,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAV2GP5Q",
+                            Code = "ALTATMR2B3",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -565,7 +565,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAKBS6Z8",
+                            Code = "ALTAMTTBIM",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -578,7 +578,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTABLRW0B",
+                            Code = "ALTAVH8N30",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -591,7 +591,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAQR48L0",
+                            Code = "ALTAKO7134",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -604,7 +604,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAK2SNML",
+                            Code = "ALTAK4LKY0",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -617,7 +617,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAQ6IIIE",
+                            Code = "ALTAZFBB8Q",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -630,7 +630,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTARJYJ1Z",
+                            Code = "ALTADL6HFJ",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -643,7 +643,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTASMOR0E",
+                            Code = "ALTAPSFMEH",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -656,7 +656,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA55FO8R",
+                            Code = "ALTALMTFZR",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -669,7 +669,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAFGKFNE",
+                            Code = "ALTA6PWR6E",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -682,7 +682,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA0S8GEV",
+                            Code = "ALTA6BTCZS",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -695,7 +695,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAF72L1T",
+                            Code = "ALTABSBR0V",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -708,7 +708,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAQWCG34",
+                            Code = "ALTATOM7M2",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -721,7 +721,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTARH0128",
+                            Code = "ALTA8PTJQ8",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -734,7 +734,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAV764ZE",
+                            Code = "ALTAYLF3B1",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -747,7 +747,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTABMK8ES",
+                            Code = "ALTAB2MVH5",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -760,7 +760,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAHJP38J",
+                            Code = "ALTAITI3L6",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -773,7 +773,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAKO5OTN",
+                            Code = "ALTAMP2M0L",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -786,7 +786,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAVQL1K3",
+                            Code = "ALTAKIKD03",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -799,7 +799,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTA4P0YGT",
+                            Code = "ALTAI3K5SP",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -812,7 +812,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAY23Y28",
+                            Code = "ALTA2CABZL",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -825,7 +825,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAZW1W7Z",
+                            Code = "ALTANTWO30",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -838,7 +838,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAA4OQWQ",
+                            Code = "ALTAA8AFF7",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -851,7 +851,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAHLISNM",
+                            Code = "ALTA238048",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -864,7 +864,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAS7JI32",
+                            Code = "ALTA007PYE",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -877,7 +877,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAWG16EW",
+                            Code = "ALTAEBCTHC",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -890,7 +890,7 @@ namespace LuckyDrawPromotion.Migrations
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             Actived = true,
                             CampaignId = 1,
-                            Code = "ALTAFW3MPB",
+                            Code = "ALTA22YS6K",
                             CodeRedemptionLimit = 1,
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             ExpiredDate = new DateTime(2020, 3, 15, 15, 0, 0, 0, DateTimeKind.Unspecified),
@@ -935,7 +935,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 1,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF10KBPC0W5Y0",
+                            Code = "GIF13MCNWN5FP6",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -944,7 +944,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 2,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF2BWCS6DFRWL",
+                            Code = "GIF21B7PIMQPN8",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -953,7 +953,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 3,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF3AAHYQRHFQZ",
+                            Code = "GIF34F5MKYLQ1S",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -962,7 +962,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 4,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF4RJYMG41SDV",
+                            Code = "GIF4D4RPMZN6YH",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -971,7 +971,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 5,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF5FLAN1RFR8J",
+                            Code = "GIF5DLWBSETOV5",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -980,7 +980,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 6,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF62Z3CM3W5VN",
+                            Code = "GIF6GJD8KL4V5N",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -989,7 +989,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 7,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF7KVQ8HZRDZR",
+                            Code = "GIF7SSSB1ZOLCV",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -998,7 +998,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 8,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF8R8TEGNEL1P",
+                            Code = "GIF8GGK7RE6BLC",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1007,7 +1007,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 9,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF96LOI7KRWDJ",
+                            Code = "GIF9FG6ENB7AFL",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1016,7 +1016,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 10,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF10TTDDD3YKLP",
+                            Code = "GIF10V2BSSZ8JZZ",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1025,7 +1025,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 11,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF11VACSWB3P6T",
+                            Code = "GIF11YH1274DR3V",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1034,7 +1034,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 12,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF125REWI701LV",
+                            Code = "GIF12MTA7SVRZBV",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1043,7 +1043,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 13,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF138HZN22RJYI",
+                            Code = "GIF13OF3YE83FJV",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1052,7 +1052,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 14,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF14AYEMC063LI",
+                            Code = "GIF1488ESYJOYJR",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1061,7 +1061,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 15,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 1,
-                            Code = "GIF15ABLAOSFFNE",
+                            Code = "GIF15C2D7QRBAIH",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1070,7 +1070,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 16,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF16JWHDCFGECF",
+                            Code = "GIF16AYM567WGGN",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1079,7 +1079,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 17,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF17BQQMYQAK5R",
+                            Code = "GIF1738C11GK64J",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1088,7 +1088,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 18,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF18WD7N0JKWFQ",
+                            Code = "GIF18EOMPBVER5A",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1097,7 +1097,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 19,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF19FGRD5V0FO8",
+                            Code = "GIF19LZRWNDA3PP",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1106,7 +1106,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 20,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF20N4S3GN2KHD",
+                            Code = "GIF207WJLFKSHBW",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1115,7 +1115,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 21,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF213SJ00E2LGM",
+                            Code = "GIF21OAWGO1JF0M",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1124,7 +1124,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 22,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF22PM5SDL6BG1",
+                            Code = "GIF22GK7HTRWMW2",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1133,7 +1133,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 23,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF233MMIVB18OC",
+                            Code = "GIF23ZPDOYRH546",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1142,7 +1142,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 24,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF24F2636MIPYO",
+                            Code = "GIF24ZHQCDTJYHR",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         },
@@ -1151,7 +1151,7 @@ namespace LuckyDrawPromotion.Migrations
                             CodeGiftCampaignId = 25,
                             ActivatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             CampaignGiftId = 2,
-                            Code = "GIF25224HZ466YE",
+                            Code = "GIF25HLOJ3BC6ZF",
                             CreatedDate = new DateTime(2020, 2, 24, 13, 0, 0, 0, DateTimeKind.Unspecified),
                             IsActive = true
                         });
@@ -1243,6 +1243,9 @@ namespace LuckyDrawPromotion.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GiftId"), 1L, 1);
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime");
 
@@ -1252,7 +1255,7 @@ namespace LuckyDrawPromotion.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(300)");
 
                     b.HasKey("GiftId");
 
@@ -1265,6 +1268,7 @@ namespace LuckyDrawPromotion.Migrations
                         new
                         {
                             GiftId = 1,
+                            Active = true,
                             CreatedDate = new DateTime(2022, 5, 5, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Hạt nêm Knnor Chay Nấm Hương 400g",
                             Name = "Hạt nêm Knnor Chay Nấm Hương 400g"
@@ -1272,6 +1276,7 @@ namespace LuckyDrawPromotion.Migrations
                         new
                         {
                             GiftId = 2,
+                            Active = true,
                             CreatedDate = new DateTime(2022, 5, 5, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Hạt nêm Knnor Từ Thịt Thăn, Xương Ống & Tủy 600g",
                             Name = "Hạt nêm Knnor Từ Thịt Thăn, Xương Ống & Tủy 600g"
@@ -1279,6 +1284,7 @@ namespace LuckyDrawPromotion.Migrations
                         new
                         {
                             GiftId = 3,
+                            Active = true,
                             CreatedDate = new DateTime(2022, 5, 5, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Gia vị Hoàn Chỉnh Knnor Canh Chua 30g",
                             Name = "Gia vị Hoàn Chỉnh Knnor Canh Chua 30g"
@@ -1286,6 +1292,7 @@ namespace LuckyDrawPromotion.Migrations
                         new
                         {
                             GiftId = 4,
+                            Active = true,
                             CreatedDate = new DateTime(2022, 5, 5, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Xốt nêm Đậm Đặc Knnor Từ Vị Thịt Heo 240g",
                             Name = "Xốt nêm Đậm Đặc Knnor Từ Vị Thịt Heo 240g"
@@ -1293,6 +1300,7 @@ namespace LuckyDrawPromotion.Migrations
                         new
                         {
                             GiftId = 5,
+                            Active = true,
                             CreatedDate = new DateTime(2022, 5, 5, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Hạt nêm Knnor Từ Thịt Thăn, Xương Ống & Tủy 900g",
                             Name = "Hạt nêm Knnor Từ Thịt Thăn, Xương Ống & Tủy 900g"
@@ -1300,6 +1308,7 @@ namespace LuckyDrawPromotion.Migrations
                         new
                         {
                             GiftId = 6,
+                            Active = true,
                             CreatedDate = new DateTime(2022, 5, 5, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Knnor Natural Bột Nêm Tự Nhiên Vị Rau Cũ 150g",
                             Name = "Knnor Natural Bột Nêm Tự Nhiên Vị Rau Cũ 150g"
