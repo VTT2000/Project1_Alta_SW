@@ -5,10 +5,11 @@
         public int PositionId { get; set; }
         public string Name { get; set; } = null!;
 
-
-        public int TypeOfBussinessId { get; set; }
-        public TypeOfBussiness TypeOfBussiness { get; set; } = null!;
-
         public ICollection<Customer> Customers { get; set; } = new HashSet<Customer>();
+    }
+    public class PositionDTO
+    {
+        public int PositionId { get; set; }
+        public string Name { get; set; } = null!;
     }
 }

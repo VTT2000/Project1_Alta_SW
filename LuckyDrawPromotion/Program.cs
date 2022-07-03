@@ -24,6 +24,8 @@ builder.Services.AddScoped<ICodeGiftCampaignService, CodeGiftCampaignService>();
 builder.Services.AddScoped<IRuleService, RuleService>();
 builder.Services.AddScoped<IWinnerService, WinnerService>();
 builder.Services.AddScoped<ISettingService, SettingService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

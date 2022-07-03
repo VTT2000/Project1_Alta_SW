@@ -6,6 +6,11 @@
         public string Name { get; set; } = null!;
 
 
-        public ICollection<Position> Positions { get; set; } = new HashSet<Position>();
+        public ICollection<Customer> Customers { get; set; } = new HashSet<Customer>();
+    }
+    public class TypeOfBussinessDTO
+    {
+        public int TypeOfBussinessId { get; set; }
+        public string Name { get; set; } = null!;
     }
 }

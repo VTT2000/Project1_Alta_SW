@@ -49,8 +49,8 @@ namespace LuckyDrawPromotion.Data
             modelBuilder.Entity<CodeCampaign>().HasOne<Campaign>(s => s.Campaign).WithMany(g => g.CodeCampaigns).HasForeignKey(s => s.CampaignId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<CodeCampaign>().HasOne<Customer>(s => s.Customer).WithMany(g => g.CodeCampaigns).HasForeignKey(s => s.CustomerId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Spin>().HasOne<CodeCampaign>(s => s.CodeCampaign).WithMany(g => g.Spins).HasForeignKey(s => s.CodeCampaignId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Position>().HasOne<TypeOfBussiness>(s => s.TypeOfBussiness).WithMany(g => g.Positions).HasForeignKey(s => s.TypeOfBussinessId).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Customer>().HasOne<Position>(s => s.Position).WithMany(g => g.Customers).HasForeignKey(s => s.PositionId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Customer>().HasOne<TypeOfBussiness>(s => s.TypeOfBussiness).WithMany(g => g.Customers).HasForeignKey(s => s.TypeOfBussinessId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Campaign>().HasOne<Settings>(s => s.Setting).WithOne(g => g.Campaign).HasForeignKey<Settings>(s => s.CampaignId).OnDelete(DeleteBehavior.Restrict);
             //Cấu hình API fluent các thuộc tính của table
@@ -179,26 +179,23 @@ namespace LuckyDrawPromotion.Data
             });
             modelBuilder.Entity<Position>(entity =>
             {
-                List<Position> positions = new List<Position>();
-                for(int i = 0; i < 5; i++)
-                {
-                    Position position = new Position();
-                    position.PositionId = (i*2)+1;
-                    position.Name = "Chủ";
-                    position.TypeOfBussinessId = i+1;
-                    positions.Add(position);
-                    position = new Position();
-                    position.PositionId = (i * 2) + 2;
-                    position.Name = "Quản lý";
-                    position.TypeOfBussinessId = i + 1;
-                    positions.Add(position);
-                }
-                Position position1 = new Position();
-                position1.PositionId = 11;
-                position1.Name = "Bếp";
-                position1.TypeOfBussinessId = 3;
-                positions.Add(position1);
-                entity.HasData(positions);
+                entity.HasData(
+                    new
+                    {
+                        PositionId = 1,
+                        Name = "Chủ",
+                    },
+                    new
+                    {
+                        PositionId = 2,
+                        Name = "Quản lý",
+                    },
+                    new
+                    {
+                        PositionId = 3,
+                        Name = "Bếp",
+                    }
+                    );
             });
             modelBuilder.Entity<Gift>(entity =>
             {
@@ -308,7 +305,8 @@ namespace LuckyDrawPromotion.Data
                     CustomerAddress = "Quận 1, TP.HCM",
                     DateOfBirth = DateTime.Parse("2000-01-01"),
                     Block = false,
-                    PositionId = 1
+                    PositionId = 1,
+                    TypeOfBussinessId = 1
                 },
                 new
                 {
@@ -319,7 +317,8 @@ namespace LuckyDrawPromotion.Data
                     CustomerAddress = "Quận 2, TP.HCM",
                     DateOfBirth = DateTime.Parse("2000-02-01"),
                     Block = false,
-                    PositionId = 2
+                    PositionId = 2,
+                    TypeOfBussinessId = 2
                 },
                 new
                 {
@@ -330,7 +329,8 @@ namespace LuckyDrawPromotion.Data
                     CustomerAddress = "Quận 11, TP.HCM",
                     DateOfBirth = DateTime.Parse("2000-11-01"),
                     Block = false,
-                    PositionId = 11
+                    PositionId = 3,
+                    TypeOfBussinessId = 3
                 }
                 );
             });
